@@ -2,36 +2,39 @@ import requests
 
 # Основное приложение
 from kivymd.app import MDApp
-from kivy.uix.label import Label
+from kivymd.uix.label import MDLabel
 from kivy.uix.button import Button
-from kivymd.uix.button import MDIconButton
+from kivymd.uix.button import MDRectangleFlatButton
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivymd.uix.menu import MDDropdownMenu
 from kivy.lang import Builder
 
-from kivy.uix.image import Image
+from kivymd.uix.textfield import MDTextField
 
 
-class DropDownMenuOpen(FloatLayout):
+class DropDownMenuOpen(Screen):
     def drpdown_(self):
         # super().__init__()
         self.menu_elem = [
             {
-                "viewclass": "OneLineListItem",
-                "text": "button 1",
-                "on_release": lambda x="Examp": self.test()
+                "viewclass": "MDRectangleFlatIconButton",
+                "text": "Edit",
+                "icon": "pencil",
+                "on_release": lambda x="Example 1": self.edit()
             },
             {
-                "viewclass": "OneLineListItem",
-                "text": "button 2",
-                "on_release": lambda x="Examp": self.test()
+                "viewclass": "MDRectangleFlatIconButton",
+                "text": "Themes",
+                "icon": "view-headline",
+                "on_release": lambda x="Example 2": self.themes()
             },
             {
-                "viewclass": "OneLineListItem",
+                "viewclass": "MDRectangleFlatIconButton",
                 "text": "button 3",
-                "on_release": lambda x="Examp": self.test()
+                "icon": "android",
+                "on_release": lambda x="Example 3": self.test()
             },
         ]
         self.dpmenu = MDDropdownMenu(
@@ -40,6 +43,12 @@ class DropDownMenuOpen(FloatLayout):
             width_mult=2,
         )
         self.dpmenu.open()
+
+    def edit(self):
+        pass
+
+    def themes(self):
+        pass
 
     def test(self):
         print("click")
@@ -53,11 +62,11 @@ class MainScreen(Screen):
         self.name = "Main"
         self.k = 1
         res = requests.get(f"https://dt.miet.ru/ppo_it/api/temp_hum/{self.k}")
-        self.lbl = Label(text=res.text,
-                         halign="center",
-                         pos_hint = {"center_x": .5,
-                                     "center_y": 0.8},
-                         )
+        self.lbl = MDLabel(text=res.text,
+                           halign="center",
+                           pos_hint={"center_x": .5,
+                                     "center_y": 0.85},
+                           )
         self.fl = FloatLayout()
 
         self.dp = DropDownMenuOpen()
@@ -65,24 +74,24 @@ class MainScreen(Screen):
         self.Init()
 
     def Init(self):
-        btn1 = Button(text="update",
-                      size_hint=(.1, .1),
-                      # pos=(.5, .5),
-                      pos_hint={'x': 0, 'y': 0.9},
-                      on_press=self.update
-                      )
-        btn2 = Button(text="next",
-                      size_hint=(.1, .1),
-                      # pos=(.5, .5),
-                      pos_hint={'x': 0.4, 'y': 0.9},
-                      on_press=self.count
-                      )
-        btn3 = Button(text="humidity",
-                      size_hint=(1, .3),
-                      # pos=(.5, .5),
-                      pos_hint={'x': 0, 'y': 0},
-                      on_press=self.next
-                      )
+        btn1 = MDRectangleFlatButton(text="update",
+                                     size_hint=(1, .25),
+                                     # pos=(.5, .5),
+                                     pos_hint={'x': 0, 'y': 0.5},
+                                     on_press=self.update
+                                     )
+        btn2 = MDRectangleFlatButton(text="next",
+                                     size_hint=(1, .25),
+                                     # pos=(.5, .5),
+                                     pos_hint={'x': 0, 'y': 0.25},
+                                     on_press=self.count
+                                     )
+        btn3 = MDRectangleFlatButton(text="humidity",
+                                     size_hint=(1, .25),
+                                     # pos=(.5, .5),
+                                     pos_hint={'x': 0, 'y': 0},
+                                     on_press=self.next
+                                     )
 
         self.fl.add_widget(self.dp)
 
@@ -117,29 +126,26 @@ class SecondScreen(Screen):
         self.name = "Second"
         self.k = 1
         res = requests.get(f'https://dt.miet.ru/ppo_it/api/hum/{self.k}')
-        self.lbl = Label(text=res.text, halign="center")
+        self.lbl = MDLabel(text=res.text, halign="center")
         self.fl = BoxLayout(orientation='vertical')
         self.Init()
 
     def Init(self):
-        btn1 = Button(text="update",
-                      # size_hint=(.1, .1),
-                      # pos=(.5, .5),
-                      # pos_hint={'x': 0, 'y': 0.9},
-                      on_press=self.update
-                      )
-        btn2 = Button(text="next",
-                      # size_hint=(.1, .1),
-                      # pos=(.5, .5),
-                      # pos_hint={'x': 0.4, 'y': 0.9},
-                      on_press=self.count
-                      )
-        btn3 = Button(text="temperature",
-                      # size_hint=(.1, .1),
-                      # pos=(.5, .5),
-                      # pos_hint={'x': 0.8, 'y': 0.9},
-                      on_press=self.next
-                      )
+        btn1 = MDRectangleFlatButton(text="update",
+                                     size_hint=(1, .25),
+                                     pos_hint={'x': 0, 'y': 0.9},
+                                     on_press=self.update
+                                     )
+        btn2 = MDRectangleFlatButton(text="next",
+                                     size_hint=(1, .25),
+                                     pos_hint={'x': 0, 'y': 0.9},
+                                     on_press=self.count
+                                     )
+        btn3 = MDRectangleFlatButton(text="temperature",
+                                     size_hint=(1, .25),
+                                     pos_hint={'x': 0, 'y': 0.9},
+                                     on_press=self.next
+                                     )
         self.fl.add_widget(self.lbl)
         self.fl.add_widget(btn1)
         self.fl.add_widget(btn2)
@@ -165,12 +171,44 @@ class SecondScreen(Screen):
         self.lbl.text = res.text
 
 
+class EditScreen(Screen):
+    def __init__(self):
+        super().__init__()
+        self.name = "Edit"
+
+        self.fl = FloatLayout()
+        self.bx = BoxLayout(orientation="vertical")
+        self.lbl = MDLabel(text="EDIT", halign="center")
+
+        self.Init()
+
+    def Init(self):
+        txt1 = MDTextField(hint_text="Temperature",
+                           mode="fill",
+                           size_hint = (1, 0.3),
+                           pos_hint={"x": 0, "y": .4})
+        txt2 = MDTextField(hint_text="Humidity",
+                           mode="fill",
+                           size_hint=(1, 0.3),
+                           pos_hint={"x": 0, "y": .1}
+                           )
+
+        self.bx.add_widget(self.lbl)
+        self.bx.add_widget(txt1)
+        self.bx.add_widget(txt2)
+
+        self.fl.add_widget(self.bx)
+
+        self.add_widget(self.fl)
+
+
 class MainApp(MDApp):
     def build(self):
         self.theme_cls.theme_style = "Dark"
-        self.theme_cls.primary_palette = "Red"
+        self.theme_cls.primary_palette = "Green"
         sm = ScreenManager()
-        sm.add_widget(MainScreen())
+        # sm.add_widget(MainScreen())
+        sm.add_widget(EditScreen())
         sm.add_widget(SecondScreen())
 
         return sm
