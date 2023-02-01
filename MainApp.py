@@ -126,26 +126,33 @@ class SecondScreen(Screen):
         self.name = "Second"
         self.k = 1
         res = requests.get(f'https://dt.miet.ru/ppo_it/api/hum/{self.k}')
-        self.lbl = MDLabel(text=res.text, halign="center")
-        self.fl = BoxLayout(orientation='vertical')
+        self.lbl = MDLabel(text=res.text,
+                           halign="center",
+                           pos_hint={"center_x": .5,
+                                     "center_y": 0.85},
+                           )
+        self.fl = FloatLayout()
+        self.dp = DropDownMenuOpen()
         self.Init()
 
     def Init(self):
         btn1 = MDRectangleFlatButton(text="update",
                                      size_hint=(1, .25),
-                                     pos_hint={'x': 0, 'y': 0.9},
+                                     pos_hint={'x': 0, 'y': 0.5},
                                      on_press=self.update
                                      )
         btn2 = MDRectangleFlatButton(text="next",
                                      size_hint=(1, .25),
-                                     pos_hint={'x': 0, 'y': 0.9},
+                                     pos_hint={'x': 0, 'y': 0.25},
                                      on_press=self.count
                                      )
         btn3 = MDRectangleFlatButton(text="temperature",
                                      size_hint=(1, .25),
-                                     pos_hint={'x': 0, 'y': 0.9},
+                                     pos_hint={'x': 0, 'y': 0},
                                      on_press=self.next
                                      )
+
+        self.fl.add_widget(self.dp)
         self.fl.add_widget(self.lbl)
         self.fl.add_widget(btn1)
         self.fl.add_widget(btn2)
@@ -207,7 +214,7 @@ class MainApp(MDApp):
         self.theme_cls.theme_style = "Dark"
         self.theme_cls.primary_palette = "Green"
         sm = ScreenManager()
-        # sm.add_widget(MainScreen())
+        sm.add_widget(MainScreen())
         sm.add_widget(EditScreen())
         sm.add_widget(SecondScreen())
 
