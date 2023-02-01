@@ -1,74 +1,43 @@
-# Основное приложение
-from kivy.app import App
-from kivy.uix.label import Label
-from kivy.uix.button import Button
-from kivy.uix.floatlayout import FloatLayout
-from kivy.uix.screenmanager import ScreenManager, Screen
-from kivy.uix.image import Image
+from kivymd.app import MDApp
+from kivy.factory import Factory
+from kivy.lang import Builder
+
+from kivymd.theming import ThemeManager
+
+Builder.load_string(
+    '''
+#:import toast kivymd.toast.toast
 
 
-class MainScreen(Screen):
-    def __init__(self):
-        super().__init__()
-        self.name = "Main"
-        self.fl = FloatLayout()
-        self.Init()
+<MyRoot@BoxLayout>
+    orientation: 'vertical'
 
-    def Init(self):
-        btn1 = Button(text="1",
-                      # size_hint=(.1, .1),
-                      pos=(.5, .5),
-                      pos_hint={'x': 0, 'y': 0.9},
-                      on_press=self.next
-                      )
-        btn2 = Button(text="2",
-                      # size_hint=(.1, .1),
-                      # pos=(.5, .5),
-                      # pos_hint={'x': 0.4, 'y': 0.9},
-                      on_press=self.next
-                      )
-        btn3 = Button(text="3",
-                      # size_hint=(.1, .1),
-                      # pos=(.5, .5),
-                      # pos_hint={'x': 0.8, 'y': 0.9},
-                      on_press=self.next
-                      )
-        self.fl.add_widget(btn1)
-        self.fl.add_widget(btn2)
-        self.fl.add_widget(btn3)
+    MDToolbar:
+        title: "Test MDDropDownItem"
+        md_bg_color: app.theme_cls.primary_color
+        elevation: 10
+        left_action_items: [['menu', lambda x: x]]
 
-        self.add_widget(self.fl)
+    FloatLayout:
 
-    def next(self, instance):
-        self.manager.transition.direction = 'right'
-        self.manager.current = "Second"
-        return 0
+        MDDropDownItem:
+            id: dropdown_item
+            pos_hint: {'center_x': 0.5, 'center_y': 0.6}
+            items: app.items
+            dropdown_bg: [1, 1, 1, 1]
+
+        MDRaisedButton:
+            pos_hint: {'center_x': 0.5, 'center_y': 0.3}
+            text: 'Chek Item'
+            on_release: toast(dropdown_item.current_item)
+''')
 
 
-class SecondScreen(Screen):
-    def __init__(self):
-        super().__init__()
-        self.name = "Second"
-        self.fl = FloatLayout()
-        self.Init()
+class Test(MDApp):
 
-    def Init(self):
-        pass
-
-    def next(self, instance):
-        self.manager.transition.direction = 'left'
-        self.manager.current = "Main"
-        return 0
-
-
-class MainApp(App):
     def build(self):
-        sm = ScreenManager()
-        sm.add_widget(MainScreen())
-        sm.add_widget(SecondScreen())
-
-        return sm
+        self.items = [f"Item {i}" for i in range(50)]
+        return Factory.MyRoot()
 
 
-if __name__ == "__main__":
-    MainApp().run()
+Test().run()
