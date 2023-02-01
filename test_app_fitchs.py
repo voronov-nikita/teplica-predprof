@@ -11,7 +11,7 @@ class Example(MDApp):
             MDScreen(
                 MDIconButton(
                     icon="language-python",
-                    pos_hint={"center_x": 0.5, "center_y": 0.5},
+                    pos_hint={"center_x": 0.95, "center_y": 0.95},
                 )
             )
         )

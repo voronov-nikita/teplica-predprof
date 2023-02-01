@@ -21,23 +21,23 @@ class DropDownMenuOpen(FloatLayout):
             {
                 "viewclass": "OneLineListItem",
                 "text": "button 1",
-                "on_release": lambda x="Example 1": self.test()
+                "on_release": lambda x="Examp": self.test()
             },
             {
                 "viewclass": "OneLineListItem",
                 "text": "button 2",
-                "on_release": lambda x="Example 1": self.test()
+                "on_release": lambda x="Examp": self.test()
             },
             {
                 "viewclass": "OneLineListItem",
                 "text": "button 3",
-                "on_release": lambda x="Example 1": self.test()
+                "on_release": lambda x="Examp": self.test()
             },
         ]
         self.dpmenu = MDDropdownMenu(
             caller=self.ids.menu_,
             items=self.menu_elem,
-            width_mult=4,
+            width_mult=2,
         )
         self.dpmenu.open()
 
@@ -53,8 +53,12 @@ class MainScreen(Screen):
         self.name = "Main"
         self.k = 1
         res = requests.get(f"https://dt.miet.ru/ppo_it/api/temp_hum/{self.k}")
-        self.lbl = Label(text=res.text, halign="center")
-        self.fl = BoxLayout(orientation="vertical")
+        self.lbl = Label(text=res.text,
+                         halign="center",
+                         pos_hint = {"center_x": .5,
+                                     "center_y": 0.8},
+                         )
+        self.fl = FloatLayout()
 
         self.dp = DropDownMenuOpen()
 
@@ -62,21 +66,21 @@ class MainScreen(Screen):
 
     def Init(self):
         btn1 = Button(text="update",
-                      # size_hint=(.1, .1),
+                      size_hint=(.1, .1),
                       # pos=(.5, .5),
-                      # pos_hint={'x': 0, 'y': 0.9},
+                      pos_hint={'x': 0, 'y': 0.9},
                       on_press=self.update
                       )
         btn2 = Button(text="next",
-                      # size_hint=(.1, .1),
+                      size_hint=(.1, .1),
                       # pos=(.5, .5),
-                      # pos_hint={'x': 0.4, 'y': 0.9},
+                      pos_hint={'x': 0.4, 'y': 0.9},
                       on_press=self.count
                       )
         btn3 = Button(text="humidity",
-                      # size_hint=(.1, .1),
+                      size_hint=(1, .3),
                       # pos=(.5, .5),
-                      # pos_hint={'x': 0.8, 'y': 0.9},
+                      pos_hint={'x': 0, 'y': 0},
                       on_press=self.next
                       )
 
@@ -164,6 +168,7 @@ class SecondScreen(Screen):
 class MainApp(MDApp):
     def build(self):
         self.theme_cls.theme_style = "Dark"
+        self.theme_cls.primary_palette = "Red"
         sm = ScreenManager()
         sm.add_widget(MainScreen())
         sm.add_widget(SecondScreen())
