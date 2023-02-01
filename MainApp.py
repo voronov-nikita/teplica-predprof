@@ -1,13 +1,50 @@
 import requests
 
 # Основное приложение
-from kivy.app import App
+from kivymd.app import MDApp
 from kivy.uix.label import Label
 from kivy.uix.button import Button
-from kivy.uix.floatlayout import FloatLayout
+from kivymd.uix.button import MDIconButton
 from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.screenmanager import ScreenManager, Screen
+from kivymd.uix.menu import MDDropdownMenu
+from kivy.lang import Builder
+
 from kivy.uix.image import Image
+
+
+class DropDownMenuOpen(FloatLayout):
+    def drpdown_(self):
+        # super().__init__()
+        self.menu_elem = [
+            {
+                "viewclass": "OneLineListItem",
+                "text": "button 1",
+                "on_release": lambda x="Example 1": self.test()
+            },
+            {
+                "viewclass": "OneLineListItem",
+                "text": "button 2",
+                "on_release": lambda x="Example 1": self.test()
+            },
+            {
+                "viewclass": "OneLineListItem",
+                "text": "button 3",
+                "on_release": lambda x="Example 1": self.test()
+            },
+        ]
+        self.dpmenu = MDDropdownMenu(
+            caller=self.ids.menu_,
+            items=self.menu_elem,
+            width_mult=4,
+        )
+        self.dpmenu.open()
+
+    def test(self):
+        print("click")
+
+    Builder.load_file("KV.kv")
 
 
 class MainScreen(Screen):
@@ -16,8 +53,11 @@ class MainScreen(Screen):
         self.name = "Main"
         self.k = 1
         res = requests.get(f"https://dt.miet.ru/ppo_it/api/temp_hum/{self.k}")
-        self.lbl = Label(text=res.text)
+        self.lbl = Label(text=res.text, halign="center")
         self.fl = BoxLayout(orientation="vertical")
+
+        self.dp = DropDownMenuOpen()
+
         self.Init()
 
     def Init(self):
@@ -39,6 +79,9 @@ class MainScreen(Screen):
                       # pos_hint={'x': 0.8, 'y': 0.9},
                       on_press=self.next
                       )
+
+        self.fl.add_widget(self.dp)
+
         self.fl.add_widget(self.lbl)
         self.fl.add_widget(btn1)
         self.fl.add_widget(btn2)
@@ -70,8 +113,8 @@ class SecondScreen(Screen):
         self.name = "Second"
         self.k = 1
         res = requests.get(f'https://dt.miet.ru/ppo_it/api/hum/{self.k}')
-        self.lbl = Label(text = res.text)
-        self.fl = BoxLayout(orientation = 'vertical')
+        self.lbl = Label(text=res.text, halign="center")
+        self.fl = BoxLayout(orientation='vertical')
         self.Init()
 
     def Init(self):
@@ -118,8 +161,9 @@ class SecondScreen(Screen):
         self.lbl.text = res.text
 
 
-class MainApp(App):
+class MainApp(MDApp):
     def build(self):
+        self.theme_cls.theme_style = "Dark"
         sm = ScreenManager()
         sm.add_widget(MainScreen())
         sm.add_widget(SecondScreen())
