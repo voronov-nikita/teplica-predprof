@@ -6,8 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="6233233d-520d-4666-944a-ae4680c67542" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/KV.kv" beforeDir="false" afterPath="$PROJECT_DIR$/KV.kv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MainApp.py" beforeDir="false" afterPath="$PROJECT_DIR$/MainApp.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test_app_fitchs.py" beforeDir="false" afterPath="$PROJECT_DIR$/test_app_fitchs.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/testing_resource.py" beforeDir="false" afterPath="$PROJECT_DIR$/testing_resource.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,7 +40,7 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
-  <component name="RunManager" selected="Python.test_app_fitchs">
+  <component name="RunManager" selected="Python.MainApp">
     <configuration name="MainApp" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="teplica_predprof" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -125,9 +127,9 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.test_app_fitchs" />
         <item itemvalue="Python.MainApp" />
         <item itemvalue="Python.testing_resource (1)" />
+        <item itemvalue="Python.test_app_fitchs" />
       </list>
     </recent_temporary>
   </component>
