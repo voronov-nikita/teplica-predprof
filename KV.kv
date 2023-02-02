@@ -1,16 +1,16 @@
 <DrawerClickableItem@MDNavigationDrawerItem>
-    focus_color: "#e7e4c0"
-    text_color: "#4a4939"
-    icon_color: "#4a4939"
-    ripple_color: "#c5bdd2"
-    selected_color: "#0c6c4d"
+
+    text_color: (0, 0, 0, 0)
+    icon_color: (0, 0, 0, 0)
+    ripple_color: (0, 0, 0, 0)
+    selected_color: (0, 0, 0, 0)
 
 
 <DrawerLabelItem@MDNavigationDrawerItem>
-    text_color: "#FFFFFF"
-    icon_color: "#4a4939"
-    focus_behavior: False
-    selected_color: "#4a4939"
+    text_color: (0, 0, 0, 0)
+    icon_color: (0, 0, 0, 0)
+    focus_behavior: True
+    selected_color: (0, 0, 0, 0)
 
 
 MDScreen:
@@ -22,9 +22,11 @@ MDScreen:
             MDScreen:
 
                 MDTopAppBar:
-                    pos_hint: {"top": 1}
-
+                    pos_hint: {"top": 1, "x":0}
+                    size_hint: (1, .0)
+                    md_bg_color: (0, 0 , 0, 0)
                     left_action_items: [["menu",lambda x: nav_drawer.set_state("open")]]
+                    color: "#FFFFFF"
 
         MDNavigationDrawer:
             id: nav_drawer
@@ -32,30 +34,18 @@ MDScreen:
 
             MDNavigationDrawerMenu:
 
-                MDNavigationDrawerHeader:
-                    title: "Header title"
-                    title_color: "#000000"
-                    text: "Header text"
-                    spacing: "4dp"
-                    padding: "12dp", 0, 0, "56dp"
-
                 MDNavigationDrawerLabel:
-                    text: "Mail"
+                    text: "Settings"
 
                 DrawerClickableItem:
-                    icon: "gmail"
-                    right_text: "+99"
-                    text_right_color: "#FFFFFF"
-                    text: "Inbox"
+                    icon: "pencil"
+                    text: "EDIT"
 
                 DrawerClickableItem:
-                    icon: "send"
-                    text: "Outbox"
+                    icon: "lightbulb"
+                    text: "THEMES"
 
                 MDNavigationDrawerDivider:
-
-                MDNavigationDrawerLabel:
-                    text: "Labels"
 
                 DrawerLabelItem:
                     icon: "information-outline"
