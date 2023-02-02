@@ -8,7 +8,6 @@ from kivymd.uix.button import MDRectangleFlatButton, MDRaisedButton
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.screenmanager import ScreenManager, Screen
-from kivymd.uix.menu import MDDropdownMenu
 from kivy.lang import Builder
 
 from kivymd.uix.textfield import MDTextField
@@ -195,7 +194,7 @@ class MainApp(MDApp):
 
     def build(self):
         self.theme_cls.theme_style_switch_animation = True
-        self.theme_cls.primary_palette = "Yellow"
+        self.theme_cls.primary_palette = "Pink"
         self.theme_cls.theme_style = "Dark"
         sm = ScreenManager()
         sm.add_widget(MainScreen())
