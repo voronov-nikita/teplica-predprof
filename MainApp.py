@@ -4,7 +4,7 @@ import requests
 from kivymd.app import MDApp
 from kivymd.uix.label import MDLabel
 from kivy.uix.button import Button
-from kivymd.uix.button import MDRectangleFlatButton
+from kivymd.uix.button import MDRectangleFlatButton, MDRaisedButton
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.screenmanager import ScreenManager, Screen
@@ -18,53 +18,7 @@ from kivymd.uix.textfield import MDTextField
 class DropDownMenuOpen(Screen):
     def __init__(self):
         super().__init__()
-        self.name = "DropDownMenu"
-
-    def drpdown_(self):
-        # Все элементы Выпадающего меню
-        self.menu_elem = [
-            {
-                "viewclass": "MDRectangleFlatIconButton",
-                "text": "Edit",
-                "icon": "pencil",
-                "on_press": lambda x="Example 1": self.edit()
-            },
-            {
-                "viewclass": "MDRectangleFlatIconButton",
-                "text": "Themes",
-                "icon": "view-headline",
-                "on_release": lambda x="Example 2": self.themes()
-            },
-            {
-                "viewclass": "MDRectangleFlatIconButton",
-                "text": "button 3",
-                "icon": "android",
-                "on_release": lambda x="Example 3": self.test()
-            },
-        ]
-        # Задаем параметры: что делать при вызове, биндим элементы,
-        # задаем размер ширины меню
-        self.dpmenu = MDDropdownMenu(
-            caller=self.ids.menu_,
-            items=self.menu_elem,
-            width_mult=2,
-        )
-        # запускаем меню
-        self.dpmenu.open()
-
-    def edit(self):
-        self.manager.transition.direction = 'left'
-        self.manager.current = "Main"
-        return 0
-
-    def themes(self):
-        pass
-
-    def test(self):
-        print("click")
-
-    # биндим данные из файла
-    Builder.load_file("KV.kv")
+        self.add_widget(Builder.load_file("KV.kv"))
 
 
 class MainScreen(Screen):
@@ -82,7 +36,7 @@ class MainScreen(Screen):
                                      "center_y": 0.85},
                            )
         self.fl = FloatLayout()
-
+        self.btn_next = Button(on_release=self.next)
         self.dp = DropDownMenuOpen()
         # запускаем функцию Init()
         self.Init()
@@ -110,12 +64,11 @@ class MainScreen(Screen):
                                      on_press=self.next
                                      )
 
-        self.fl.add_widget(self.dp)
-
         self.fl.add_widget(self.lbl)
         self.fl.add_widget(btn1)
         self.fl.add_widget(btn2)
         self.fl.add_widget(btn3)
+        self.fl.add_widget(self.dp)
 
         # обьединяем self и наш layout
         self.add_widget(self.fl)
@@ -236,15 +189,26 @@ class EditScreen(Screen):
 
 
 class MainApp(MDApp):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.k = 0
+
     def build(self):
+        self.theme_cls.theme_style_switch_animation = True
+        self.theme_cls.primary_palette = "Yellow"
         self.theme_cls.theme_style = "Dark"
-        self.theme_cls.primary_palette = "Green"
         sm = ScreenManager()
         sm.add_widget(MainScreen())
         sm.add_widget(EditScreen())
         sm.add_widget(SecondScreen())
 
         return sm
+
+    def switch_theme_style(self, *args):
+        self.theme_cls.primary_palette = (
+            "Green"
+        )
+        self.theme_cls.theme_style = ("Light")
 
 
 if __name__ == "__main__":
