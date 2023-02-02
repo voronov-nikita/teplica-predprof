@@ -8,7 +8,6 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/KV.kv" beforeDir="false" afterPath="$PROJECT_DIR$/KV.kv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MainApp.py" beforeDir="false" afterPath="$PROJECT_DIR$/MainApp.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test_app_fitchs.py" beforeDir="false" afterPath="$PROJECT_DIR$/test_app_fitchs.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -148,9 +147,9 @@
     <recent_temporary>
       <list>
         <item itemvalue="Python.MainApp" />
+        <item itemvalue="Python.testing_resource (1)" />
         <item itemvalue="Python.test_app_fitchs" />
         <item itemvalue="Python.main" />
-        <item itemvalue="Python.testing_resource (1)" />
       </list>
     </recent_temporary>
   </component>
