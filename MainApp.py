@@ -14,15 +14,20 @@ from kivy.lang import Builder
 from kivymd.uix.textfield import MDTextField
 
 
+# Класс для Выпадающего меню
 class DropDownMenuOpen(Screen):
+    def __init__(self):
+        super().__init__()
+        self.name = "DropDownMenu"
+
     def drpdown_(self):
-        # super().__init__()
+        # Все элементы Выпадающего меню
         self.menu_elem = [
             {
                 "viewclass": "MDRectangleFlatIconButton",
                 "text": "Edit",
                 "icon": "pencil",
-                "on_release": lambda x="Example 1": self.edit()
+                "on_press": lambda x="Example 1": self.edit()
             },
             {
                 "viewclass": "MDRectangleFlatIconButton",
@@ -37,15 +42,20 @@ class DropDownMenuOpen(Screen):
                 "on_release": lambda x="Example 3": self.test()
             },
         ]
+        # Задаем параметры: что делать при вызове, биндим элементы,
+        # задаем размер ширины меню
         self.dpmenu = MDDropdownMenu(
             caller=self.ids.menu_,
             items=self.menu_elem,
             width_mult=2,
         )
+        # запускаем меню
         self.dpmenu.open()
 
     def edit(self):
-        pass
+        self.manager.transition.direction = 'left'
+        self.manager.current = "Main"
+        return 0
 
     def themes(self):
         pass
@@ -53,15 +63,19 @@ class DropDownMenuOpen(Screen):
     def test(self):
         print("click")
 
+    # биндим данные из файла
     Builder.load_file("KV.kv")
 
 
 class MainScreen(Screen):
     def __init__(self):
         super().__init__()
+        # имя экрана
         self.name = "Main"
         self.k = 1
+        # отправляем get запрос на сайт и получаем ответ
         res = requests.get(f"https://dt.miet.ru/ppo_it/api/temp_hum/{self.k}")
+        # Стандартный Лэйбел
         self.lbl = MDLabel(text=res.text,
                            halign="center",
                            pos_hint={"center_x": .5,
@@ -70,22 +84,25 @@ class MainScreen(Screen):
         self.fl = FloatLayout()
 
         self.dp = DropDownMenuOpen()
-
+        # запускаем функцию Init()
         self.Init()
 
     def Init(self):
+        #
         btn1 = MDRectangleFlatButton(text="update",
                                      size_hint=(1, .25),
                                      # pos=(.5, .5),
                                      pos_hint={'x': 0, 'y': 0.5},
                                      on_press=self.update
                                      )
+        #
         btn2 = MDRectangleFlatButton(text="next",
                                      size_hint=(1, .25),
                                      # pos=(.5, .5),
                                      pos_hint={'x': 0, 'y': 0.25},
                                      on_press=self.count
                                      )
+        #
         btn3 = MDRectangleFlatButton(text="humidity",
                                      size_hint=(1, .25),
                                      # pos=(.5, .5),
@@ -100,17 +117,21 @@ class MainScreen(Screen):
         self.fl.add_widget(btn2)
         self.fl.add_widget(btn3)
 
+        # обьединяем self и наш layout
         self.add_widget(self.fl)
 
+    # функция для перехода на следующий экран
     def next(self, instance):
         self.manager.transition.direction = 'right'
         self.manager.current = "Second"
         return 0
 
+    # основляем текст
     def update(self, instance):
         res = requests.get(f"https://dt.miet.ru/ppo_it/api/temp_hum/{self.k}")
         self.lbl.text = res.text
 
+    # изменяем id в ссылке
     def count(self, instance):
         if self.k == 4:
             self.k = 1
@@ -192,7 +213,7 @@ class EditScreen(Screen):
     def Init(self):
         txt1 = MDTextField(hint_text="Temperature",
                            mode="fill",
-                           size_hint = (1, 0.3),
+                           size_hint=(1, 0.3),
                            pos_hint={"x": 0, "y": .4})
         txt2 = MDTextField(hint_text="Humidity",
                            mode="fill",
@@ -207,6 +228,11 @@ class EditScreen(Screen):
         self.fl.add_widget(self.bx)
 
         self.add_widget(self.fl)
+
+    def next(self, instance):
+        self.manager.transition.direction = 'left'
+        self.manager.current = "Main"
+        return 0
 
 
 class MainApp(MDApp):
