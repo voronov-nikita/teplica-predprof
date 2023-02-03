@@ -1,108 +1,78 @@
+from kivy.lang import Builder
+from kivy.core.window import Window
+from kivy.uix.boxlayout import BoxLayout
+from kivy.properties import ObjectProperty
+from kivymd.theming import ThemableBehavior
+from kivymd.uix.list import MDList
 from kivymd.app import MDApp
-from kivymd.uix.navigationdrawer import (
-    MDNavigationLayout,
-    MDNavigationDrawer,
-    MDNavigationDrawerMenu,
-    MDNavigationDrawerHeader,
-    MDNavigationDrawerLabel,
-    MDNavigationDrawerDivider,
-    MDNavigationDrawerItem,
-)
-from kivymd.uix.screen import MDScreen
-from kivymd.uix.screenmanager import MDScreenManager
-from kivymd.uix.toolbar import MDTopAppBar
+
+Window.size = (300, 500)
+navigation_helper = """
+Screen:
+    MDToolbar:
+        id: toolbar
+        pos_hint: {"top": 1}
+        elevation: 10
+        title: "MDNavigationDrawer"
+        left_action_items: [["menu", lambda x: nav_drawer.set_state("open")]]
+
+    NavigationLayout:
+        x: toolbar.height
+
+        ScreenManager:
+            id: screen_manager
+
+            Screen:
+                name: "scr 1"
+
+                MDLabel:
+                    text: "Go to Hell"
+                    halign: "center"
+
+            Screen:
+                name: "scr 2"
+
+                MDLabel:
+                    text: "Hell"
+                    halign: "center"
+
+        MDNavigationDrawer:
+            id: nav_drawer
+
+            ContentNavigationDrawer:
+                screen_manager: screen_manager
+                nav_drawer: nav_drawer
+
+                ScrollView:
+                    MDList:
+
+                        OneLineListItem:
+                            text: "Screen 1"
+                            on_press:
+                                root.nav_drawer.set_state("close")
+                                root.screen_manager.current = "scr 1"
+
+                        OneLineListItem:
+                            text: "Screen 2"
+                            on_press:
+                                root.nav_drawer.set_state("close")
+                                root.screen_manager.current = "scr 2"
 
 
-class BaseNavigationDrawerItem(MDNavigationDrawerItem):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self.radius = 24
-        self.text_color = "#4a4939"
-        self.icon_color = "#4a4939"
-        self.focus_color = "#e7e4c0"
+"""
 
 
-class DrawerLabelItem(BaseNavigationDrawerItem):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self.focus_behavior = False
-        self._no_ripple_effect = True
-        self.selected_color = "#4a4939"
+class DemoApp(MDApp):
+    class ContentNavigationDrawer(BoxLayout):
+        screen_manager = ObjectProperty()
+        nav_drawer = ObjectProperty()
 
+    class DrawerList(ThemableBehavior, MDList):
+        pass
 
-class DrawerClickableItem(BaseNavigationDrawerItem):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self.ripple_color = "#c5bdd2"
-        self.selected_color = "#0c6c4d"
-
-
-class Example(MDApp):
     def build(self):
-        self.theme_cls.theme_style = "Dark"
-        return(
-            MDScreen(
-                MDNavigationLayout(
-                    MDScreenManager(
-                        MDScreen(
-                            MDTopAppBar(
-                                title="Navigation Drawer",
-                                elevation=4,
-                                pos_hint={"top": 1},
-                                md_bg_color="#e7e4c0",
-                                specific_text_color="#4a4939",
-                                left_action_items=[
-                                    ['menu', lambda x: self.nav_drawer_open()]
-                                ],
-                            )
-
-                        )
-                    ),
-                    MDNavigationDrawer(
-                        MDNavigationDrawerMenu(
-                            MDNavigationDrawerHeader(
-                                title="Header title",
-                                title_color="#4a4939",
-                                text="Header text",
-                                spacing="4dp",
-                                padding=("12dp", 0, 0, "56dp"),
-                            ),
-                            MDNavigationDrawerLabel(
-                                text="Mail",
-                            ),
-                            DrawerClickableItem(
-                                icon="gmail",
-                                right_text="+99",
-                                text_right_color="#4a4939",
-                                text="Inbox",
-                            ),
-                            DrawerClickableItem(
-                                icon="send",
-                                text="Outbox",
-                            ),
-                            MDNavigationDrawerDivider(),
-                            MDNavigationDrawerLabel(
-                                text="Labels",
-                            ),
-                            DrawerLabelItem(
-                                icon="information-outline",
-                                text="Label",
-                            ),
-                            DrawerLabelItem(
-                                icon="information-outline",
-                                text="Label",
-                            ),
-                        ),
-                        id="nav_drawer",
-                        radius=(0, 0, 0, 0),
-                    )
-                )
-            )
-        )
-
-    def nav_drawer_open(self, *args):
-        nav_drawer = self.root.children[0].ids.nav_drawer
-        nav_drawer.set_state("open")
+        screen = Builder.load_string(navigation_helper)
+        return screen
 
 
-Example().run()
+DemoApp().run()

@@ -12,53 +12,58 @@
 
 
 
-Screen:
-
-    MDNavigationLayout:
-
-        MDScreenManager:
-
-            MDScreen:
-
-                MDTopAppBar:
-                    pos_hint: {"top": 1, "x":0}
-                    size_hint: (1, .0)
-                    md_bg_color: (0, 0 , 0, 0)
-                    left_action_items: [["menu",lambda x: nav_drawer.set_state("open")]]
-                    icon_color: ("#FFFFFF" if app.theme_cls.theme_style=="Dark" else "#000000")
-                    color: (0, 0, 0, 0)
-
-        MDNavigationDrawer:
-            id: nav_drawer
-            radius: (0, 0, 0 , 0)
 
 
-            BoxLayout:
-                orientation: "vertical"
+MDNavigationLayout:
 
-                MDLabel:
-                    text: "Settings"
-                    size_hint: (1, .5)
-                    halign: "center"
-                    text_color: ("#FFFFFF" if app.theme_cls.theme_style=="Dark" else "#000000")
+    MDScreenManager:
 
-                MDRectangleFlatIconButton:
-                    line_color: 0, 0, 0, 0
-                    size_hint: (1, .5)
-                    icon: "pencil"
-                    text: "EDIT"
-                    on_press: app.edit_call()
+        MDScreen:
 
-                MDRectangleFlatIconButton:
-                    line_color: 0, 0, 0, 0
-                    size_hint: (1, .5)
-                    icon: "lightbulb"
-                    text: "Themes"
-                    on_press: app.change_color_sys()
-                MDRectangleFlatIconButton:
-                    line_color: 0, 0, 0, 0
-                    size_hint: (1, .5)
-                    icon: "text"
-                    text: "Text"
+            MDTopAppBar:
+                pos_hint: {"top": 1, "x":0}
+                size_hint: (1, .0)
+                md_bg_color: (0, 0 , 0, 0)
+                left_action_items: [["menu",lambda x: nav_drawer.set_state("open")]]
+                icon_color: ("#FFFFFF" if app.theme_cls.theme_style=="Dark" else "#000000")
+                color: (0, 0, 0, 0)
+
+    MDNavigationDrawer:
+        id: nav_drawer
+        radius: (0, 0, 0 , 0)
+
+        BoxLayout:
+            orientation: "vertical"
+
+            MDLabel:
+                text: "Settings"
+                size_hint: (1, .5)
+                halign: "center"
+                text_color: ("#FFFFFF" if app.theme_cls.theme_style=="Dark" else "#000000")
+
+            MDRectangleFlatIconButton:
+                id: edit_locate
+                line_color: 0, 0, 0, 0
+                size_hint: (1, .5)
+                icon: "pencil"
+                text: "EDIT"
+                on_release: app.sm.manager.current = "Edit"
+
+            MDRectangleFlatIconButton:
+                line_color: 0, 0, 0, 0
+                size_hint: (1, .5)
+                icon: "lightbulb"
+                text: "Themes"
+                on_press: app.change_color_sys()
+
+            MDRectangleFlatIconButton:
+                line_color: 0, 0, 0, 0
+                size_hint: (1, .5)
+                icon: "text"
+                text: "Text"
+
+
+
+
 
 

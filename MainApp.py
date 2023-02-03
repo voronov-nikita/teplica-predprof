@@ -19,9 +19,6 @@ class DropDownMenuOpen(Screen):
         super().__init__()
         self.add_widget(Builder.load_file("KV.kv"))
 
-    def next(self):
-        print("click_1")
-
 
 class MainScreen(Screen):
     def __init__(self):
@@ -63,7 +60,7 @@ class MainScreen(Screen):
                                      size_hint=(1, .25),
                                      # pos=(.5, .5),
                                      pos_hint={'x': 0, 'y': 0},
-                                     on_press=self.next
+                                     on_press=self.next_is_edit
                                      )
 
         self.fl.add_widget(self.lbl)
@@ -79,6 +76,11 @@ class MainScreen(Screen):
     def next(self, instance):
         self.manager.transition.direction = 'right'
         self.manager.current = "Second"
+        return 0
+
+    def next_is_edit(self, instance):
+        self.manager.transition.direction = 'right'
+        self.manager.current = "Edit"
         return 0
 
     # основляем текст
@@ -156,8 +158,8 @@ class SecondScreen(Screen):
 
 
 class EditScreen(Screen):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super(EditScreen, self).__init__(**kwargs)
         self.name = "Edit"
 
         self.fl = FloatLayout()
@@ -167,10 +169,14 @@ class EditScreen(Screen):
         self.Init()
 
     def Init(self):
+        btn = MDRaisedButton(text="Last",
+                             on_press=self.next
+                             )
         txt1 = MDTextField(hint_text="Temperature",
                            mode="fill",
                            size_hint=(1, 0.3),
-                           pos_hint={"x": 0, "y": .4})
+                           pos_hint={"x": 0, "y": .4}
+                           )
         txt2 = MDTextField(hint_text="Humidity",
                            mode="fill",
                            size_hint=(1, 0.3),
@@ -178,6 +184,7 @@ class EditScreen(Screen):
                            )
 
         self.bx.add_widget(self.lbl)
+        self.bx.add_widget(btn)
         self.bx.add_widget(txt1)
         self.bx.add_widget(txt2)
 
@@ -191,26 +198,25 @@ class EditScreen(Screen):
         return 0
 
 
-class MainApp(MDApp):
+class MainApp(MDApp, Screen):
     def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self.k = 0
+        super(MainApp, self).__init__(**kwargs)
+        self.sm = ScreenManager()
 
     def build(self):
         self.theme_cls.theme_style_switch_animation = True
         self.theme_cls.primary_palette = "Yellow"
         self.theme_cls.theme_style = "Dark"
-        sm = ScreenManager()
-        sm.add_widget(MainScreen())
-        sm.add_widget(DropDownMenuOpen())
-        sm.add_widget(EditScreen())
-        sm.add_widget(SecondScreen())
 
-        return sm
+        self.sm.add_widget(MainScreen())
+        self.sm.add_widget(DropDownMenuOpen())
+        self.sm.add_widget(EditScreen())
+        self.sm.add_widget(SecondScreen())
 
-    def edit_call(self):
-        self.manager.transition.direction = 'left'
-        self.manager.current = "Main"
+        return self.sm
+
+    def edit_call(self, instance):
+        pass
 
     def change_color_sys(self):
         self.theme_cls.theme_style = ("Light" if self.theme_cls.theme_style == "Dark" else "Dark")
