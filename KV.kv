@@ -1,16 +1,15 @@
 <DrawerClickableItem@MDNavigationDrawerItem>
 
-    text_color: (0, 0, 0, 0)
-    icon_color: (0, 0, 0, 0)
-    ripple_color: (0, 0, 0, 0)
-    selected_color: (0, 0, 0, 0)
+    text_color: "#FFFFFF"
+    icon_color: "#FFFFFF"
+    ripple_color: "#FFFFFF"
 
 
 <DrawerLabelItem@MDNavigationDrawerItem>
-    text_color: (0, 0, 0, 0)
-    icon_color: (0, 0, 0, 0)
-    focus_behavior: True
-    selected_color: (0, 0, 0, 0)
+    text_color: "#FFFFFF"
+    icon_color: "#FFFFFF"
+    focus_behavior: False
+
 
 
 MDScreen:
@@ -26,27 +25,38 @@ MDScreen:
                     size_hint: (1, .0)
                     md_bg_color: (0, 0 , 0, 0)
                     left_action_items: [["menu",lambda x: nav_drawer.set_state("open")]]
-                    color: "#FFFFFF"
+                    color: (0, 0, 0, 0)
 
         MDNavigationDrawer:
             id: nav_drawer
             radius: (0, 0, 0 , 0)
 
-            MDNavigationDrawerMenu:
 
-                MDNavigationDrawerLabel:
+            BoxLayout:
+                orientation: "vertical"
+
+                MDLabel:
                     text: "Settings"
+                    size_hint: (1, .5)
+                    halign: "center"
+                    text_color: "white"
 
-                DrawerClickableItem:
+                MDRectangleFlatIconButton:
+                    line_color: 0, 0, 0, 0
+                    size_hint: (1, .5)
                     icon: "pencil"
                     text: "EDIT"
 
-                DrawerClickableItem:
+                MDRectangleFlatIconButton:
+                    line_color: 0, 0, 0, 0
+                    size_hint: (1, .5)
                     icon: "lightbulb"
-                    text: "THEMES"
+                    text: "Themes"
 
-                MDNavigationDrawerDivider:
+                MDRectangleFlatIconButton:
+                    line_color: 0, 0, 0, 0
+                    size_hint: (1, .5)
+                    icon: "text"
+                    text: "Text"
 
-                DrawerLabelItem:
-                    icon: "information-outline"
-                    text: "Label"
+
