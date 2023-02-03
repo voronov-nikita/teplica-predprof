@@ -73,7 +73,7 @@ class MainScreen(Screen):
         self.add_widget(self.fl)
 
     # функция для перехода на следующий экран
-    def next(self, instance):
+    def next(self):
         self.manager.transition.direction = 'right'
         self.manager.current = "Second"
         return 0
@@ -209,14 +209,14 @@ class MainApp(MDApp, Screen):
         self.theme_cls.theme_style = "Dark"
 
         self.sm.add_widget(MainScreen())
-        self.sm.add_widget(DropDownMenuOpen())
+        # self.sm.add_widget(DropDownMenuOpen())
         self.sm.add_widget(EditScreen())
         self.sm.add_widget(SecondScreen())
 
         return self.sm
 
-    def edit_call(self, instance):
-        pass
+    def edit_call(self):
+        self.manager.current = MainScreen()
 
     def change_color_sys(self):
         self.theme_cls.theme_style = ("Light" if self.theme_cls.theme_style == "Dark" else "Dark")
