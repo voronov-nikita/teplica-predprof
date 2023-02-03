@@ -19,6 +19,9 @@ class DropDownMenuOpen(Screen):
         super().__init__()
         self.add_widget(Builder.load_file("KV.kv"))
 
+    def next(self):
+        print("click_1")
+
 
 class MainScreen(Screen):
     def __init__(self):
@@ -103,6 +106,7 @@ class SecondScreen(Screen):
                            halign="center",
                            pos_hint={"center_x": .5,
                                      "center_y": 0.85},
+                           # color_text = self.theme_cls.theme_style,
                            )
         self.fl = FloatLayout()
         self.dp = DropDownMenuOpen()
@@ -125,11 +129,11 @@ class SecondScreen(Screen):
                                      on_press=self.next
                                      )
 
-        self.fl.add_widget(self.dp)
         self.fl.add_widget(self.lbl)
         self.fl.add_widget(btn1)
         self.fl.add_widget(btn2)
         self.fl.add_widget(btn3)
+        self.fl.add_widget(self.dp)
 
         self.add_widget(self.fl)
 
@@ -194,20 +198,24 @@ class MainApp(MDApp):
 
     def build(self):
         self.theme_cls.theme_style_switch_animation = True
-        self.theme_cls.primary_palette = "Pink"
+        self.theme_cls.primary_palette = "Yellow"
         self.theme_cls.theme_style = "Dark"
         sm = ScreenManager()
         sm.add_widget(MainScreen())
+        sm.add_widget(DropDownMenuOpen())
         sm.add_widget(EditScreen())
         sm.add_widget(SecondScreen())
 
         return sm
 
-    def switch_theme_style(self, *args):
-        self.theme_cls.primary_palette = (
-            "Green"
-        )
-        self.theme_cls.theme_style = ("Light")
+    def edit_call(self):
+        self.manager.transition.direction = 'left'
+        self.manager.current = "Main"
+
+    def change_color_sys(self):
+        self.theme_cls.theme_style = ("Light" if self.theme_cls.theme_style == "Dark" else "Dark")
+        self.theme_cls.primary_palette = ("Yellow" if self.theme_cls.primary_palette == "Orange" else "Orange")
+        return 0
 
 
 if __name__ == "__main__":

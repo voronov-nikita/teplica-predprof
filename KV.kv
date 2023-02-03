@@ -1,18 +1,18 @@
 <DrawerClickableItem@MDNavigationDrawerItem>
 
-    text_color: "#FFFFFF"
-    icon_color: "#FFFFFF"
-    ripple_color: "#FFFFFF"
+    text_color: root.theme_cls.theme_style
+    icon_color: root.theme_cls.theme_style
+    ripple_color: root.theme_cls.theme_style
 
 
 <DrawerLabelItem@MDNavigationDrawerItem>
-    text_color: "#FFFFFF"
-    icon_color: "#FFFFFF"
+    text_color: "white"
+    icon_color: app.theme_cls.theme_style
     focus_behavior: False
 
 
 
-MDScreen:
+Screen:
 
     MDNavigationLayout:
 
@@ -25,6 +25,7 @@ MDScreen:
                     size_hint: (1, .0)
                     md_bg_color: (0, 0 , 0, 0)
                     left_action_items: [["menu",lambda x: nav_drawer.set_state("open")]]
+                    icon_color: ("#FFFFFF" if app.theme_cls.theme_style=="Dark" else "#000000")
                     color: (0, 0, 0, 0)
 
         MDNavigationDrawer:
@@ -39,20 +40,21 @@ MDScreen:
                     text: "Settings"
                     size_hint: (1, .5)
                     halign: "center"
-                    text_color: "white"
+                    text_color: ("#FFFFFF" if app.theme_cls.theme_style=="Dark" else "#000000")
 
                 MDRectangleFlatIconButton:
                     line_color: 0, 0, 0, 0
                     size_hint: (1, .5)
                     icon: "pencil"
                     text: "EDIT"
+                    on_press: app.edit_call()
 
                 MDRectangleFlatIconButton:
                     line_color: 0, 0, 0, 0
                     size_hint: (1, .5)
                     icon: "lightbulb"
                     text: "Themes"
-
+                    on_press: app.change_color_sys()
                 MDRectangleFlatIconButton:
                     line_color: 0, 0, 0, 0
                     size_hint: (1, .5)
