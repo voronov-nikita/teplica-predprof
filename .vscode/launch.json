@@ -5,12 +5,13 @@
     "version": "0.2.0",
     "configurations": [
 
-        {
-            "type": "chrome",
-            "request": "launch",
-            "name": "Запустить Chrome на localhost",
-            "url": "http://localhost:8080",
-            "webRoot": "${workspaceFolder}"
-        }
+    {
+        "type": "chrome",
+        "request": "launch",
+        "name": "Запустить Chrome на localhost",
+        "file":"html-sait\\index.html",
+        "url": "http://localhost:8080",
+        "webRoot": "${workspaceFolder}"
+    }
     ]
 }
