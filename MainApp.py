@@ -12,6 +12,7 @@ from kivymd.uix.button import MDRectangleFlatButton, MDRaisedButton
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.screenmanager import ScreenManager, Screen
+from kivymd.uix.selectioncontrol import MDSwitch
 from kivymd.uix.textfield import MDTextField
 from kivymd.uix.datatables import MDDataTable
 from kivy.metrics import dp
@@ -165,6 +166,12 @@ class ExtraScreen(Screen):
 
         self.name = "ExtraMode"
 
+        self.switch = MDSwitch(
+            pos_hint={'center_x': .5, 'center_y': .5},
+            active=False,
+            on_active=self.warning,
+            width=dp(64)
+        )
         self.bx = BoxLayout(orientation="vertical")
         self.Init()
 
@@ -173,12 +180,17 @@ class ExtraScreen(Screen):
         btn2 = MDRectangleFlatButton(text="2")
         btn3 = MDRectangleFlatButton(text="3")
         btn4 = MDRectangleFlatButton(text="4")
+
+        self.bx.add_widget(self.switch)
         self.bx.add_widget(btn1)
         self.bx.add_widget(btn2)
         self.bx.add_widget(btn3)
         self.bx.add_widget(btn4)
 
         self.add_widget(self.bx)
+
+    def warning(self):
+        print("yes")
 
 
 class TabelScreen(Screen):
