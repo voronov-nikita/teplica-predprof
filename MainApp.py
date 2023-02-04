@@ -51,6 +51,7 @@ class MainScreen(Screen):
                                      size_hint=(1, .25),
                                      # pos=(.5, .5),
                                      pos_hint={'x': 0, 'y': 0.5},
+                                     # md_bg_color=MainApp().theme_cls.primary_dark,
                                      on_press=self.update
                                      )
         #
@@ -58,6 +59,7 @@ class MainScreen(Screen):
                                      size_hint=(1, .25),
                                      # pos=(.5, .5),
                                      pos_hint={'x': 0, 'y': 0.25},
+                                     # md_bg_color=MainApp().theme_cls.primary_dark,
                                      on_press=self.count
                                      )
         #
@@ -157,6 +159,28 @@ class SecondScreen(Screen):
         self.lbl.text = res.text
 
 
+class ExtraScreen(Screen):
+    def __init__(self):
+        super().__init__()
+
+        self.name = "ExtraMode"
+
+        self.bx = BoxLayout(orientation="vertical")
+        self.Init()
+
+    def Init(self):
+        btn1 = MDRectangleFlatButton(text="1")
+        btn2 = MDRectangleFlatButton(text="2")
+        btn3 = MDRectangleFlatButton(text="3")
+        btn4 = MDRectangleFlatButton(text="4")
+        self.bx.add_widget(btn1)
+        self.bx.add_widget(btn2)
+        self.bx.add_widget(btn3)
+        self.bx.add_widget(btn4)
+
+        self.add_widget(self.bx)
+
+
 class TabelScreen(Screen):
     def __init__(self):
         super().__init__()
@@ -168,20 +192,35 @@ class TabelScreen(Screen):
         self.Init()
 
     def Init(self):
+        btn = MDRaisedButton(text="back",
+                             pos_hint={"x": .79, "y": .885},
+                             size_hint=(.2, .1),
+                             on_press=self.back)
         table = MDDataTable(pos_hint={"center_x": .5,
                                       "center_y": .55},
                             size_hint=(0.9, .6),
                             column_data=[
-                                ("№", dp(10)),
-                                ("value", dp(15))
+                                ("№ id", dp(10)),
+                                ("temperature", dp(20)),
+                                ("humidity", dp(15)),
+                                ("other", dp(15)),
+
                             ],
                             row_data=[
-                                ("1", "10")
+                                ("1", "10", "55", "64"),
+                                ("2", "11", "44", "32"),
+                                ("3", "66", "33", "5")
                             ]
                             )
         self.fl.add_widget(table)
+        self.fl.add_widget(btn)
         self.fl.add_widget(self.dp)
         self.add_widget(self.fl)
+
+    def back(self, instance):
+        self.manager.transition.direction = 'left'
+        self.manager.current = "Main"
+        return 0
 
 
 class EditScreen(Screen):
@@ -200,7 +239,7 @@ class EditScreen(Screen):
         self.lbl = MDLabel(text="EDIT",
                            halign="center",
                            size_hint=(1, 0.1),
-                           pos_hint={"x": 0, "y": 0.8}
+                           pos_hint={"x": 0, "y": 0.8},
                            )
 
         self.Init()
@@ -278,6 +317,7 @@ class MainApp(MDApp, Screen):
 
         self.sm.add_widget(MainScreen())
         self.sm.add_widget(TabelScreen())
+        self.sm.add_widget(ExtraScreen())
         self.sm.add_widget(EditScreen())
         self.sm.add_widget(SecondScreen())
 
@@ -289,7 +329,9 @@ class MainApp(MDApp, Screen):
         return 0
 
     def extra_mode(self):
-        print("Extra")
+        self.sm.transition.direction = "right"
+        self.sm.current = "ExtraMode"
+        return 0
 
     def table_info(self):
         self.sm.transition.direction = "right"
