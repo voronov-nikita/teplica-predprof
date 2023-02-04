@@ -12,11 +12,13 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivymd.uix.textfield import MDTextField
+from kivymd.uix.datatables import MDDataTable
+from kivy.metrics import dp
 from kivy.lang import Builder
 
 
 # Класс для Выпадающего меню
-class DropDownMenuOpen(Screen):
+class LeftMenu(Screen):
     def __init__(self):
         super().__init__()
         self.add_widget(Builder.load_file("KV.kv"))
@@ -38,7 +40,7 @@ class MainScreen(Screen):
                            )
         self.fl = FloatLayout()
         self.btn_next = Button(on_release=self.next)
-        self.dp = DropDownMenuOpen()
+        self.dp = LeftMenu()
         # запускаем функцию Init()
         self.Init()
 
@@ -108,7 +110,7 @@ class SecondScreen(Screen):
                            # color_text = self.theme_cls.theme_style,
                            )
         self.fl = FloatLayout()
-        self.dp = DropDownMenuOpen()
+        self.dp = LeftMenu()
         self.Init()
 
     def Init(self):
@@ -155,11 +157,30 @@ class SecondScreen(Screen):
 
 
 class TabelScreen(Screen):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self.name = "Edit"
+    def __init__(self):
+        super().__init__()
+        self.name = "Table"
 
-        
+        self.dp = LeftMenu()
+        self.fl = FloatLayout()
+
+        self.Init()
+
+    def Init(self):
+        table = MDDataTable(pos_hint={"center_x": .5,
+                                      "center_y": .55},
+                            size_hint=(0.9, .6),
+                            column_data=[
+                                ("№", dp(10)),
+                                ("value", dp(15))
+                            ],
+                            row_data=[
+                                ("1", "10")
+                            ]
+                            )
+        self.fl.add_widget(table)
+        self.fl.add_widget(self.dp)
+        self.add_widget(self.fl)
 
 
 class EditScreen(Screen):
@@ -177,7 +198,7 @@ class EditScreen(Screen):
         self.fl = FloatLayout()
         self.lbl = MDLabel(text="EDIT",
                            halign="center",
-                           size_hint=(1, 0.3),
+                           size_hint=(1, 0.1),
                            pos_hint={"x": 0, "y": 0.8}
                            )
 
@@ -192,13 +213,19 @@ class EditScreen(Screen):
         self.txt1 = MDTextField(hint_text=f"Temperature",
                                 mode="fill",
                                 size_hint=(1, 0.5),
-                                pos_hint={"x": 0, "y": .5}
+                                pos_hint={"x": 0, "y": .8}
                                 )
-        self.txt2 = MDTextField(hint_text=f"Humidity",
+        self.txt2 = MDTextField(hint_text=f"Temperature-Humidity",
                                 helper_text="Hum",
                                 mode="fill",
                                 size_hint=(1, 0.5),
-                                pos_hint={"x": 0, "y": 0.5}
+                                pos_hint={"x": 0, "y": 0.3}
+                                )
+        self.txt3 = MDTextField(hint_text=f"Humidity-Earth",
+                                helper_text="Hum",
+                                mode="fill",
+                                size_hint=(1, 0.5),
+                                pos_hint={"x": 0, "y": 0}
                                 )
 
         btn_save_data = MDRaisedButton(
@@ -212,6 +239,7 @@ class EditScreen(Screen):
         self.fl.add_widget(btn)
         self.bx.add_widget(self.txt1)
         self.bx.add_widget(self.txt2)
+        self.bx.add_widget(self.txt3)
         self.bx.add_widget(btn_save_data)
 
         self.fl.add_widget(self.bx)
@@ -232,6 +260,10 @@ class EditScreen(Screen):
             self.min_hum = float(self.txt2.text)
             print("save")
 
+        if self.txt3.text is not None and self.txt3.text != "":
+            self.min_hum = float(self.txt2.text)
+            print("save")
+
 
 class MainApp(MDApp, Screen):
     def __init__(self, **kwargs):
@@ -244,7 +276,7 @@ class MainApp(MDApp, Screen):
         self.theme_cls.theme_style = "Dark"
 
         self.sm.add_widget(MainScreen())
-        # self.sm.add_widget(DropDownMenuOpen())
+        self.sm.add_widget(TabelScreen())
         self.sm.add_widget(EditScreen())
         self.sm.add_widget(SecondScreen())
 
@@ -257,7 +289,7 @@ class MainApp(MDApp, Screen):
     def extra_mode(self):
         print("Extra")
 
-    def tabel_info(self):
+    def table_info(self):
         self.sm.transition.direction = "right"
         self.sm.current = "Table"
 
