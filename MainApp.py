@@ -58,7 +58,7 @@ class MainScreen(Screen):
                                      size_hint=(1, .25),
                                      # pos=(.5, .5),
                                      pos_hint={'x': 0, 'y': 0},
-                                     on_press=self.next_is_edit
+                                     on_press=self.next
                                      )
 
         self.fl.add_widget(self.lbl)
@@ -71,12 +71,7 @@ class MainScreen(Screen):
         self.add_widget(self.fl)
 
     # функция для перехода на следующий экран
-    def next(self):
-        self.manager.transition.direction = 'right'
-        self.manager.current = "Second"
-        return 0
-
-    def next_is_edit(self, instance):
+    def next(self, instance):
         self.manager.transition.direction = 'right'
         self.manager.current = "Second"
         return 0
