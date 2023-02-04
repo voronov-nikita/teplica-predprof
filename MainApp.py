@@ -8,10 +8,8 @@ from kivymd.uix.button import MDRectangleFlatButton, MDRaisedButton
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.screenmanager import ScreenManager, Screen
-from kivy.lang import Builder
-
 from kivymd.uix.textfield import MDTextField
-
+from kivy.lang import Builder
 
 # Класс для Выпадающего меню
 class DropDownMenuOpen(Screen):
@@ -80,7 +78,7 @@ class MainScreen(Screen):
 
     def next_is_edit(self, instance):
         self.manager.transition.direction = 'right'
-        self.manager.current = "Edit"
+        self.manager.current = "Second"
         return 0
 
     # основляем текст
@@ -193,7 +191,7 @@ class EditScreen(Screen):
         self.add_widget(self.fl)
 
     def next(self, instance):
-        self.manager.transition.direction = 'left'
+        self.manager.transition.direction = 'down'
         self.manager.current = "Main"
         return 0
 
@@ -216,11 +214,12 @@ class MainApp(MDApp, Screen):
         return self.sm
 
     def edit_call(self):
-        self.manager.current = MainScreen()
+        self.sm.transition.direction = "up"
+        self.sm.current = "Edit"
 
     def change_color_sys(self):
-        self.theme_cls.theme_style = ("Light" if self.theme_cls.theme_style == "Dark" else "Dark")
         self.theme_cls.primary_palette = ("Yellow" if self.theme_cls.primary_palette == "Orange" else "Orange")
+        self.theme_cls.theme_style = ("Light" if self.theme_cls.theme_style == "Dark" else "Dark")
         return 0
 
 
