@@ -60,13 +60,16 @@ MDNavigationLayout:
                 line_color: 0, 0, 0, 0
                 size_hint: (1, .5)
                 icon: "lightning-bolt"
-                text: "Extra"
+                halign: "center"
+                text: "Extra\nMode"
+                on_release: app.extra_mode()
 
             MDRectangleFlatIconButton:
                 line_color: 0, 0, 0, 0
                 size_hint: (1, .5)
-                icon: "text"
-                text: "Text"
+                icon: "table-large"
+                text: "Table"
+                on_release: app.table_info()
 
 
 

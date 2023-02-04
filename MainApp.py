@@ -1,3 +1,6 @@
+# ТЗ:
+# https://docs.google.com/document/d/1yNu_mfNUTXRuimC1jlhbPLuVora4HbI8/edit
+
 import requests
 
 # Основное приложение
@@ -10,6 +13,7 @@ from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivymd.uix.textfield import MDTextField
 from kivy.lang import Builder
+
 
 # Класс для Выпадающего меню
 class DropDownMenuOpen(Screen):
@@ -150,36 +154,65 @@ class SecondScreen(Screen):
         self.lbl.text = res.text
 
 
+class TabelScreen(Screen):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.name = "Edit"
+
+        
+
+
 class EditScreen(Screen):
     def __init__(self, **kwargs):
         super(EditScreen, self).__init__(**kwargs)
         self.name = "Edit"
 
+        self.max_temp = 0
+        self.min_temp = 0
+        self.max_hum = 0
+        self.min_hum = 0
+
         self.fl = FloatLayout()
         self.bx = BoxLayout(orientation="vertical")
-        self.lbl = MDLabel(text="EDIT", halign="center")
+        self.fl = FloatLayout()
+        self.lbl = MDLabel(text="EDIT",
+                           halign="center",
+                           size_hint=(1, 0.3),
+                           pos_hint={"x": 0, "y": 0.8}
+                           )
 
         self.Init()
 
     def Init(self):
         btn = MDRaisedButton(text="Last",
+                             size_hint=(0.2, 0.1),
+                             pos_hint={"x": 0.8, "y": 0.9},
                              on_press=self.next
                              )
-        txt1 = MDTextField(hint_text="Temperature",
-                           mode="fill",
-                           size_hint=(1, 0.3),
-                           pos_hint={"x": 0, "y": .4}
-                           )
-        txt2 = MDTextField(hint_text="Humidity",
-                           mode="fill",
-                           size_hint=(1, 0.3),
-                           pos_hint={"x": 0, "y": .1}
-                           )
+        self.txt1 = MDTextField(hint_text=f"Temperature",
+                                mode="fill",
+                                size_hint=(1, 0.5),
+                                pos_hint={"x": 0, "y": .5}
+                                )
+        self.txt2 = MDTextField(hint_text=f"Humidity",
+                                helper_text="Hum",
+                                mode="fill",
+                                size_hint=(1, 0.5),
+                                pos_hint={"x": 0, "y": 0.5}
+                                )
+
+        btn_save_data = MDRaisedButton(
+            text="Save",
+            size_hint=(1, .1),
+            pos_hint={"x": 0, "y": 0},
+            on_press=self.save_data
+        )
 
         self.bx.add_widget(self.lbl)
-        self.bx.add_widget(btn)
-        self.bx.add_widget(txt1)
-        self.bx.add_widget(txt2)
+        self.fl.add_widget(btn)
+        self.bx.add_widget(self.txt1)
+        self.bx.add_widget(self.txt2)
+        self.bx.add_widget(btn_save_data)
 
         self.fl.add_widget(self.bx)
 
@@ -189,6 +222,15 @@ class EditScreen(Screen):
         self.manager.transition.direction = 'down'
         self.manager.current = "Main"
         return 0
+
+    def save_data(self, instance):
+        if self.txt1.text is not None and self.txt1.text != "":
+            self.min_hum = float(self.txt1.text)
+            print("save")
+
+        if self.txt2.text is not None and self.txt2.text != "":
+            self.min_hum = float(self.txt2.text)
+            print("save")
 
 
 class MainApp(MDApp, Screen):
@@ -211,6 +253,13 @@ class MainApp(MDApp, Screen):
     def edit_call(self):
         self.sm.transition.direction = "up"
         self.sm.current = "Edit"
+
+    def extra_mode(self):
+        print("Extra")
+
+    def tabel_info(self):
+        self.sm.transition.direction = "right"
+        self.sm.current = "Table"
 
     def change_color_sys(self):
         self.theme_cls.primary_palette = ("Yellow" if self.theme_cls.primary_palette == "Orange" else "Orange")
