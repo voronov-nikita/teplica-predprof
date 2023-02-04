@@ -1,6 +1,7 @@
 # ТЗ:
 # https://docs.google.com/document/d/1yNu_mfNUTXRuimC1jlhbPLuVora4HbI8/edit
 
+from webbrowser import open_new_tab
 import requests
 
 # Основное приложение
@@ -285,6 +286,7 @@ class MainApp(MDApp, Screen):
     def edit_call(self):
         self.sm.transition.direction = "up"
         self.sm.current = "Edit"
+        return 0
 
     def extra_mode(self):
         print("Extra")
@@ -292,10 +294,15 @@ class MainApp(MDApp, Screen):
     def table_info(self):
         self.sm.transition.direction = "right"
         self.sm.current = "Table"
+        return 0
 
     def change_color_sys(self):
         self.theme_cls.primary_palette = ("Yellow" if self.theme_cls.primary_palette == "Orange" else "Orange")
         self.theme_cls.theme_style = ("Light" if self.theme_cls.theme_style == "Dark" else "Dark")
+        return 0
+
+    def git_info(self):
+        open_new_tab("https://github.com/voronov-nikita/teplica_predprof")
         return 0
 
 
