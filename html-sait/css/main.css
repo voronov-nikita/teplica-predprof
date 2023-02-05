@@ -25,11 +25,40 @@ h1, h2, h3, h4, h5, h6 {
 /*intro*/
 
 .intro {
+    display: flex;
+    flex-direction: column;
+    justify-content:center;
     width: 100%;
     height: 100vh;
     background: url("../images/intro.jpg") center no-repeat;
     -webkit-background-size: cover;
     background-size: cover;
+}
+
+.intro__inner {
+    width: 100%;
+    max-width: 700px;
+    margin: 0 auto;
+    text-align: center;
+
+
+}
+/*заголовок*/
+.intro__title {
+    color: #020;
+    font-size: 100px;
+    font-weight: 700;
+    text-transform: uppercase;
+    line-height: 1;
+}
+/*полоска под заголовком*/
+.intro__title:after {
+    content: "";
+    display: block;
+    width: 400px;
+    height: 1px;
+    margin: 40px auto 236px;
+    background-color:  rgb(170, 118, 153);
 }
 
 /*header*/
@@ -48,7 +77,8 @@ h1, h2, h3, h4, h5, h6 {
     justify-content: space-between;
     align-items: center;
 }
-.header__logo{
+/*ссылка на скачивание приложения*/
+.header__link{
     font-size: 20px;
     font-weight: 700;
     color: #020;
@@ -59,7 +89,7 @@ h1, h2, h3, h4, h5, h6 {
     font-size: 14px;
     text-transform: uppercase;
 }
-
+/*ссылки*/
 .nav__link {
     display: inline-block;
     vertical-align: top;
@@ -69,6 +99,8 @@ h1, h2, h3, h4, h5, h6 {
     text-decoration:solid;
     transition: color 0.2s linear;
 }
+
+/*полоски под ссылками в правом верхнем углу*/
 .nav__link:after {
     content: "";
     display: block;
@@ -80,11 +112,11 @@ h1, h2, h3, h4, h5, h6 {
     left: 0;
     z-index: 1;
 }
-
+/*изменение цвета слова при наводе мышкой*/
 .nav__link:hover {
-    color: #fff;
+    color: rgb(170, 118, 153);
 }
-
+/*полоски под ссылками в правом верхнем углу*/
 .nav__link1 {
     display: inline-block;
     vertical-align: top;
@@ -94,6 +126,27 @@ h1, h2, h3, h4, h5, h6 {
     transition: color 0.2s linear;
     text-transform: uppercase;
 }
+/*изменение цвета слова при наводе мышкой*/
 .nav__link1:hover {
     color: #fff;
+}
+
+/*кнопка*/
+
+.btn {
+    display: inline-block;
+    vertical-align: top;
+    padding: 8px 30px;
+    border: 3px solid rgb(170, 118, 153);
+    font-size: 18px;
+    font-weight: 700;
+    color: #020;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: background .1s linear, color .1s linear;
+}
+/*изменение цвета слова при наводе мышкой*/
+.btn:hover {
+    background-color: rgb(170, 118, 153);
+    color: #020;
 }
