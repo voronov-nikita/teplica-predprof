@@ -4,10 +4,12 @@
 from webbrowser import open_new_tab
 import requests
 from json import loads
+import matplotlib.pyplot as plt
 
 # Основное приложение
 from kivymd.app import MDApp
 from kivymd.uix.label import MDLabel
+from kivy.uix.label import Label
 from kivy.uix.button import Button
 from kivymd.uix.button import MDRectangleFlatButton, MDRaisedButton
 from kivy.uix.boxlayout import BoxLayout
@@ -16,6 +18,8 @@ from kivy.uix.screenmanager import ScreenManager, Screen
 from kivymd.uix.selectioncontrol import MDSwitch
 from kivymd.uix.textfield import MDTextField
 from kivymd.uix.datatables import MDDataTable
+from kivymd.uix.pickers import MDTimePicker
+from kivy.garden.matplotlib.backend_kivyagg import FigureCanvasKivyAgg
 from kivy.metrics import dp
 from kivy.lang import Builder
 
@@ -182,6 +186,7 @@ class ExtraScreen(Screen):
         )
         self.switch.bind(active=self.warning)
 
+        self.dp = LeftMenu()
         self.bx = BoxLayout(orientation="vertical",
                             pos_hint={"x": 0, "y": 0},
                             size_hint=(1, 0.7))
@@ -220,7 +225,6 @@ class ExtraScreen(Screen):
                                           size_hint=(1, 0.1),
                                           font_size=dp(15),
                                           )
-
         self.fl.add_widget(self.lbl)
         self.fl.add_widget(self.switch)
         self.bx.add_widget(self.btn1)
@@ -228,6 +232,7 @@ class ExtraScreen(Screen):
         self.bx.add_widget(self.btn3)
         self.bx.add_widget(self.btn4)
         self.fl.add_widget(self.bx)
+        self.fl.add_widget(self.dp)
 
         self.add_widget(self.fl)
 
@@ -261,8 +266,8 @@ class AutomodeScreen(Screen):
 
         self.lbl = MDLabel(
             text="This is an automatic mode\nHere you can configure the automation of your greenhouse",
-            halign = "center",
-            pos_hint={"x":0.1, "y":0.8},
+            halign="center",
+            pos_hint={"x": 0.1, "y": 0.8},
             size_hint=(0.8, 0.2),
             theme_text_color="Custom",
             text_color=(1, 1, 0, 1),
@@ -270,10 +275,98 @@ class AutomodeScreen(Screen):
             line_color=(1, 1, 0, 0.8),
         )
 
+        self.fl = FloatLayout()
+        self.dp = LeftMenu()
+
+        self.watering_time = None
+        self.temp_time = None
+
         self.Init()
 
     def Init(self):
-        self.add_widget(self.lbl)
+        # BLOCK №1
+        self.text1 = Label(text="Auto_Watering",
+                           pos_hint={"center_x": 0.3,
+                                     "center_y": 0.5},
+                           color=(1, 1, 0, 1),
+                           )
+        self.time1 = MDRaisedButton(
+            text="Set Time",
+            pos_hint={"center_x": 0.8, "center_y": 0.5},
+            disabled=True,
+            on_press=self.show_timer_watering
+        )
+        self.switch1 = MDSwitch(
+            pos_hint={'center_x': .5, 'center_y': .5},
+            thumb_color_active=(255, 255, 0, 1),
+            track_color_active=(255, 255, 0, 0.3),
+            width=dp(64)
+        )
+        self.switch1.bind(active=self.sw_press1)
+
+        # BLOKC №2
+        self.text2 = Label(text="Auto_temperature",
+                           pos_hint={"center_x": 0.3,
+                                     "center_y": 0.3},
+                           color=(1, 1, 0, 1)
+                           )
+        self.time2 = MDRaisedButton(
+            text="Set Time",
+            pos_hint={"center_x": 0.8, "center_y": 0.3},
+            disabled=True,
+            on_press=self.show_timer_temp
+        )
+        self.switch2 = MDSwitch(
+            pos_hint={'center_x': .5, 'center_y': .3},
+            thumb_color_active=(255, 255, 0, 1),
+            track_color_active=(255, 255, 0, 0.3),
+            width=dp(64),
+        )
+        self.switch2.bind(active=self.sw_press2)
+
+        self.fl.add_widget(self.text1)
+        self.fl.add_widget(self.time1)
+        self.fl.add_widget(self.switch1)
+
+        self.fl.add_widget(self.text2)
+        self.fl.add_widget(self.time2)
+        self.fl.add_widget(self.switch2)
+
+        self.fl.add_widget(self.lbl)
+        self.fl.add_widget(self.dp)
+
+        self.add_widget(self.fl)
+
+    # <-----------------Watering----------------->
+    def show_timer_watering(self, instance):
+        timer = MDTimePicker()
+        timer.bind(time=self.get_time_watering)
+        timer.open()
+
+    def get_time_watering(self, instance, time):
+        self.watering_time = str(time)
+
+    # <-----------------Temperature----------------->
+    def show_timer_temp(self, instance):
+        timer = MDTimePicker()
+        timer.bind(time=self.get_time_watering)
+        timer.open()
+
+    def get_time_temp(self, instance, time):
+        self.watering_time = str(time)
+
+    # <-----------------Pressed----------------->
+    def sw_press1(self, switch, value):
+        if value:
+            self.time1.disabled = False
+        else:
+            self.time1.disabled = True
+
+    def sw_press2(self, switch, value):
+        if value:
+            self.time2.disabled = False
+        else:
+            self.time2.disabled = True
 
 
 class TabelScreen(Screen):
@@ -441,8 +534,12 @@ class MainApp(MDApp, Screen):
         return 0
 
     def change_color_sys(self):
-        self.theme_cls.primary_palette = ("Yellow" if self.theme_cls.primary_palette == "Orange" else "Orange")
-        self.theme_cls.theme_style = ("Light" if self.theme_cls.theme_style == "Dark" else "Dark")
+        self.theme_cls.primary_palette = (
+            "Yellow" if self.theme_cls.primary_palette == "Orange" else "Orange"
+        )
+        self.theme_cls.theme_style = (
+            "Light" if self.theme_cls.theme_style == "Dark" else "Dark"
+        )
         return 0
 
     def git_info(self):
