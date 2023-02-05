@@ -166,31 +166,63 @@ class ExtraScreen(Screen):
 
         self.name = "ExtraMode"
 
+        self.extra_status = True
+
         self.switch = MDSwitch(
-            pos_hint={'center_x': .5, 'center_y': .5},
-            active=False,
-            on_active=self.warning,
+            pos_hint={'center_x': .5, 'center_y': .75},
+            thumb_color_active=(255, 0, 0, 1),
+            track_color_active=(255, 0, 0, 0.3),
             width=dp(64)
         )
+        self.switch.bind(active=self.warning)
+
         self.bx = BoxLayout(orientation="vertical")
+        self.fl = FloatLayout()
+        self.lbl = MDLabel(text="WARNING\nBy turning on the extra mode, you take full responsibility for what happened",
+                           halign="center",
+                           size_hint=(0.8, .2),
+                           pos_hint={"x":0.1, "y":0.8},
+                           theme_text_color="Custom",
+                           text_color=(1, 0, 0, 1),
+                           line_color=(1, 0, 0, 1)
+                           )
         self.Init()
 
     def Init(self):
-        btn1 = MDRectangleFlatButton(text="1")
-        btn2 = MDRectangleFlatButton(text="2")
-        btn3 = MDRectangleFlatButton(text="3")
-        btn4 = MDRectangleFlatButton(text="4")
+        self.btn1 = MDRectangleFlatButton(text="Open Leaf",
+                                          disabled=self.extra_status)
+        self.btn2 = MDRectangleFlatButton(text="Watering",
+                                          disabled=self.extra_status)
+        self.btn3 = MDRectangleFlatButton(text="3",
+                                          disabled=self.extra_status)
+        self.btn4 = MDRectangleFlatButton(text="4",
+                                          disabled=self.extra_status)
 
-        self.bx.add_widget(self.switch)
-        self.bx.add_widget(btn1)
-        self.bx.add_widget(btn2)
-        self.bx.add_widget(btn3)
-        self.bx.add_widget(btn4)
+        self.fl.add_widget(self.lbl)
+        self.fl.add_widget(self.switch)
+        self.bx.add_widget(self.btn1)
+        self.bx.add_widget(self.btn2)
+        self.bx.add_widget(self.btn3)
+        self.bx.add_widget(self.btn4)
+        self.fl.add_widget(self.bx)
 
-        self.add_widget(self.bx)
+        self.add_widget(self.fl)
 
-    def warning(self):
-        print("yes")
+    def warning(self, instance, value):
+        if value:
+            self.lbl.text_color = (1, 1, 1, 0.4)
+            self.lbl.line_color = (1, 1, 1, 0.4)
+            self.btn1.disabled = False
+            self.btn2.disabled = False
+            self.btn3.disabled = False
+            self.btn4.disabled = False
+        else:
+            self.lbl.text_color = (1, 0, 0, 1)
+            self.lbl.line_color = (1, 0, 0, 1)
+            self.btn1.disabled = True
+            self.btn2.disabled = True
+            self.btn3.disabled = True
+            self.btn4.disabled = True
 
 
 class TabelScreen(Screen):
@@ -324,6 +356,7 @@ class MainApp(MDApp, Screen):
 
     def build(self):
         self.theme_cls.theme_style_switch_animation = True
+        # self.theme_cls.material_style = "M3"
         self.theme_cls.primary_palette = "Yellow"
         self.theme_cls.theme_style = "Dark"
 
