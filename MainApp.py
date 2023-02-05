@@ -3,6 +3,7 @@
 
 from webbrowser import open_new_tab
 import requests
+from json import loads
 
 # Основное приложение
 from kivymd.app import MDApp
@@ -17,6 +18,11 @@ from kivymd.uix.textfield import MDTextField
 from kivymd.uix.datatables import MDDataTable
 from kivy.metrics import dp
 from kivy.lang import Builder
+
+
+# преобразование json в словарь
+def splitting_for(s):
+    return loads(s)
 
 
 # Класс для Выпадающего меню
@@ -176,27 +182,44 @@ class ExtraScreen(Screen):
         )
         self.switch.bind(active=self.warning)
 
-        self.bx = BoxLayout(orientation="vertical")
+        self.bx = BoxLayout(orientation="vertical",
+                            pos_hint={"x": 0, "y": 0},
+                            size_hint=(1, 0.7))
         self.fl = FloatLayout()
         self.lbl = MDLabel(text="WARNING\nBy turning on the extra mode, you take full responsibility for what happened",
                            halign="center",
                            size_hint=(0.8, .2),
-                           pos_hint={"x":0.1, "y":0.8},
+                           pos_hint={"x": 0.1, "y": 0.8},
                            theme_text_color="Custom",
                            text_color=(1, 0, 0, 1),
-                           line_color=(1, 0, 0, 1)
+                           line_color=(1, 0, 0, 1),
+                           font_size=dp(30),
                            )
         self.Init()
 
     def Init(self):
         self.btn1 = MDRectangleFlatButton(text="Open Leaf",
-                                          disabled=self.extra_status)
+                                          disabled=self.extra_status,
+                                          size_hint=(1, 0.1),
+                                          font_size=dp(15),
+                                          on_press=self.leaf_move
+                                          )
         self.btn2 = MDRectangleFlatButton(text="Watering",
-                                          disabled=self.extra_status)
+                                          disabled=self.extra_status,
+                                          size_hint=(1, 0.1),
+                                          font_size=dp(15),
+                                          on_press=self.water_run
+                                          )
         self.btn3 = MDRectangleFlatButton(text="3",
-                                          disabled=self.extra_status)
+                                          disabled=self.extra_status,
+                                          size_hint=(1, 0.1),
+                                          font_size=dp(15),
+                                          )
         self.btn4 = MDRectangleFlatButton(text="4",
-                                          disabled=self.extra_status)
+                                          disabled=self.extra_status,
+                                          size_hint=(1, 0.1),
+                                          font_size=dp(15),
+                                          )
 
         self.fl.add_widget(self.lbl)
         self.fl.add_widget(self.switch)
@@ -207,6 +230,12 @@ class ExtraScreen(Screen):
         self.fl.add_widget(self.bx)
 
         self.add_widget(self.fl)
+
+    def leaf_move(self, instance):
+        print("Open/Close")
+
+    def water_run(self, instance):
+        print("Watering")
 
     def warning(self, instance, value):
         if value:
@@ -223,6 +252,28 @@ class ExtraScreen(Screen):
             self.btn2.disabled = True
             self.btn3.disabled = True
             self.btn4.disabled = True
+
+
+class AutomodeScreen(Screen):
+    def __init__(self):
+        super().__init__()
+        self.name = "AutoMode"
+
+        self.lbl = MDLabel(
+            text="This is an automatic mode\nHere you can configure the automation of your greenhouse",
+            halign = "center",
+            pos_hint={"x":0.1, "y":0.8},
+            size_hint=(0.8, 0.2),
+            theme_text_color="Custom",
+            text_color=(1, 1, 0, 1),
+            font_size=dp(40),
+            line_color=(1, 1, 0, 0.8),
+        )
+
+        self.Init()
+
+    def Init(self):
+        self.add_widget(self.lbl)
 
 
 class TabelScreen(Screen):
@@ -331,7 +382,7 @@ class EditScreen(Screen):
         self.add_widget(self.fl)
 
     def next(self, instance):
-        self.manager.transition.direction = 'down'
+        self.manager.transition.direction = 'right'
         self.manager.current = "Main"
         return 0
 
@@ -362,6 +413,7 @@ class MainApp(MDApp, Screen):
 
         self.sm.add_widget(MainScreen())
         self.sm.add_widget(TabelScreen())
+        self.sm.add_widget(AutomodeScreen())
         self.sm.add_widget(ExtraScreen())
         self.sm.add_widget(EditScreen())
         self.sm.add_widget(SecondScreen())
@@ -369,7 +421,7 @@ class MainApp(MDApp, Screen):
         return self.sm
 
     def edit_call(self):
-        self.sm.transition.direction = "up"
+        self.sm.transition.direction = "left"
         self.sm.current = "Edit"
         return 0
 
@@ -381,6 +433,11 @@ class MainApp(MDApp, Screen):
     def table_info(self):
         self.sm.transition.direction = "right"
         self.sm.current = "Table"
+        return 0
+
+    def auto_mode(self):
+        self.sm.transition.direction = "right"
+        self.sm.current = "AutoMode"
         return 0
 
     def change_color_sys(self):

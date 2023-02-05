@@ -47,7 +47,9 @@ MDNavigationLayout:
                 size_hint: (1, .5)
                 icon: "pencil"
                 text: "EDIT"
-                on_release: app.edit_call()
+                on_release:
+                    nav_drawer.set_state("close")
+                    app.edit_call()
 
             MDRectangleFlatIconButton:
                 line_color: 0, 0, 0, 0
@@ -61,7 +63,9 @@ MDNavigationLayout:
                 size_hint: (1, .5)
                 icon: "table-large"
                 text: "Table"
-                on_release: app.table_info()
+                on_release:
+                    nav_drawer.set_state("close")
+                    app.table_info()
 
             MDRectangleFlatIconButton:
                 line_color: 0, 0, 0, 0
@@ -69,7 +73,19 @@ MDNavigationLayout:
                 icon: "lightning-bolt"
                 halign: "center"
                 text: "Extra\nMode"
-                on_release: app.extra_mode()
+                on_release:
+                    nav_drawer.set_state("close")
+                    app.extra_mode()
+
+            MDRectangleFlatIconButton:
+                line_color: 0, 0, 0, 0
+                size_hint: (1, .5)
+                icon: "play"
+                halign: "center"
+                text: "Auto\nMode"
+                on_release:
+                    nav_drawer.set_state("close")
+                    app.auto_mode()
 
             MDRectangleFlatIconButton:
                 line_color: 0, 0, 0, 0
@@ -77,7 +93,9 @@ MDNavigationLayout:
                 icon: "github"
                 halign: "center"
                 text: "GitHub"
-                on_release: app.git_info()
+                on_release:
+                    nav_drawer.set_state("close")
+                    app.git_info()
 
 
 
