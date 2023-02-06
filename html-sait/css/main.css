@@ -58,7 +58,7 @@ h1, h2, h3, h4, h5, h6 {
     width: 400px;
     height: 1px;
     margin: 40px auto 236px;
-    background-color:  rgb(170, 118, 153);
+    background-color:  #fff;
 }
 
 /*header*/
@@ -78,7 +78,7 @@ h1, h2, h3, h4, h5, h6 {
     align-items: center;
 }
 /*ссылка на скачивание приложения*/
-.header__link{
+.header__logo{
     font-size: 20px;
     font-weight: 700;
     color: #020;
@@ -106,29 +106,19 @@ h1, h2, h3, h4, h5, h6 {
     display: block;
     width: 100%;
     height: 1px;
-    background-color: rgb(170, 118, 153);
+    display: none;
+    background-color: #fff;
     position: absolute;
     top: 100%;
     left: 0;
     z-index: 1;
 }
-/*изменение цвета слова при наводе мышкой*/
+/*изменение цвета слова и полоски снизу при наводе мышкой*/
 .nav__link:hover {
-    color: rgb(170, 118, 153);
-}
-/*полоски под ссылками в правом верхнем углу*/
-.nav__link1 {
-    display: inline-block;
-    vertical-align: top;
-    margin: 0 10px;
-    color:#020;
-    text-decoration: none;
-    transition: color 0.2s linear;
-    text-transform: uppercase;
-}
-/*изменение цвета слова при наводе мышкой*/
-.nav__link1:hover {
     color: #fff;
+}
+.nav__link:hover:after {
+    display: block;
 }
 
 /*кнопка*/
@@ -137,7 +127,7 @@ h1, h2, h3, h4, h5, h6 {
     display: inline-block;
     vertical-align: top;
     padding: 8px 30px;
-    border: 3px solid rgb(170, 118, 153);
+    border: 3px solid #020;
     font-size: 18px;
     font-weight: 700;
     color: #020;
@@ -147,6 +137,6 @@ h1, h2, h3, h4, h5, h6 {
 }
 /*изменение цвета слова при наводе мышкой*/
 .btn:hover {
-    background-color: rgb(170, 118, 153);
+    background-color: #fff;
     color: #020;
 }
