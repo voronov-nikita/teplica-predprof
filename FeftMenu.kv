@@ -1,0 +1,88 @@
+MDNavigationLayout:
+
+    MDScreenManager:
+
+        MDScreen:
+
+            MDTopAppBar:
+                pos_hint: {"top": 1, "x":0}
+                size_hint: (1, .0)
+                md_bg_color: (0, 0 , 0, 0)
+                left_action_items: [["menu",lambda x: nav_drawer.set_state("open")]]
+                icon_color: ((255, 255, 255, 1) if app.theme_cls.theme_style=="Dark" else "#000000")
+                color: (0, 0, 0, 0)
+
+    MDNavigationDrawer:
+        id: nav_drawer
+        radius: (0, 0, 0 , 0)
+
+        BoxLayout:
+            orientation: "vertical"
+
+            MDLabel:
+                text: "Settings"
+                size_hint: (1, .5)
+                halign: "center"
+                text_color: ("#FFFFFF" if app.theme_cls.theme_style=="Dark" else "#000000")
+
+            MDRectangleFlatIconButton:
+                id: edit_locate
+                line_color: 0, 0, 0, 0
+                size_hint: (1, .5)
+                icon: "pencil"
+                text: "EDIT"
+                on_release:
+                    nav_drawer.set_state("close")
+                    app.edit_call()
+
+            MDRectangleFlatIconButton:
+                line_color: 0, 0, 0, 0
+                size_hint: (1, .5)
+                icon: "lightbulb"
+                text: "Themes"
+                on_press: app.change_color_sys()
+
+            MDRectangleFlatIconButton:
+                line_color: 0, 0, 0, 0
+                size_hint: (1, .5)
+                icon: "table-large"
+                text: "Table"
+                on_release:
+                    nav_drawer.set_state("close")
+                    app.table_info()
+
+            MDRectangleFlatIconButton:
+                line_color: 0, 0, 0, 0
+                size_hint: (1, .5)
+                icon: "lightning-bolt"
+                halign: "center"
+                text: "Extra\nMode"
+                on_release:
+                    nav_drawer.set_state("close")
+                    app.extra_mode()
+
+            MDRectangleFlatIconButton:
+                line_color: 0, 0, 0, 0
+                size_hint: (1, .5)
+                icon: "play"
+                halign: "center"
+                text: "Auto\nMode"
+                on_release:
+                    nav_drawer.set_state("close")
+                    app.auto_mode()
+
+            MDRectangleFlatIconButton:
+                line_color: 0, 0, 0, 0
+                size_hint: (1, .5)
+                icon: "github"
+                halign: "center"
+                text: "GitHub"
+                on_release:
+                    nav_drawer.set_state("close")
+                    app.git_info()
+
+
+
+
+
+

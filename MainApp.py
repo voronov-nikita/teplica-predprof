@@ -19,6 +19,7 @@ from kivymd.uix.selectioncontrol import MDSwitch
 from kivymd.uix.textfield import MDTextField
 from kivymd.uix.datatables import MDDataTable
 from kivymd.uix.pickers import MDTimePicker
+from kivymd.uix.list import OneLineIconListItem
 # from kivy.garden.matplotlib.backend_kivyagg import FigureCanvasKivyAgg
 from kivy.metrics import dp
 from kivy.lang import Builder
@@ -33,7 +34,7 @@ def splitting_for(s):
 class LeftMenu(Screen):
     def __init__(self):
         super().__init__()
-        self.add_widget(Builder.load_file("KV.kv"))
+        self.add_widget(Builder.load_file("FeftMenu.kv"))
 
 
 class MainScreen(Screen):
@@ -436,7 +437,8 @@ class EditScreen(Screen):
         self.max_temp = 0
         self.min_temp = 0
         self.max_hum = 0
-        self.min_hum = 0
+        self.min_hum_eath = 0
+        self.min_hum_air = 0
 
         self.fl = FloatLayout()
         self.bx = BoxLayout(orientation="vertical")
@@ -453,7 +455,6 @@ class EditScreen(Screen):
         btn = MDRaisedButton(text="Last",
                              size_hint=(0.2, 0.1),
                              pos_hint={"x": 0.8, "y": 0.9},
-                             
                              on_press=self.next
                              )
         self.txt1 = MDTextField(hint_text=f"Temperature",
@@ -465,7 +466,7 @@ class EditScreen(Screen):
                                 helper_text="Hum",
                                 mode="fill",
                                 size_hint=(1, 0.5),
-                                pos_hint={"x": 0, "y": 0.3}
+                                pos_hint={"x": 0, "y": 0.3},
                                 )
         self.txt3 = MDTextField(hint_text=f"Humidity-Earth",
                                 helper_text="Hum",
@@ -499,16 +500,16 @@ class EditScreen(Screen):
 
     def save_data(self, instance):
         if self.txt1.text is not None and self.txt1.text != "":
-            self.min_hum = float(self.txt1.text)
-            print("save")
+            self.min_temp = float(self.txt1.text)
+            print("save", self.min_temp)
 
         if self.txt2.text is not None and self.txt2.text != "":
-            self.min_hum = float(self.txt2.text)
-            print("save")
+            self.min_hum_air = float(self.txt2.text)
+            print("save", self.min_hum_air)
 
         if self.txt3.text is not None and self.txt3.text != "":
-            self.min_hum = float(self.txt2.text)
-            print("save")
+            self.min_hum_eath = float(self.txt3.text)
+            print("save", self.min_hum_eath)
 
 
 class MainApp(MDApp, Screen):
