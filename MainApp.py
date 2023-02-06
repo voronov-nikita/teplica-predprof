@@ -19,7 +19,7 @@ from kivymd.uix.selectioncontrol import MDSwitch
 from kivymd.uix.textfield import MDTextField
 from kivymd.uix.datatables import MDDataTable
 from kivymd.uix.pickers import MDTimePicker
-from kivy.garden.matplotlib.backend_kivyagg import FigureCanvasKivyAgg
+# from kivy.garden.matplotlib.backend_kivyagg import FigureCanvasKivyAgg
 from kivy.metrics import dp
 from kivy.lang import Builder
 
@@ -207,23 +207,36 @@ class ExtraScreen(Screen):
                                           disabled=self.extra_status,
                                           size_hint=(1, 0.1),
                                           font_size=dp(15),
+                                          theme_text_color="Custom",
+                                          line_color=(1, 0, 0, 0.8),
+                                          text_color=(1, 0, 0, 1),
                                           on_press=self.leaf_move
                                           )
         self.btn2 = MDRectangleFlatButton(text="Watering",
                                           disabled=self.extra_status,
                                           size_hint=(1, 0.1),
                                           font_size=dp(15),
+                                          theme_text_color="Custom",
+                                          line_color=(1, 0, 0, 0.8),
+                                          text_color=(1, 0, 0, 1),
                                           on_press=self.water_run
                                           )
         self.btn3 = MDRectangleFlatButton(text="3",
                                           disabled=self.extra_status,
                                           size_hint=(1, 0.1),
                                           font_size=dp(15),
+                                          theme_text_color="Custom",
+                                          line_color=(1, 0, 0, 0.8),
+                                          text_color=(1, 0, 0, 1),
+
                                           )
         self.btn4 = MDRectangleFlatButton(text="4",
                                           disabled=self.extra_status,
                                           size_hint=(1, 0.1),
                                           font_size=dp(15),
+                                          theme_text_color="Custom",
+                                          line_color=(1, 0, 0, 0.8),
+                                          text_color=(1, 0, 0, 1),
                                           )
         self.fl.add_widget(self.lbl)
         self.fl.add_widget(self.switch)
@@ -294,6 +307,7 @@ class AutomodeScreen(Screen):
             text="Set Time",
             pos_hint={"center_x": 0.8, "center_y": 0.5},
             disabled=True,
+            md_bg_color=(1, 1, 0, 1),
             on_press=self.show_timer_watering
         )
         self.switch1 = MDSwitch(
@@ -314,6 +328,7 @@ class AutomodeScreen(Screen):
             text="Set Time",
             pos_hint={"center_x": 0.8, "center_y": 0.3},
             disabled=True,
+            md_bg_color=(1, 1, 0, 1),
             on_press=self.show_timer_temp
         )
         self.switch2 = MDSwitch(
@@ -345,6 +360,7 @@ class AutomodeScreen(Screen):
 
     def get_time_watering(self, instance, time):
         self.watering_time = str(time)
+        print(self.watering_time)
 
     # <-----------------Temperature----------------->
     def show_timer_temp(self, instance):
@@ -353,7 +369,8 @@ class AutomodeScreen(Screen):
         timer.open()
 
     def get_time_temp(self, instance, time):
-        self.watering_time = str(time)
+        self.temp_time = str(time)
+        print(self.temp_time)
 
     # <-----------------Pressed----------------->
     def sw_press1(self, switch, value):
@@ -436,6 +453,7 @@ class EditScreen(Screen):
         btn = MDRaisedButton(text="Last",
                              size_hint=(0.2, 0.1),
                              pos_hint={"x": 0.8, "y": 0.9},
+                             
                              on_press=self.next
                              )
         self.txt1 = MDTextField(hint_text=f"Temperature",
@@ -501,7 +519,7 @@ class MainApp(MDApp, Screen):
     def build(self):
         self.theme_cls.theme_style_switch_animation = True
         # self.theme_cls.material_style = "M3"
-        self.theme_cls.primary_palette = "Yellow"
+        self.theme_cls.primary_palette = "Green"
         self.theme_cls.theme_style = "Dark"
 
         self.sm.add_widget(MainScreen())
