@@ -46,11 +46,12 @@ class MainScreen(Screen):
         # отправляем get запрос на сайт и получаем ответ
         res = requests.get(f"https://dt.miet.ru/ppo_it/api/temp_hum/{self.k}")
         # Стандартный Лэйбел
-        self.lbl = MDLabel(text=res.text,
-                           halign="center",
-                           pos_hint={"center_x": .5,
-                                     "center_y": 0.85},
-                           )
+        self.lbl = MDLabel(
+            text=f"""Sensor {self.k}:\nTemperature: {splitting_for(res.text)["temperature"]}\nHumidity: {splitting_for(res.text)["humidity"]}""",
+            halign="center",
+            pos_hint={"center_x": .5,
+                      "center_y": 0.85},
+            )
         self.fl = FloatLayout()
         self.btn_next = Button(on_release=self.next)
         self.dp = LeftMenu()
@@ -81,8 +82,15 @@ class MainScreen(Screen):
                                      pos_hint={'x': 0, 'y': 0},
                                      on_press=self.next
                                      )
+        self.btn_doing = MDRaisedButton(
+            text="DO",
+            size_hint=(.1, .2),
+            pos_hint={'center_x': 0.8, 'center_y': 0.85},
+            on_press=self.doing
+        )
 
         self.fl.add_widget(self.lbl)
+        self.fl.add_widget(self.btn_doing)
         self.fl.add_widget(btn1)
         self.fl.add_widget(btn2)
         self.fl.add_widget(btn3)
@@ -100,7 +108,7 @@ class MainScreen(Screen):
     # основляем текст
     def update(self, instance):
         res = requests.get(f"https://dt.miet.ru/ppo_it/api/temp_hum/{self.k}")
-        self.lbl.text = res.text
+        self.lbl.text = f"""Sensor {self.k}:\nTemperature: {splitting_for(res.text)["temperature"]}\nHumidity: {splitting_for(res.text)["humidity"]}"""
 
     # изменяем id в ссылке
     def count(self, instance):
@@ -109,7 +117,10 @@ class MainScreen(Screen):
         else:
             self.k += 1
         res = requests.get(f"https://dt.miet.ru/ppo_it/api/temp_hum/{self.k}")
-        self.lbl.text = res.text
+        self.lbl.text = f"""Sensor {self.k}:\nTemperature: {splitting_for(res.text)["temperature"]}\nHumidity: {splitting_for(res.text)["humidity"]}"""
+
+    def doing(self, instance):
+        print("doing")
 
 
 class SecondScreen(Screen):
@@ -144,8 +155,15 @@ class SecondScreen(Screen):
                                      pos_hint={'x': 0, 'y': 0},
                                      on_press=self.next
                                      )
+        self.btn_doing = MDRaisedButton(
+            text="DO",
+            size_hint=(.1, .2),
+            pos_hint={'center_x': 0.8, 'center_y': 0.85},
+            on_press=self.doing
+        )
 
         self.fl.add_widget(self.lbl)
+        self.fl.add_widget(self.btn_doing)
         self.fl.add_widget(btn1)
         self.fl.add_widget(btn2)
         self.fl.add_widget(btn3)
@@ -169,6 +187,9 @@ class SecondScreen(Screen):
             self.k += 1
         res = requests.get(f'https://dt.miet.ru/ppo_it/api/hum/{self.k}')
         self.lbl.text = res.text
+
+    def doing(self, instance):
+        print("Doing")
 
 
 class ExtraScreen(Screen):
