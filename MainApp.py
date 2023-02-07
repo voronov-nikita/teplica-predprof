@@ -163,6 +163,7 @@ class SecondScreen(Screen):
         )
 
         self.fl.add_widget(self.lbl)
+        self.fl.add_widget(self.btn_doing)
         self.fl.add_widget(btn1)
         self.fl.add_widget(btn2)
         self.fl.add_widget(btn3)
