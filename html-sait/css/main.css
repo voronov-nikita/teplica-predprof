@@ -149,3 +149,9 @@ h1, h2, h3, h4, h5, h6 {
     background-color: #fff;
     color: #020;
 }
+
+/*footer*/
+.footer {
+    padding-top: 150px;
+    background-color:  rgb(97, 158, 17) ;
+}
