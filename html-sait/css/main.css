@@ -80,7 +80,7 @@ h1, h2, h3, h4, h5, h6 {
     justify-content: space-between;
     align-items: center;
 }
-/*ссылка на скачивание приложения*/
+/*логотип*/
 .header__logo{
     font-size: 20px;
     font-weight: 700;
@@ -155,3 +155,4 @@ h1, h2, h3, h4, h5, h6 {
     padding-top: 150px;
     background-color:  rgb(97, 158, 17) ;
 }
+
