@@ -51,7 +51,7 @@ class MainScreen(Screen):
             halign="center",
             pos_hint={"center_x": .5,
                       "center_y": 0.85},
-            )
+        )
         self.fl = FloatLayout()
         self.btn_next = Button(on_release=self.next)
         self.dp = LeftMenu()
@@ -64,7 +64,7 @@ class MainScreen(Screen):
                                      size_hint=(1, .25),
                                      # pos=(.5, .5),
                                      pos_hint={'x': 0, 'y': 0.5},
-                                     # md_bg_color=MainApp().theme_cls.primary_dark,
+                                     # md_bg_color=(0, 1, 0, 0.1),
                                      on_press=self.update
                                      )
         #
@@ -72,20 +72,22 @@ class MainScreen(Screen):
                                      size_hint=(1, .25),
                                      # pos=(.5, .5),
                                      pos_hint={'x': 0, 'y': 0.25},
-                                     # md_bg_color=MainApp().theme_cls.primary_dark,
+                                     # md_bg_color=(0, 1, 0, 0.05),
                                      on_press=self.count
                                      )
         #
         btn3 = MDRectangleFlatButton(text="humidity",
-                                     size_hint=(1, .25),
+                                     size_hint=(0.5, .25),
                                      # pos=(.5, .5),
                                      pos_hint={'x': 0, 'y': 0},
+                                     # md_bg_color=(0, 1, 0, 0.1),
                                      on_press=self.next
                                      )
-        self.btn_doing = MDRaisedButton(
+        self.btn_doing = MDRectangleFlatButton(
             text="DO",
-            size_hint=(.1, .2),
-            pos_hint={'center_x': 0.8, 'center_y': 0.85},
+            size_hint=(.5, .25),
+            pos_hint={'x': 0.50001, 'y': 0},
+            md_bg_color=(0, 1, 0, 0.1),
             on_press=self.doing
         )
 
@@ -120,7 +122,51 @@ class MainScreen(Screen):
         self.lbl.text = f"""Sensor {self.k}:\nTemperature: {splitting_for(res.text)["temperature"]}\nHumidity: {splitting_for(res.text)["humidity"]}"""
 
     def doing(self, instance):
-        print("doing")
+        self.manager.transition.direction = 'right'
+        self.manager.current = "Doing"
+        return 0
+
+
+class DoingScreen(Screen):
+    def __init__(self):
+        super().__init__()
+        self.name = "Doing"
+
+        self.temp = EditScreen().min_temp
+        self.hum_air = EditScreen().min_hum_air
+        self.hum_eath = EditScreen().min_hum_eath
+
+        self.dp = LeftMenu()
+        self.fl = FloatLayout()
+        self.bx = BoxLayout()
+
+        self.Init()
+
+    def average_value(self, x):
+        return sum(x) // len(x)
+
+    def temp_hum(self):
+        res_temp = []
+        res_air = []
+        res_eath = []
+        for i in range(1, 4 + 1):
+            res_temp.append(splitting_for(requests.get(f"https://dt.miet.ru/ppo_it/api/temp_hum/{i}").text)["temperature"])
+            res_air.append(splitting_for(requests.get(f"https://dt.miet.ru/ppo_it/api/temp_hum/{i}").text)["humidity"])
+        for i in range(1, 6 + 1):
+            res_eath.append(splitting_for(requests.get(f'https://dt.miet.ru/ppo_it/api/hum/{i}').text)["humidity"])
+        return (res_temp, res_air, res_eath)
+
+    def Init(self):
+        self.btn_luck = MDRectangleFlatButton(
+            text="Open",
+            disabled = (False if self.average_value(self.temp_hum()[0]) >= self.temp else True)
+        )
+
+        self.bx.add_widget(self.btn_luck)
+        self.fl.add_widget(self.bx)
+        self.fl.add_widget(self.dp)
+
+        self.add_widget(self.fl)
 
 
 class SecondScreen(Screen):
@@ -151,14 +197,14 @@ class SecondScreen(Screen):
                                      on_press=self.count
                                      )
         btn3 = MDRectangleFlatButton(text="temperature",
-                                     size_hint=(1, .25),
+                                     size_hint=(0.5, .25),
                                      pos_hint={'x': 0, 'y': 0},
                                      on_press=self.next
                                      )
-        self.btn_doing = MDRaisedButton(
+        self.btn_doing = MDRectangleFlatButton(
             text="DO",
-            size_hint=(.1, .2),
-            pos_hint={'center_x': 0.8, 'center_y': 0.85},
+            size_hint=(.5, .25),
+            pos_hint={'x': 0.50001, 'y': 0},
             on_press=self.doing
         )
 
@@ -462,6 +508,7 @@ class EditScreen(Screen):
         self.min_hum_air = 0
 
         self.fl = FloatLayout()
+        self.dp = LeftMenu()
         self.bx = BoxLayout(orientation="vertical")
         self.fl = FloatLayout()
         self.lbl = MDLabel(text="EDIT",
@@ -511,6 +558,7 @@ class EditScreen(Screen):
         self.bx.add_widget(btn_save_data)
 
         self.fl.add_widget(self.bx)
+        self.fl.add_widget(self.dp)
 
         self.add_widget(self.fl)
 
@@ -546,6 +594,7 @@ class MainApp(MDApp, Screen):
 
         self.sm.add_widget(MainScreen())
         self.sm.add_widget(TabelScreen())
+        self.sm.add_widget(DoingScreen())
         self.sm.add_widget(AutomodeScreen())
         self.sm.add_widget(ExtraScreen())
         self.sm.add_widget(EditScreen())
@@ -574,8 +623,15 @@ class MainApp(MDApp, Screen):
         return 0
 
     def change_color_sys(self):
+        edit = EditScreen()
+        main = MainScreen()
+        second = SecondScreen()
+        table = TabelScreen()
+        auto = AutomodeScreen()
+        doing = DoingScreen()
+
         self.theme_cls.primary_palette = (
-            "Yellow" if self.theme_cls.primary_palette == "Orange" else "Orange"
+            "Green" if self.theme_cls.primary_palette != "Green" else "Yellow"
         )
         self.theme_cls.theme_style = (
             "Light" if self.theme_cls.theme_style == "Dark" else "Dark"
