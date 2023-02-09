@@ -1,9 +1,7 @@
-import requests
+from translate import Translator
 
-params={
-    "state": 1
-}
+translator = Translator(from_lang="ru", to_lang="en")
 
 
-res = requests.get(f"https://dt.miet.ru/ppo_it/api/total_hum")
-print(res)
+txt = input()
+print(translator.translate(txt))

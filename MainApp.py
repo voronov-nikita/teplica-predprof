@@ -4,6 +4,7 @@
 from webbrowser import open_new_tab
 import requests
 from json import loads
+from translate import Translator
 import matplotlib.pyplot as plt
 
 # Основное приложение
@@ -30,6 +31,11 @@ def splitting_for(s):
     return loads(s)
 
 
+def translate_app(s):
+    translator = Translator(from_lang="en", to_lang="ru")
+    return translator.translate(s)
+
+
 # Класс для Выпадающего меню
 class LeftMenu(Screen):
     def __init__(self):
@@ -43,10 +49,11 @@ class MainScreen(Screen):
         # имя экрана
         self.name = "Main"
 
-        self.button_value=[]
-        for i in range(1, 4+1):
+        self.button_value = []
+        for i in range(1, 4 + 1):
             res = requests.get(f"https://dt.miet.ru/ppo_it/api/temp_hum/{i}")
-            self.button_value.append(f"""Sensor {i}:\nTemperature: {splitting_for(res.text)["temperature"]}\nHumidity: {splitting_for(res.text)["humidity"]}""")
+            self.button_value.append(
+                f"""Sensor {i}:\nTemperature: {splitting_for(res.text)["temperature"]}\nHumidity: {splitting_for(res.text)["humidity"]}""")
 
         # # Стандартный Лэйбел
         # self.lbl = MDLabel(
@@ -153,7 +160,8 @@ class DoingScreen(Screen):
         res_air = []
         res_eath = []
         for i in range(1, 4 + 1):
-            res_temp.append(splitting_for(requests.get(f"https://dt.miet.ru/ppo_it/api/temp_hum/{i}").text)["temperature"])
+            res_temp.append(
+                splitting_for(requests.get(f"https://dt.miet.ru/ppo_it/api/temp_hum/{i}").text)["temperature"])
             res_air.append(splitting_for(requests.get(f"https://dt.miet.ru/ppo_it/api/temp_hum/{i}").text)["humidity"])
         for i in range(1, 6 + 1):
             res_eath.append(splitting_for(requests.get(f'https://dt.miet.ru/ppo_it/api/hum/{i}').text)["humidity"])
@@ -162,7 +170,7 @@ class DoingScreen(Screen):
     def Init(self):
         self.btn_luck = MDRectangleFlatButton(
             text="Open",
-            disabled = (False if self.average_value(self.temp_hum()[0]) >= self.temp else True)
+            disabled=(False if self.average_value(self.temp_hum()[0]) >= self.temp else True)
         )
 
         self.bx.add_widget(self.btn_luck)
