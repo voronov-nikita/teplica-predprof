@@ -38,7 +38,7 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="org.jetbrains.plugins.github.ui.GithubSettingsConfigurable" />
   </component>
-  <component name="RunManager" selected="Python.testing_resource (1)">
+  <component name="RunManager" selected="Python.MainApp">
     <configuration name="MainApp" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="teplica_predprof" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -167,8 +167,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.testing_resource (1)" />
         <item itemvalue="Python.MainApp" />
+        <item itemvalue="Python.testing_resource (1)" />
         <item itemvalue="Python.icon_search_kivymd" />
         <item itemvalue="Python.test_app_fitchs" />
         <item itemvalue="Python.main" />
