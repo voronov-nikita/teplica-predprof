@@ -42,16 +42,19 @@ class MainScreen(Screen):
         super().__init__()
         # имя экрана
         self.name = "Main"
-        self.k = 1
-        # отправляем get запрос на сайт и получаем ответ
-        res = requests.get(f"https://dt.miet.ru/ppo_it/api/temp_hum/{self.k}")
-        # Стандартный Лэйбел
-        self.lbl = MDLabel(
-            text=f"""Sensor {self.k}:\nTemperature: {splitting_for(res.text)["temperature"]}\nHumidity: {splitting_for(res.text)["humidity"]}""",
-            halign="center",
-            pos_hint={"center_x": .5,
-                      "center_y": 0.85},
-        )
+
+        self.button_value=[]
+        for i in range(1, 4+1):
+            res = requests.get(f"https://dt.miet.ru/ppo_it/api/temp_hum/{i}")
+            self.button_value.append(f"""Sensor {i}:\nTemperature: {splitting_for(res.text)["temperature"]}\nHumidity: {splitting_for(res.text)["humidity"]}""")
+
+        # # Стандартный Лэйбел
+        # self.lbl = MDLabel(
+        #     text=f"""Sensor {self.k}:\nTemperature: {splitting_for(res.text)["temperature"]}\nHumidity: {splitting_for(res.text)["humidity"]}""",
+        #     halign="center",
+        #     pos_hint={"center_x": .5,
+        #               "center_y": 0.85},
+        # )
         self.fl = FloatLayout()
         self.btn_next = Button(on_release=self.next)
         self.dp = LeftMenu()
@@ -60,26 +63,26 @@ class MainScreen(Screen):
 
     def Init(self):
         #
-        btn1 = MDRectangleFlatButton(text="update",
-                                     size_hint=(1, .25),
+        btn1 = MDRectangleFlatButton(text=self.button_value[0],
+                                     size_hint=(0.25, .25),
                                      # pos=(.5, .5),
-                                     pos_hint={'x': 0, 'y': 0.5},
+                                     pos_hint={'center_x': 0.25, 'center_y': 0.7},
                                      # md_bg_color=(0, 1, 0, 0.1),
                                      on_press=self.update
                                      )
         #
-        btn2 = MDRectangleFlatButton(text="next",
-                                     size_hint=(1, .25),
+        btn2 = MDRectangleFlatButton(text=self.button_value[1],
+                                     size_hint=(0.25, .25),
                                      # pos=(.5, .5),
-                                     pos_hint={'x': 0, 'y': 0.25},
+                                     pos_hint={'center_x': 0.75, 'center_y': 0.7},
                                      # md_bg_color=(0, 1, 0, 0.05),
                                      on_press=self.count
                                      )
         #
-        btn3 = MDRectangleFlatButton(text="humidity",
-                                     size_hint=(0.5, .25),
+        btn3 = MDRectangleFlatButton(text=self.button_value[2],
+                                     size_hint=(0.25, .25),
                                      # pos=(.5, .5),
-                                     pos_hint={'x': 0, 'y': 0},
+                                     pos_hint={'center_x': 0.25, 'center_y': 0.3},
                                      # md_bg_color=(0, 1, 0, 0.1),
                                      on_press=self.next
                                      )
@@ -91,7 +94,7 @@ class MainScreen(Screen):
             on_press=self.doing
         )
 
-        self.fl.add_widget(self.lbl)
+        # self.fl.add_widget(self.lbl)
         self.fl.add_widget(self.btn_doing)
         self.fl.add_widget(btn1)
         self.fl.add_widget(btn2)
@@ -522,7 +525,7 @@ class EditScreen(Screen):
     def Init(self):
         btn = MDRaisedButton(text="Last",
                              size_hint=(0.2, 0.1),
-                             pos_hint={"x": 0.8, "y": 0.9},
+                             pos_hint={"x": 0.8, "y": 0.88},
                              on_press=self.next
                              )
         self.txt1 = MDTextField(hint_text=f"Temperature",
@@ -589,6 +592,7 @@ class MainApp(MDApp, Screen):
     def build(self):
         self.theme_cls.theme_style_switch_animation = True
         # self.theme_cls.material_style = "M3"
+        self.green = (97, 158, 17, 1)
         self.theme_cls.primary_palette = "Green"
         self.theme_cls.theme_style = "Dark"
 
@@ -623,15 +627,10 @@ class MainApp(MDApp, Screen):
         return 0
 
     def change_color_sys(self):
-        edit = EditScreen()
-        main = MainScreen()
-        second = SecondScreen()
-        table = TabelScreen()
-        auto = AutomodeScreen()
-        doing = DoingScreen()
+        screen_now = self.sm.current
 
         self.theme_cls.primary_palette = (
-            "Green" if self.theme_cls.primary_palette != "Green" else "Yellow"
+            "Green" if self.theme_cls.primary_palette != "Green" else "Pink"
         )
         self.theme_cls.theme_style = (
             "Light" if self.theme_cls.theme_style == "Dark" else "Dark"
