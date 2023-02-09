@@ -83,7 +83,7 @@ class MainScreen(Screen):
                                      # pos=(.5, .5),
                                      pos_hint={'center_x': 0.75, 'center_y': 0.7},
                                      # md_bg_color=(0, 1, 0, 0.05),
-                                     on_press=self.count
+                                     on_release=self.count
                                      )
         #
         btn3 = MDRectangleFlatButton(text=self.button_value[2],
@@ -91,12 +91,19 @@ class MainScreen(Screen):
                                      # pos=(.5, .5),
                                      pos_hint={'center_x': 0.25, 'center_y': 0.3},
                                      # md_bg_color=(0, 1, 0, 0.1),
-                                     on_press=self.next
+                                     on_release=self.next
+                                     )
+        btn4 = MDRectangleFlatButton(text=self.button_value[3],
+                                     size_hint=(0.25, .25),
+                                     # pos=(.5, .5),
+                                     pos_hint={'center_x': 0.75, 'center_y': 0.3},
+                                     # md_bg_color=(0, 1, 0, 0.05),
+                                     on_release=self.count
                                      )
         self.btn_doing = MDRectangleFlatButton(
             text="DO",
-            size_hint=(.5, .25),
-            pos_hint={'x': 0.50001, 'y': 0},
+            size_hint=(.1, .2),
+            pos_hint={'x': 0, 'y': 0},
             md_bg_color=(0, 1, 0, 0.1),
             on_press=self.doing
         )
@@ -106,6 +113,7 @@ class MainScreen(Screen):
         self.fl.add_widget(btn1)
         self.fl.add_widget(btn2)
         self.fl.add_widget(btn3)
+        self.fl.add_widget(btn4)
         self.fl.add_widget(self.dp)
 
         # обьединяем self и наш layout
