@@ -174,7 +174,7 @@ class DoingScreen(Screen):
             res_air.append(splitting_for(requests.get(f"https://dt.miet.ru/ppo_it/api/temp_hum/{i}").text)["humidity"])
         for i in range(1, 6 + 1):
             res_eath.append(splitting_for(requests.get(f'https://dt.miet.ru/ppo_it/api/hum/{i}').text)["humidity"])
-        return (res_temp, res_air, res_eath)
+        return [res_temp, res_air, res_eath]
 
     def Init(self):
         self.btn_luck = MDRectangleFlatButton(
