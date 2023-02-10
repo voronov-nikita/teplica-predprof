@@ -63,54 +63,61 @@ class MainScreen(Screen):
         #               "center_y": 0.85},
         # )
         self.fl = FloatLayout()
-        self.btn_next = Button(on_release=self.next)
         self.dp = LeftMenu()
         # запускаем функцию Init()
         self.Init()
 
     def Init(self):
         #
-        btn1 = MDRectangleFlatButton(text=self.button_value[0],
-                                     size_hint=(0.25, .25),
-                                     # pos=(.5, .5),
-                                     pos_hint={'center_x': 0.25, 'center_y': 0.7},
-                                     # md_bg_color=(0, 1, 0, 0.1),
-                                     on_press=self.update
-                                     )
+        self.btn1 = MDRectangleFlatButton(text=self.button_value[0],
+                                          size_hint=(0.25, .25),
+                                          # pos=(.5, .5),
+                                          pos_hint={'center_x': 0.3, 'center_y': 0.7},
+                                          # md_bg_color=(0, 1, 0, 0.1),
+                                          on_press=self.update
+                                          )
         #
         btn2 = MDRectangleFlatButton(text=self.button_value[1],
                                      size_hint=(0.25, .25),
                                      # pos=(.5, .5),
-                                     pos_hint={'center_x': 0.75, 'center_y': 0.7},
+                                     pos_hint={'center_x': 0.7, 'center_y': 0.7},
                                      # md_bg_color=(0, 1, 0, 0.05),
-                                     on_release=self.count
+                                     on_release=self.update
                                      )
         #
         btn3 = MDRectangleFlatButton(text=self.button_value[2],
                                      size_hint=(0.25, .25),
                                      # pos=(.5, .5),
-                                     pos_hint={'center_x': 0.25, 'center_y': 0.3},
+                                     pos_hint={'center_x': 0.3, 'center_y': 0.4},
                                      # md_bg_color=(0, 1, 0, 0.1),
-                                     on_release=self.next
+                                     on_release=self.update
                                      )
         btn4 = MDRectangleFlatButton(text=self.button_value[3],
                                      size_hint=(0.25, .25),
                                      # pos=(.5, .5),
-                                     pos_hint={'center_x': 0.75, 'center_y': 0.3},
+                                     pos_hint={'center_x': 0.7, 'center_y': 0.4},
                                      # md_bg_color=(0, 1, 0, 0.05),
-                                     on_release=self.count
+                                     on_release=self.update
                                      )
         self.btn_doing = MDRectangleFlatButton(
             text="DO",
-            size_hint=(.1, .2),
-            pos_hint={'x': 0, 'y': 0},
+            size_hint=(.4, .2),
+            pos_hint={'center_x': 0.71, 'center_y': 0.1},
             md_bg_color=(0, 1, 0, 0.1),
             on_press=self.doing
         )
 
+        self.btn_next = MDRectangleFlatButton(text="more",
+                                              size_hint=(.4, .2),
+                                              pos_hint={"center_x": 0.29, "center_y":0.1},
+                                              md_bg_color=(0, 1, 0, 0.1),
+                                              on_release=self.next
+                                              )
+
         # self.fl.add_widget(self.lbl)
         self.fl.add_widget(self.btn_doing)
-        self.fl.add_widget(btn1)
+        self.fl.add_widget(self.btn_next)
+        self.fl.add_widget(self.btn1)
         self.fl.add_widget(btn2)
         self.fl.add_widget(btn3)
         self.fl.add_widget(btn4)
@@ -127,17 +134,11 @@ class MainScreen(Screen):
 
     # основляем текст
     def update(self, instance):
-        res = requests.get(f"https://dt.miet.ru/ppo_it/api/temp_hum/{self.k}")
-        self.lbl.text = f"""Sensor {self.k}:\nTemperature: {splitting_for(res.text)["temperature"]}\nHumidity: {splitting_for(res.text)["humidity"]}"""
-
-    # изменяем id в ссылке
-    def count(self, instance):
-        if self.k == 4:
-            self.k = 1
-        else:
-            self.k += 1
-        res = requests.get(f"https://dt.miet.ru/ppo_it/api/temp_hum/{self.k}")
-        self.lbl.text = f"""Sensor {self.k}:\nTemperature: {splitting_for(res.text)["temperature"]}\nHumidity: {splitting_for(res.text)["humidity"]}"""
+        id_btn = instance.text[7:8]
+        res = requests.get(f"https://dt.miet.ru/ppo_it/api/temp_hum/{id_btn}")
+        txt = f"""Sensor {id_btn}:\nTemperature: {splitting_for(res.text)["temperature"]}\nHumidity: {splitting_for(res.text)["humidity"]}"""
+        instance.text = txt
+        return 0
 
     def doing(self, instance):
         self.manager.transition.direction = 'right'
