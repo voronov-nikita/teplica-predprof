@@ -18,7 +18,7 @@ h1, h2, h3, h4, h5, h6 {
 /*Container*/
 .container {
     width: 100%;
-    max-width: 1300px;
+    max-width: 1400px;
     margin: 0 auto;
 }
 
@@ -57,8 +57,17 @@ h1, h2, h3, h4, h5, h6 {
     display: block;
     width: 400px;
     height: 3px;
-    margin: 20px auto 140px;
+    margin: 20px auto 70px;
     background-color:  #fff;
+}
+
+.for__what {
+    color: #020;
+    font-size: 18px;
+    font-weight: 700;
+    text-transform: uppercase;
+    line-height: 1;
+    padding-right: 400px;
 }
 
 /*header*/
@@ -73,6 +82,7 @@ h1, h2, h3, h4, h5, h6 {
     left: 0;
     right: 0;
     z-index: 1000;
+    
 
 }
 .header__inner {
@@ -140,6 +150,7 @@ h1, h2, h3, h4, h5, h6 {
     font-size: 18px;
     font-weight: 700;
     color: #020;
+    margin-left: 500px;
     text-transform: uppercase;
     text-decoration: none;
     transition: background .1s linear, color .1s linear;
@@ -149,7 +160,15 @@ h1, h2, h3, h4, h5, h6 {
     background-color: #fff;
     color: #020;
 }
-
+/*текст под заголовком зачем нужно предл*/
+.for__what {
+    color: #020;
+    font-size: 18px;
+    font-weight: 1000;
+    text-transform: uppercase;
+    line-height: 1;
+    padding-right: 400px;
+}
 /*footer*/
 .footer {
     padding-top: 150px;
@@ -158,29 +177,21 @@ h1, h2, h3, h4, h5, h6 {
 
 /*2 страница описание приложения*/
 /*заголовок*/
-.section__header {
-    width: 100%;
-    max-width: 400px;
-    margin: 0 auto 500px;
-    text-align: center;
-    
-}
-
-.section__title {
+.second__title {
     padding-top: 40px;
-    font-size: 35px;
+    font-size: 80px;
     color:#020;
     font-family: 'Rokkitt', serif;
     text-transform: uppercase;
 }
 /*полоска под заголовком*/
-.section__title:after {
+.second__title:after {
     content: "";
     display: block;
-    width: 250px;
-    height: 1px;
-    margin: 10px auto 150px;
-    background-color: #020;
+    width: 400px;
+    height: 3px;
+    margin: 20px auto 140px;
+    background-color:  #fff;
 }
 
 /*menu*/
