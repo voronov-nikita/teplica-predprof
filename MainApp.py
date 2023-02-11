@@ -177,12 +177,14 @@ class DoingScreen(Screen):
         return [res_temp, res_air, res_eath]
 
     def Init(self):
-        self.btn_luck = MDRectangleFlatButton(
+        self.btn_open = MDRectangleFlatButton(
             text="Open",
+            size_hint=(.9, .2),
+            pos_hint={"center_x":0.5, "center_y":0.2},
             disabled=(False if self.average_value(self.temp_hum()[0]) >= self.temp else True)
         )
 
-        self.bx.add_widget(self.btn_luck)
+        self.bx.add_widget(self.btn_open)
         self.fl.add_widget(self.bx)
         self.fl.add_widget(self.dp)
 
@@ -206,45 +208,47 @@ class SecondScreen(Screen):
 
     def Init(self):
         btn1 = MDRectangleFlatButton(text=self.button_value[0],
-                                     size_hint=(0.25, .25),
+                                     size_hint=(0.25, .2),
                                      pos_hint={'center_x': 0.3, 'center_y': 0.8},
                                      on_press=self.update
                                      )
         btn2 = MDRectangleFlatButton(text=self.button_value[1],
-                                     size_hint=(0.25, .25),
+                                     size_hint=(0.25, .2),
                                      pos_hint={'center_x': 0.7, 'center_y': 0.8},
-                                     on_press=self.count
+                                     on_press=self.update
                                      )
         btn3 = MDRectangleFlatButton(text=self.button_value[2],
-                                     size_hint=(0.25, .25),
+                                     size_hint=(0.25, .2),
                                      pos_hint={'center_x': 0.3, 'center_y': 0.55},
-                                     on_press=self.next
+                                     on_press=self.update
                                      )
         btn4 = MDRectangleFlatButton(text=self.button_value[3],
-                                     size_hint=(0.25, .25),
+                                     size_hint=(0.25, .2),
                                      pos_hint={'center_x': 0.7, 'center_y': 0.55},
-                                     on_press=self.next
+                                     on_press=self.update
                                      )
         btn5 = MDRectangleFlatButton(text=self.button_value[4],
-                                     size_hint=(0.25, .25),
-                                     pos_hint={'center_x': 0.3, 'center_y': 0.3},
-                                     on_press=self.next
+                                     size_hint=(0.25, .2),
+                                     pos_hint={'center_x': 0.3, 'center_y': 0.35},
+                                     on_press=self.update
                                      )
         btn6 = MDRectangleFlatButton(text=self.button_value[5],
-                                     size_hint=(0.25, .25),
-                                     pos_hint={'center_x': 0.7, 'center_y': 0.3},
-                                     on_press=self.next
+                                     size_hint=(0.25, .2),
+                                     pos_hint={'center_x': 0.7, 'center_y': 0.35},
+                                     on_press=self.update
                                      )
         self.btn_next = MDRectangleFlatButton(
             text="back",
-            size_hint=(.5, .25),
-            pos_hint={'x': 0.50001, 'y': 0},
+            size_hint=(.4, .2),
+            pos_hint={'x': 0.52, 'y': 0},
+            md_bg_color=(0, 1, 0, 0.1),
             on_press=self.next
         )
         self.btn_doing = MDRectangleFlatButton(
             text="DO",
-            size_hint=(.5, .25),
-            pos_hint={'x': 0.50001, 'y': 0},
+            size_hint=(.4, .2),
+            pos_hint={'x': 0.08, 'y': 0},
+            md_bg_color=(0, 1, 0, 0.1),
             on_press=self.doing
         )
 
@@ -267,19 +271,16 @@ class SecondScreen(Screen):
         return 0
 
     def update(self, instance):
-        res = requests.get(f'https://dt.miet.ru/ppo_it/api/hum/{self.k}')
-        self.lbl.text = res.text
-
-    def count(self, instance):
-        if self.k == 6:
-            self.k = 1
-        else:
-            self.k += 1
-        res = requests.get(f'https://dt.miet.ru/ppo_it/api/hum/{self.k}')
-        self.lbl.text = res.text
+        id_btn = instance.text[7:8]
+        res = requests.get(f"https://dt.miet.ru/ppo_it/api/hum/{id_btn}")
+        txt = f"""Sensor {id_btn}:\nHumidity: {splitting_for(res.text)["humidity"]}"""
+        instance.text = txt
+        return 0
 
     def doing(self, instance):
-        print("Doing")
+        self.manager.transition.direction = 'left'
+        self.manager.current = "Doing"
+        return 0
 
 
 class ExtraScreen(Screen):
