@@ -195,32 +195,52 @@ class SecondScreen(Screen):
         self.name = "Second"
         self.k = 1
         res = requests.get(f'https://dt.miet.ru/ppo_it/api/hum/{self.k}')
-        self.lbl = MDLabel(text=res.text,
-                           halign="center",
-                           pos_hint={"center_x": .5,
-                                     "center_y": 0.85},
-                           # color_text = self.theme_cls.theme_style,
-                           )
+        self.button_value = []
+        for i in range(1, 6 + 1):
+            res = requests.get(f"https://dt.miet.ru/ppo_it/api/hum/{i}")
+            self.button_value.append(
+                f"""Sensor {i}:\nHumidity: {splitting_for(res.text)["humidity"]}""")
         self.fl = FloatLayout()
         self.dp = LeftMenu()
         self.Init()
 
     def Init(self):
-        btn1 = MDRectangleFlatButton(text="update",
-                                     size_hint=(1, .25),
-                                     pos_hint={'x': 0, 'y': 0.5},
+        btn1 = MDRectangleFlatButton(text=self.button_value[0],
+                                     size_hint=(0.25, .25),
+                                     pos_hint={'center_x': 0.3, 'center_y': 0.8},
                                      on_press=self.update
                                      )
-        btn2 = MDRectangleFlatButton(text="next",
-                                     size_hint=(1, .25),
-                                     pos_hint={'x': 0, 'y': 0.25},
+        btn2 = MDRectangleFlatButton(text=self.button_value[1],
+                                     size_hint=(0.25, .25),
+                                     pos_hint={'center_x': 0.7, 'center_y': 0.8},
                                      on_press=self.count
                                      )
-        btn3 = MDRectangleFlatButton(text="temperature",
-                                     size_hint=(0.5, .25),
-                                     pos_hint={'x': 0, 'y': 0},
+        btn3 = MDRectangleFlatButton(text=self.button_value[2],
+                                     size_hint=(0.25, .25),
+                                     pos_hint={'center_x': 0.3, 'center_y': 0.55},
                                      on_press=self.next
                                      )
+        btn4 = MDRectangleFlatButton(text=self.button_value[3],
+                                     size_hint=(0.25, .25),
+                                     pos_hint={'center_x': 0.7, 'center_y': 0.55},
+                                     on_press=self.next
+                                     )
+        btn5 = MDRectangleFlatButton(text=self.button_value[4],
+                                     size_hint=(0.25, .25),
+                                     pos_hint={'center_x': 0.3, 'center_y': 0.3},
+                                     on_press=self.next
+                                     )
+        btn6 = MDRectangleFlatButton(text=self.button_value[5],
+                                     size_hint=(0.25, .25),
+                                     pos_hint={'center_x': 0.7, 'center_y': 0.3},
+                                     on_press=self.next
+                                     )
+        self.btn_next = MDRectangleFlatButton(
+            text="back",
+            size_hint=(.5, .25),
+            pos_hint={'x': 0.50001, 'y': 0},
+            on_press=self.next
+        )
         self.btn_doing = MDRectangleFlatButton(
             text="DO",
             size_hint=(.5, .25),
@@ -228,11 +248,15 @@ class SecondScreen(Screen):
             on_press=self.doing
         )
 
-        self.fl.add_widget(self.lbl)
+        # self.fl.add_widget(self.lbl)
         self.fl.add_widget(self.btn_doing)
+        self.fl.add_widget(self.btn_next)
         self.fl.add_widget(btn1)
         self.fl.add_widget(btn2)
         self.fl.add_widget(btn3)
+        self.fl.add_widget(btn4)
+        self.fl.add_widget(btn5)
+        self.fl.add_widget(btn6)
         self.fl.add_widget(self.dp)
 
         self.add_widget(self.fl)
