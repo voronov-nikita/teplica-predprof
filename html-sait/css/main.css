@@ -31,7 +31,7 @@ h1, h2, h3, h4, h5, h6 {
     justify-content:center;
     width: 100%;
     height: 100vh;
-    background: url("../images/btrava.jpg") center no-repeat;
+    background: url("../images/trava1.jpg") center no-repeat;
     -webkit-background-size: cover;
     background-size: cover;
 }
@@ -61,7 +61,7 @@ h1, h2, h3, h4, h5, h6 {
     display: block;
     width: 400px;
     height: 3px;
-    margin: 20px auto 250px;
+    margin: 20px auto 100px;
     background-color:  #fff;
 }
 
@@ -173,14 +173,13 @@ h1, h2, h3, h4, h5, h6 {
 /*footer*/
 .footer {
     padding-top: 300px;
-    background: url("../images/blurtrava1.jpg") center no-repeat;
+    background: rgb(245, 245, 220);
     -webkit-background-size: cover;
     background-size: cover; ;
 }
 
 .section {
-    padding-top: -60px;
-    padding-bottom: 40px;
+    padding: 50px 0;
     display: flex;
     flex-direction: column;
     justify-content:center;
@@ -200,28 +199,6 @@ h1, h2, h3, h4, h5, h6 {
 
 
 /*2 страница описание приложения*/
-/*заголовок*/
-.second__title {
-    padding-bottom: 180px;
-    font-size: 100px;
-    color:#020;
-    font-family: 'Rokkitt', serif;
-    text-transform: uppercase;
-    font-weight: 700;
-    line-height: 1;
-}
-/*полоска под заголовком*/
-.second__title:after {
-    content: "";
-    display: block;
-    width: 400px;
-    height: 3px;
-    margin: 20px auto 150px;
-    background-color:  #fff;
-    
-    
-    
-}
 
 /*menu*/
 .menu{
@@ -234,6 +211,6 @@ h1, h2, h3, h4, h5, h6 {
 
 .menu__itemm{
     width: 50%;
-    flex: 1 1 0;
+    
     
 }
