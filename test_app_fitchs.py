@@ -1,15 +1,28 @@
-import requests
-import json
+from kivymd.app import MDApp
+from kivymd.uix.card import MDCard
+from kivymd.uix.fitimage import FitImage
+from kivymd.uix.screen import MDScreen
 
-dicti = {
-    "state": 0
-}
 
-# патч запросы!!!
-res1 = requests.patch("https://dt.miet.ru/ppo_it/api/fork_drive", params={"state": 0})
-res2 = requests.patch("https://dt.miet.ru/ppo_it/api/total_hum", params={"state":0})
-res3 = requests.patch("https://dt.miet.ru/ppo_it/api/watering", params={"id":6, "state":0})
+class Example(MDApp):
+    def build(self):
+        self.theme_cls.theme_style = "Dark"
+        return (
+            MDScreen(
+                MDCard(
+                    FitImage(
+                        source="icon/settings_for_edit.jpg",
+                        # size_hint_y=0.35,
+                        # pos_hint={"top": 1},
+                        # radius=(36, 36, 0, 0),
+                    ),
+                    radius=36,
+                    md_bg_color="grey",
+                    pos_hint={"center_x": .5, "center_y": .5},
+                    size_hint=(0.4, 0.8),
+                ),
+            )
+        )
 
-print(res1.status_code)
-print(res2.status_code)
-print(res3.status_code)
+
+Example().run()
