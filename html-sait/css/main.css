@@ -39,7 +39,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .intro__inner {
     width: 100%;
-    max-width: 700px;
+    max-width: 900px;
     margin: 0 auto;
     text-align: center;
 
@@ -175,6 +175,8 @@ h1, h2, h3, h4, h5, h6 {
     background-size: cover; ;
 }
 
+
+/*2 страница описание приложения*/
 .section {
     padding: 80px 0;
     display: flex;
@@ -185,30 +187,49 @@ h1, h2, h3, h4, h5, h6 {
     
 }
 
-
-
-
-
-
-
-
-
-
-
-/*2 страница описание приложения*/
-
-
-/*menu*/
-.menu{
-    display: flex;
-    justify-content: space-between;
-    max-width: 700px;
-    margin: 0 auto;
-    text-align: center;
+.section__header {
+    width: 100%;
+    max-width: 950px;
+    margin: 0 auto 40px;
+   text-align: center;
 }
 
-.menu__itemm{
-    width: 50%;
-    flex: 1 1 0;
-    
+.section__title {
+    font-size: 30px;
+    color: #020;
+    font-family: 'Rokkitt', serif;
+    text-transform: uppercase;
+    padding-bottom: 40px;
+}
+
+.section__suptitle {
+    font-size: 24px;
+    color: #020;
+    font-family: 'Rokkitt', cursive;
+    margin-bottom: 10px;
+}
+
+
+/*accordion*/
+.accordion{
+    display: flex;
+    max-width: 950px;
+    margin: 0 auto;
+    text-align: center;
+    flex-direction: column;
+    justify-content:center;
+}
+
+.accordion__item {
+    border: 1px solid #020;
+}
+
+.accordion__header {
+    border-bottom: 1px solid #020;
+}
+
+.accordion__content {
+    padding: 15px 20px;
+    font-size: 15px;
+    color: #020;
 }
