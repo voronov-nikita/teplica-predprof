@@ -4,6 +4,8 @@ body{
     font-size: 18px;
     line-height: 1.6;
     color: #020;
+    background: linear-gradient(0deg, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.4)), url("../images/trava1.jpg") center no-repeat;
+    background-size: cover;
 }
 
 *,
@@ -25,25 +27,16 @@ h1, h2, h3, h4, h5, h6 {
 /*intro*/
 
 .intro {
-    padding: 80px 0;
     display: flex;
     flex-direction: column;
     justify-content:center;
-    width: 100%;
-    height: 100vh;
-    background: url("../images/btrava.jpg") center no-repeat;
-    -webkit-background-size: cover;
-    background-size: cover;
 }
 
 .intro__inner {
-    
     width: 100%;
-    max-width: 1100px;
-    margin: 130px auto 0;
+    max-width: 700px;
+    margin: 0 auto;
     text-align: center;
-    justify-content: space-between;
-    
 
 
 }
@@ -54,6 +47,7 @@ h1, h2, h3, h4, h5, h6 {
     font-weight: 700;
     text-transform: uppercase;
     line-height: 1;
+    margin-top: 100px;
 }
 /*полоска под заголовком*/
 .intro__title:after {
@@ -61,27 +55,41 @@ h1, h2, h3, h4, h5, h6 {
     display: block;
     width: 400px;
     height: 3px;
-    margin: 20px auto 250px;
-    background-color:  #fff;
+    margin: 25px auto 50px;
+    background-color: #fff;
 }
 
+.for__what {
+    color: #020;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1.5;
+    font-family: "Raleway";
+    margin-bottom: 25px;
+
+}
 
 /*header*/
-.header {
+.header, .footer {
     display: flex;
-    background-color: rgb(97, 158, 17, 0);
+    background-color: #708D00;
     color: #fff;
-    padding-top: 30px;
-    
+    padding: 0px 15px 0px 15px;
     width: 100%;
-    position: absolute;
-    top: 0;
+    position: fixed;
     left: 0;
     right: 0;
     z-index: 1000;
-    
-
 }
+
+.header {
+    top: 0;
+}
+
+.footer {
+    bottom: 0;
+}
+
 .header__inner {
     display: flex;
     justify-content: space-between;
@@ -89,17 +97,15 @@ h1, h2, h3, h4, h5, h6 {
 }
 /*логотип*/
 .header__logo{
-    font-size: 20px;
+    font-size: 40px;
     font-weight: 700;
     color: #020;
-    
 }
 
 /*nav*/
 .nav {
     font-size: 20px;
-    padding: 10px 15px;
-    margin-left: 5px;
+    padding: 5px;
     text-transform: uppercase;
 }
 /*ссылки*/
@@ -125,7 +131,6 @@ h1, h2, h3, h4, h5, h6 {
     top: 100%;
     left: 0;
     z-index: 1;
-   
 }
 /*изменение цвета слова и полоски снизу при наводе мышкой*/
 .nav__link:hover {
@@ -140,75 +145,33 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /*кнопка*/
+
 .btn {
     display: inline-block;
-    vertical-align: top;
     padding: 8px 30px;
     border: 3px solid #020;
     font-size: 18px;
     font-weight: 700;
     color: #020;
-    margin-left: 600px;
-    margin-top: -160px;
-    text-align: center;
     text-transform: uppercase;
     text-decoration: none;
-    
     transition: background .1s linear, color .1s linear;
 }
 /*изменение цвета слова при наводе мышкой*/
 .btn:hover {
-    background-color: #020;
-    color: #fff;
-}
-/*текст под заголовком зачем нужно прилож*/
-.for__what {
+    background-color: #fff;
     color: #020;
-    font-size: 22px;
-    font-family: 'Quicksand', serif;
-    line-height: 1;
-    padding-right: 500px;
-    
 }
-/*footer*/
-.footer {
-    padding-top: 300px;
-    background: url("../images/blurtrava1.jpg") center no-repeat;
-    -webkit-background-size: cover;
-    background-size: cover; ;
-}
-
-.section {
-    padding-top: -60px;
-    padding-bottom: 40px;
-    display: flex;
-    flex-direction: column;
-    justify-content:center;
-    width: 100%;
-    background: #fff;
-    
-}
-
-
-
-
-
-
-
-
-
-
+/*текст под заголовком зачем нужно предл*/
 
 /*2 страница описание приложения*/
 /*заголовок*/
 .second__title {
-    padding-bottom: 180px;
-    font-size: 100px;
+    padding-top: 40px;
+    font-size: 80px;
     color:#020;
     font-family: 'Rokkitt', serif;
     text-transform: uppercase;
-    font-weight: 700;
-    line-height: 1;
 }
 /*полоска под заголовком*/
 .second__title:after {
@@ -216,11 +179,8 @@ h1, h2, h3, h4, h5, h6 {
     display: block;
     width: 400px;
     height: 3px;
-    margin: 20px auto 150px;
+    margin: 20px auto 140px;
     background-color:  #fff;
-    
-    
-    
 }
 
 /*menu*/
@@ -234,6 +194,5 @@ h1, h2, h3, h4, h5, h6 {
 
 .menu__itemm{
     width: 50%;
-    flex: 1 1 0;
     
 }
