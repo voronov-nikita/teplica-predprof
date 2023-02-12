@@ -116,7 +116,7 @@ class MainScreen(Screen):
 
         self.btn_next = MDRectangleFlatButton(text="more",
                                               size_hint=(.4, .2),
-                                              pos_hint={"center_x": 0.29, "center_y":0.1},
+                                              pos_hint={"center_x": 0.29, "center_y": 0.1},
                                               md_bg_color=(0, 1, 0, 0.1),
                                               on_release=self.next
                                               )
@@ -187,7 +187,7 @@ class DoingScreen(Screen):
         self.btn_open = MDRectangleFlatButton(
             text="Open",
             size_hint=(.9, .2),
-            pos_hint={"center_x":0.5, "center_y":0.8},
+            pos_hint={"center_x": 0.5, "center_y": 0.8},
             disabled=(False if self.average_value(self.temp_hum()[0]) >= self.temp else True)
         )
         self.btn_start_water = MDRectangleFlatButton(
@@ -312,6 +312,7 @@ class ExtraScreen(Screen):
         self.name = "ExtraMode"
 
         self.extra_status = True
+        self.count_open = 0
 
         self.switch = MDSwitch(
             pos_hint={'center_x': .5, 'center_y': .75},
@@ -385,10 +386,23 @@ class ExtraScreen(Screen):
         self.add_widget(self.fl)
 
     def leaf_move(self, instance):
-        print("Open/Close")
+        if self.count_open == 0:
+            self.count_open = 1
+        else:
+            self.count_open = 0
+        res = requests.patch("https://dt.miet.ru/ppo_it/api/fork_drive", params={"state": self.count_open})
+        print(res.status_code)
 
     def water_run(self, instance):
         print("Watering")
+
+    def water_all_run(self, instance):
+        if self.water_all == 0:
+            self.water_all = 1
+        else:
+            self.water_all = 0
+        res = requests.patch("https://dt.miet.ru/ppo_it/api/total_hum", params={"state": self.water_all})
+        print(res.status_code)
 
     def warning(self, instance, value):
         if value:
