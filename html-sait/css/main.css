@@ -31,7 +31,7 @@ h1, h2, h3, h4, h5, h6 {
     justify-content:center;
     width: 100%;
     height: 100vh;
-    background: url("../images/trava1.jpg") center no-repeat;
+    background: url("../images/btrava.jpg") center no-repeat;
     -webkit-background-size: cover;
     background-size: cover;
 }
@@ -61,7 +61,7 @@ h1, h2, h3, h4, h5, h6 {
     display: block;
     width: 400px;
     height: 3px;
-    margin: 20px auto 100px;
+    margin: 20px auto 250px;
     background-color:  #fff;
 }
 
@@ -148,7 +148,7 @@ h1, h2, h3, h4, h5, h6 {
     font-size: 18px;
     font-weight: 700;
     color: #020;
-    margin-left: 400px;
+    margin-left: 600px;
     margin-top: -160px;
     text-align: center;
     text-transform: uppercase;
@@ -158,8 +158,8 @@ h1, h2, h3, h4, h5, h6 {
 }
 /*изменение цвета слова при наводе мышкой*/
 .btn:hover {
-    background-color: #fff;
-    color: #020;
+    background-color: #020;
+    color: #fff;
 }
 /*текст под заголовком зачем нужно прилож*/
 .for__what {
@@ -172,14 +172,37 @@ h1, h2, h3, h4, h5, h6 {
 }
 /*footer*/
 .footer {
-    padding-top: 150px;
-    background-color:  rgb(97, 158, 17, 0.2) ;
+    padding-top: 300px;
+    background: url("../images/blurtrava1.jpg") center no-repeat;
+    -webkit-background-size: cover;
+    background-size: cover; ;
 }
+
+.section {
+    padding-top: -60px;
+    padding-bottom: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content:center;
+    width: 100%;
+    background: #fff;
+    
+}
+
+
+
+
+
+
+
+
+
+
 
 /*2 страница описание приложения*/
 /*заголовок*/
 .second__title {
-    padding-top: 40px;
+    padding-bottom: 180px;
     font-size: 100px;
     color:#020;
     font-family: 'Rokkitt', serif;
@@ -193,7 +216,7 @@ h1, h2, h3, h4, h5, h6 {
     display: block;
     width: 400px;
     height: 3px;
-    margin: 20px auto 500px;
+    margin: 20px auto 150px;
     background-color:  #fff;
     
     
@@ -211,5 +234,6 @@ h1, h2, h3, h4, h5, h6 {
 
 .menu__itemm{
     width: 50%;
+    flex: 1 1 0;
     
 }
