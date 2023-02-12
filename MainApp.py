@@ -28,6 +28,7 @@ from kivymd.uix.textfield import MDTextField
 from kivymd.uix.datatables import MDDataTable
 from kivymd.uix.pickers import MDTimePicker
 from kivymd.uix.list import OneLineIconListItem
+from kivymd.uix.fitimage import FitImage
 # from kivy.garden.matplotlib.backend_kivyagg import FigureCanvasKivyAgg
 from kivy.metrics import dp
 from kivy.lang import Builder
@@ -374,6 +375,7 @@ class ExtraScreen(Screen):
                                           line_color=(1, 0, 0, 0.8),
                                           text_color=(1, 0, 0, 1),
                                           )
+
         self.fl.add_widget(self.lbl)
         self.fl.add_widget(self.switch)
         self.bx.add_widget(self.btn1)
