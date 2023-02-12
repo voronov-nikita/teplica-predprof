@@ -48,7 +48,7 @@ h1, h2, h3, h4, h5, h6 {
 /*заголовок*/
 .intro__title {
     color: #020;
-    font-size: 80px;
+    font-size: 100px;
     font-weight: 700;
     text-transform: uppercase;
     line-height: 1;
@@ -60,7 +60,7 @@ h1, h2, h3, h4, h5, h6 {
     display: block;
     width: 400px;
     height: 3px;
-    margin: 20px auto 250px;
+    margin: 20px auto 100px;
     background-color:  #fff;
 }
 
