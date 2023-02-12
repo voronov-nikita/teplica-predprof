@@ -330,7 +330,7 @@ class ExtraScreen(Screen):
         self.lbl = MDLabel(text="WARNING\nBy turning on the extra mode, you take full responsibility for what happened",
                            halign="center",
                            size_hint=(0.8, .2),
-                           pos_hint={"x": 0.1, "y": 0.8},
+                           pos_hint={"center_x": 0.5, "center_y": 0.9},
                            theme_text_color="Custom",
                            text_color=(1, 0, 0, 1),
                            line_color=(1, 0, 0, 1),
