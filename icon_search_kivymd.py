@@ -1,3 +1,8 @@
+from kivy.config import Config
+
+Config.set("graphics", "resizable", 0)
+Config.set("graphics", "width", 400)
+Config.set("graphics", "height", 500)
 from kivy.lang import Builder
 from kivy.properties import StringProperty
 from kivy.uix.screenmanager import Screen

@@ -1,6 +1,13 @@
 # ТЗ:
 # https://docs.google.com/document/d/1yNu_mfNUTXRuimC1jlhbPLuVora4HbI8/edit
 
+
+from kivy.config import Config
+
+Config.set("graphics", "resizable", 0)
+Config.set("graphics", "width", 400)
+Config.set("graphics", "height", 500)
+
 from webbrowser import open_new_tab
 import requests
 from json import loads
@@ -157,7 +164,7 @@ class DoingScreen(Screen):
 
         self.dp = LeftMenu()
         self.fl = FloatLayout()
-        self.bx = BoxLayout()
+        self.bx = BoxLayout(orientation="vertical")
 
         self.Init()
 
@@ -180,11 +187,26 @@ class DoingScreen(Screen):
         self.btn_open = MDRectangleFlatButton(
             text="Open",
             size_hint=(.9, .2),
-            pos_hint={"center_x":0.5, "center_y":0.2},
+            pos_hint={"center_x":0.5, "center_y":0.8},
+            disabled=(False if self.average_value(self.temp_hum()[0]) >= self.temp else True)
+        )
+        self.btn_start_water = MDRectangleFlatButton(
+            text="Start Watering",
+            size_hint=(.9, .2),
+            pos_hint={"center_x": 0.5, "center_y": 0.55},
             disabled=(False if self.average_value(self.temp_hum()[0]) >= self.temp else True)
         )
 
-        self.bx.add_widget(self.btn_open)
+        self.btn_stop_water = MDRectangleFlatButton(
+            text="Stop Watering",
+            size_hint=(.9, .2),
+            pos_hint={"center_x": 0.5, "center_y": 0.3},
+            disabled=(False if self.average_value(self.temp_hum()[0]) >= self.temp else True)
+        )
+
+        self.fl.add_widget(self.btn_open)
+        self.fl.add_widget(self.btn_start_water)
+        self.fl.add_widget(self.btn_stop_water)
         self.fl.add_widget(self.bx)
         self.fl.add_widget(self.dp)
 
