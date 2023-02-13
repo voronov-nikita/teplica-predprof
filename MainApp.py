@@ -18,7 +18,6 @@ import matplotlib.pyplot as plt
 from kivymd.app import MDApp
 from kivymd.uix.label import MDLabel
 from kivy.uix.label import Label
-from kivy.uix.button import Button
 from kivymd.uix.button import MDRectangleFlatButton, MDRaisedButton
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.floatlayout import FloatLayout
@@ -27,7 +26,6 @@ from kivymd.uix.selectioncontrol import MDSwitch
 from kivymd.uix.textfield import MDTextField
 from kivymd.uix.datatables import MDDataTable
 from kivymd.uix.pickers import MDTimePicker
-from kivymd.uix.list import OneLineIconListItem
 from kivymd.uix.fitimage import FitImage
 # from kivy.garden.matplotlib.backend_kivyagg import FigureCanvasKivyAgg
 from kivy.metrics import dp
@@ -62,14 +60,6 @@ class MainScreen(Screen):
             res = requests.get(f"https://dt.miet.ru/ppo_it/api/temp_hum/{i}")
             self.button_value.append(
                 f"""Sensor {i}:\nTemperature: {splitting_for(res.text)["temperature"]}\nHumidity: {splitting_for(res.text)["humidity"]}""")
-
-        # # Стандартный Лэйбел
-        # self.lbl = MDLabel(
-        #     text=f"""Sensor {self.k}:\nTemperature: {splitting_for(res.text)["temperature"]}\nHumidity: {splitting_for(res.text)["humidity"]}""",
-        #     halign="center",
-        #     pos_hint={"center_x": .5,
-        #               "center_y": 0.85},
-        # )
         self.fl = FloatLayout()
         self.dp = LeftMenu()
         # запускаем функцию Init()
@@ -121,8 +111,13 @@ class MainScreen(Screen):
                                               md_bg_color=(0, 1, 0, 0.1),
                                               on_release=self.next
                                               )
+        background_image = FitImage(
+            source="icon/main-dark.jpg",
+            opacity=0.05
+        )
 
         # self.fl.add_widget(self.lbl)
+        self.fl.add_widget(background_image)
         self.fl.add_widget(self.btn_doing)
         self.fl.add_widget(self.btn_next)
         self.fl.add_widget(self.btn1)
@@ -205,6 +200,12 @@ class DoingScreen(Screen):
             disabled=(False if self.average_value(self.temp_hum()[0]) >= self.temp else True)
         )
 
+        background_image = FitImage(
+            source="icon/doing-dark.jpg",
+            opacity=0.05
+        )
+
+        self.fl.add_widget(background_image)
         self.fl.add_widget(self.btn_open)
         self.fl.add_widget(self.btn_start_water)
         self.fl.add_widget(self.btn_stop_water)
@@ -274,8 +275,13 @@ class SecondScreen(Screen):
             md_bg_color=(0, 1, 0, 0.1),
             on_press=self.doing
         )
+        background_image = FitImage(
+            source="icon/second-dark.jpg",
+            opacity=0.05
+        )
 
         # self.fl.add_widget(self.lbl)
+        self.fl.add_widget(background_image)
         self.fl.add_widget(self.btn_doing)
         self.fl.add_widget(self.btn_next)
         self.fl.add_widget(btn1)
@@ -358,7 +364,7 @@ class ExtraScreen(Screen):
                                           text_color=(1, 0, 0, 1),
                                           on_press=self.water_run
                                           )
-        self.btn3 = MDRectangleFlatButton(text="3",
+        self.btn3 = MDRectangleFlatButton(text="Watering All",
                                           disabled=self.extra_status,
                                           size_hint=(1, 0.1),
                                           font_size=dp(15),
@@ -375,7 +381,11 @@ class ExtraScreen(Screen):
                                           line_color=(1, 0, 0, 0.8),
                                           text_color=(1, 0, 0, 1),
                                           )
-
+        background_image = FitImage(
+            source="icon/extra-dark.jpg",
+            opacity=0.05
+        )
+        self.fl.add_widget(background_image)
         self.fl.add_widget(self.lbl)
         self.fl.add_widget(self.switch)
         self.bx.add_widget(self.btn1)
@@ -490,6 +500,12 @@ class AutomodeScreen(Screen):
         )
         self.switch2.bind(active=self.sw_press2)
 
+        background_image = FitImage(
+            source="icon/automode-dark.jpg",
+            opacity=0.05
+        )
+
+        self.fl.add_widget(background_image)
         self.fl.add_widget(self.text1)
         self.fl.add_widget(self.time1)
         self.fl.add_widget(self.switch1)
@@ -592,9 +608,8 @@ class EditScreen(Screen):
 
         self.fl = FloatLayout()
         self.dp = LeftMenu()
-        self.bx = BoxLayout(orientation="vertical")
         self.fl = FloatLayout()
-        self.lbl = MDLabel(text="EDIT",
+        self.lbl = MDLabel(text="EDIT\nHere you can manually set the values for the sensors",
                            halign="center",
                            size_hint=(1, 0.1),
                            pos_hint={"x": 0, "y": 0.8},
@@ -632,15 +647,19 @@ class EditScreen(Screen):
             pos_hint={"x": 0, "y": 0},
             on_press=self.save_data
         )
+        background_image = FitImage(
+            source="icon/edit-dark.jpg",
+            opacity=0.05
+        )
 
-        self.bx.add_widget(self.lbl)
+        self.fl.add_widget(background_image)
+        self.fl.add_widget(self.lbl)
         self.fl.add_widget(btn)
-        self.bx.add_widget(self.txt1)
-        self.bx.add_widget(self.txt2)
-        self.bx.add_widget(self.txt3)
-        self.bx.add_widget(btn_save_data)
+        self.fl.add_widget(self.txt1)
+        self.fl.add_widget(self.txt2)
+        self.fl.add_widget(self.txt3)
+        self.fl.add_widget(btn_save_data)
 
-        self.fl.add_widget(self.bx)
         self.fl.add_widget(self.dp)
 
         self.add_widget(self.fl)
@@ -686,6 +705,11 @@ class MainApp(MDApp, Screen):
 
         return self.sm
 
+    def give_token(self):
+        self.sm.transition.direction = "left"
+        self.sm.current = "Main"
+        return 0
+
     def edit_call(self):
         self.sm.transition.direction = "left"
         self.sm.current = "Edit"
@@ -708,10 +732,6 @@ class MainApp(MDApp, Screen):
 
     def change_color_sys(self):
         screen_now = self.sm.current
-
-        self.theme_cls.primary_palette = (
-            "Green" if self.theme_cls.primary_palette != "Green" else "Pink"
-        )
         self.theme_cls.theme_style = (
             "Light" if self.theme_cls.theme_style == "Dark" else "Dark"
         )

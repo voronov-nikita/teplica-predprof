@@ -20,6 +20,14 @@ MDNavigationLayout:
         BoxLayout:
             orientation: "vertical"
 
+            MDRectangleFlatIconButton:
+                line_color: 0, 0, 0, 0
+                size_hint: (0.2, .1)
+                text: ""
+                on_release:
+                    nav_drawer.set_state("close")
+                    app.give_token()
+
             MDLabel:
                 text: "Settings"
                 size_hint: (1, .5)
