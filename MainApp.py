@@ -320,6 +320,7 @@ class ExtraScreen(Screen):
 
         self.extra_status = True
         self.count_open = 0
+        self.water_all = 0
 
         self.switch = MDSwitch(
             pos_hint={'center_x': .5, 'center_y': .75},
@@ -371,6 +372,7 @@ class ExtraScreen(Screen):
                                           theme_text_color="Custom",
                                           line_color=(1, 0, 0, 0.8),
                                           text_color=(1, 0, 0, 1),
+                                          on_press=self.water_all_run
 
                                           )
         self.btn4 = MDRectangleFlatButton(text="4",
@@ -406,7 +408,11 @@ class ExtraScreen(Screen):
         print(res.status_code)
 
     def water_run(self, instance):
-        print("Watering")
+        res = requests.patch("https://dt.miet.ru/ppo_it/api/watering",
+                             params={"id": 1,
+                                     "state": 0
+                                     })
+        print(res.status_code)
 
     def water_all_run(self, instance):
         if self.water_all == 0:
