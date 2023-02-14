@@ -16,7 +16,7 @@ from json import loads
 
 # Основное приложение
 from kivymd.app import MDApp
-from kivymd.uix.label import MDLabel, MDIcon
+from kivymd.uix.label import MDLabel
 from kivymd.uix.button import MDRectangleFlatButton, MDRaisedButton
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.floatlayout import FloatLayout
@@ -29,6 +29,8 @@ from kivymd.uix.fitimage import FitImage
 # from kivy.garden.matplotlib.backend_kivyagg import FigureCanvasKivyAgg
 from kivy.metrics import dp
 from kivy.lang import Builder
+
+min_temp, min_hum_earth, min_hum_air = 0, 0, 0
 
 
 # преобразование json в словарь
@@ -46,7 +48,7 @@ def splitting_for(s):
 class LeftMenu(Screen):
     def __init__(self):
         super().__init__()
-        self.add_widget(Builder.load_file("FeftMenu.kv"))
+        self.add_widget(Builder.load_file("LeftMenu.kv"))
 
 
 class MainScreen(Screen):
@@ -74,15 +76,11 @@ class MainScreen(Screen):
                                           # md_bg_color=(0, 1, 0, 0.1),
                                           on_release=self.update
                                           )
-        #
         btn2 = MDRectangleFlatButton(text=self.button_value[1],
                                      size_hint=(0.25, .25),
-                                     # pos=(.5, .5),
                                      pos_hint={'center_x': 0.7, 'center_y': 0.7},
-                                     # md_bg_color=(0, 1, 0, 0.05),
                                      on_release=self.update
                                      )
-        #
         btn3 = MDRectangleFlatButton(text=self.button_value[2],
                                      size_hint=(0.25, .25),
                                      pos_hint={'center_x': 0.3, 'center_y': 0.4},
@@ -146,13 +144,14 @@ class DoingScreen(Screen):
         super().__init__()
         self.name = "Doing"
 
-        self.temp = EditScreen().min_temp
-        self.hum_air = EditScreen().min_hum_air
-        self.hum_eath = EditScreen().min_hum_eath
+        global min_temp, min_hum_earth, min_hum_air
+        self.temp = min_temp
+        self.hum_air = min_hum_air
+        self.hum_eath = min_hum_earth
 
         self.dp = LeftMenu()
         self.fl = FloatLayout()
-        self.bx = BoxLayout(orientation="vertical")
+        # self.bx = BoxLayout(orientation="vertical")
 
         self.Init()
 
@@ -201,7 +200,7 @@ class DoingScreen(Screen):
         self.fl.add_widget(self.btn_open)
         self.fl.add_widget(self.btn_start_water)
         self.fl.add_widget(self.btn_stop_water)
-        self.fl.add_widget(self.bx)
+        # self.fl.add_widget(self.bx)
         self.fl.add_widget(self.dp)
 
         self.add_widget(self.fl)
@@ -341,7 +340,8 @@ class ExtraScreen(Screen):
     def Init(self):
         self.btn1 = MDRectangleFlatButton(text="Open Leaf",
                                           disabled=self.extra_status,
-                                          size_hint=(1, 0.1),
+                                          size_hint=(1, 0.17),
+                                          pos_hint={"center_x": 0.5, "center_y": 0.595},
                                           font_size=dp(15),
                                           theme_text_color="Custom",
                                           line_color=(1, 0, 0, 0.8),
@@ -350,7 +350,8 @@ class ExtraScreen(Screen):
                                           )
         self.btn2 = MDRectangleFlatButton(text="Watering",
                                           disabled=self.extra_status,
-                                          size_hint=(1, 0.1),
+                                          size_hint=(1, 0.17),
+                                          pos_hint={"center_x": 0.5, "center_y": 0.425},
                                           font_size=dp(15),
                                           theme_text_color="Custom",
                                           line_color=(1, 0, 0, 0.8),
@@ -359,7 +360,8 @@ class ExtraScreen(Screen):
                                           )
         self.btn3 = MDRectangleFlatButton(text="Watering All",
                                           disabled=self.extra_status,
-                                          size_hint=(1, 0.1),
+                                          size_hint=(1, 0.17),
+                                          pos_hint={"center_x": 0.5, "center_y": 0.255},
                                           font_size=dp(15),
                                           theme_text_color="Custom",
                                           line_color=(1, 0, 0, 0.8),
@@ -369,7 +371,8 @@ class ExtraScreen(Screen):
                                           )
         self.btn4 = MDRectangleFlatButton(text="4",
                                           disabled=self.extra_status,
-                                          size_hint=(1, 0.1),
+                                          size_hint=(1, 0.17),
+                                          pos_hint={"center_x":0.5, "y":0},
                                           font_size=dp(15),
                                           theme_text_color="Custom",
                                           line_color=(1, 0, 0, 0.8),
@@ -377,15 +380,15 @@ class ExtraScreen(Screen):
                                           )
         background_image = FitImage(
             source="icon/extra-dark.jpg",
-            opacity=0.05
+            opacity=0.065
         )
         self.fl.add_widget(background_image)
         self.fl.add_widget(self.lbl)
         self.fl.add_widget(self.switch)
-        self.bx.add_widget(self.btn1)
-        self.bx.add_widget(self.btn2)
-        self.bx.add_widget(self.btn3)
-        self.bx.add_widget(self.btn4)
+        self.fl.add_widget(self.btn1)
+        self.fl.add_widget(self.btn2)
+        self.fl.add_widget(self.btn3)
+        self.fl.add_widget(self.btn4)
         self.fl.add_widget(self.bx)
         self.fl.add_widget(self.dp)
 
@@ -500,7 +503,7 @@ class AutomodeScreen(Screen):
 
         background_image = FitImage(
             source="icon/automode-dark.jpg",
-            opacity=0.05
+            opacity=0.065
         )
 
         self.fl.add_widget(background_image)
@@ -598,11 +601,7 @@ class EditScreen(Screen):
         super(EditScreen, self).__init__(**kwargs)
         self.name = "Edit"
 
-        self.max_temp = 0
-        self.min_temp = 0
-        self.max_hum = 0
-        self.min_hum_eath = 0
-        self.min_hum_air = 0
+        global min_temp, min_hum_earth, min_hum_air
 
         self.fl = FloatLayout()
         self.dp = LeftMenu()
@@ -621,22 +620,21 @@ class EditScreen(Screen):
                              pos_hint={"x": 0.8, "y": 0.88},
                              on_press=self.next
                              )
+
         self.txt1 = MDTextField(hint_text=f"Temperature",
                                 mode="fill",
-                                size_hint=(1, 0.5),
-                                pos_hint={"x": 0, "y": .8}
+                                size_hint=(.9, 0.2),
+                                pos_hint={"center_x": 0.45, "center_y": .65}
                                 )
         self.txt2 = MDTextField(hint_text=f"Temperature-Humidity",
-                                helper_text="Hum",
                                 mode="fill",
-                                size_hint=(1, 0.5),
-                                pos_hint={"x": 0, "y": 0.3},
+                                size_hint=(.9, 0.2),
+                                pos_hint={"center_x": 0.45, "center_y": 0.55},
                                 )
         self.txt3 = MDTextField(hint_text=f"Humidity-Earth",
-                                helper_text="Hum",
                                 mode="fill",
-                                size_hint=(1, 0.5),
-                                pos_hint={"x": 0, "y": 0}
+                                size_hint=(.9, 0.2),
+                                pos_hint={"center_x": 0.45, "center_y": 0.45}
                                 )
 
         btn_save_data = MDRaisedButton(
@@ -647,11 +645,10 @@ class EditScreen(Screen):
         )
         background_image = FitImage(
             source="icon/edit-dark.jpg",
-            opacity=0.05
+            opacity=0.065
         )
 
         self.fl.add_widget(background_image)
-        self.fl.add_widget(self.lbl)
         self.fl.add_widget(btn)
         self.fl.add_widget(self.txt1)
         self.fl.add_widget(self.txt2)
@@ -669,15 +666,15 @@ class EditScreen(Screen):
 
     def save_data(self, instance):
         if self.txt1.text is not None and self.txt1.text != "":
-            self.min_temp = float(self.txt1.text)
-            print("save", self.min_temp)
+            min_temp = float(self.txt1.text)
+            print("save", min_temp)
 
         if self.txt2.text is not None and self.txt2.text != "":
-            self.min_hum_air = float(self.txt2.text)
-            print("save", self.min_hum_air)
+            min_hum_air = float(self.txt2.text)
+            print("save", min_hum_air)
 
         if self.txt3.text is not None and self.txt3.text != "":
-            self.min_hum_eath = float(self.txt3.text)
+            min_hum_eath = float(self.txt3.text)
             print("save", self.min_hum_eath)
 
 
@@ -745,12 +742,12 @@ class ErrorApp(MDApp):
         self.theme_cls.theme_style = "Dark"
         fl = FloatLayout()
         fl.add_widget(MDLabel(text="Server is not responding\nTry later",
-                      font_size = dp(60),
-                      size_hint=(1, 1),
-                      halign = "center"))
+                              font_size=dp(60),
+                              size_hint=(1, 1),
+                              halign="center"))
         fl.add_widget(FitImage(
             source="icon/error-image.png",
-            pos_hint={"center_x":0.5, "center_y": 0.7},
+            pos_hint={"center_x": 0.5, "center_y": 0.7},
             size_hint=(0.2, 0.2)
         ))
         return fl
@@ -758,7 +755,7 @@ class ErrorApp(MDApp):
 
 if __name__ == "__main__":
     MainApp().run()
-    try:
-        MainApp().run()
-    except:
-        ErrorApp().run()
+    # try:
+    #     MainApp().run()
+    # except:
+    #     ErrorApp().run()
