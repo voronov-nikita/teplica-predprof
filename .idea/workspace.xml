@@ -5,7 +5,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6233233d-520d-4666-944a-ae4680c67542" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MainApp.py" beforeDir="false" afterPath="$PROJECT_DIR$/MainApp.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -38,7 +37,7 @@
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
     <property name="two.files.diff.last.used.folder" value="$PROJECT_DIR$/venv" />
   </component>
-  <component name="RunManager" selected="Python.MainApp">
+  <component name="RunManager" selected="Python.test_app_fitchs">
     <configuration name="MainApp" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
       <module name="teplica_predprof" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -175,8 +174,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.icon_search_kivymd" />
         <item itemvalue="Python.test_app_fitchs" />
+        <item itemvalue="Python.icon_search_kivymd" />
         <item itemvalue="Python.testing_resource (1)" />
         <item itemvalue="Python.main" />
       </list>
