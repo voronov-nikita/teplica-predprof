@@ -21,19 +21,22 @@ MDNavigationLayout:
         BoxLayout:
             orientation: "vertical"
 
-            MDRectangleFlatIconButton:
-                line_color: 0, 0, 0, 0
-                size_hint: (0.2, .1)
-                text: ""
-                on_release:
-                    nav_drawer.set_state("close")
-                    app.give_token()
 
             MDLabel:
-                text: "Settings"
+                text: "Left Menu"
                 size_hint: (1, .5)
                 halign: "center"
-                text_color: ("#FFFFFF" if app.theme_cls.theme_style=="Dark" else "#000000")
+                theme_text_color: "Custom"
+                text_color: 0, 1, 0, 1
+
+            MDRectangleFlatIconButton:
+                line_color: 0, 0, 0, 0
+                size_hint: (1, .5)
+                icon: "home"
+                text: "Home"
+                on_release:
+                    nav_drawer.set_state("close")
+                    app.main_call()
 
             MDRectangleFlatIconButton:
                 id: edit_locate
@@ -44,13 +47,6 @@ MDNavigationLayout:
                 on_release:
                     nav_drawer.set_state("close")
                     app.edit_call()
-
-            MDRectangleFlatIconButton:
-                line_color: 0, 0, 0, 0
-                size_hint: (1, .5)
-                icon: "lightbulb"
-                text: "Themes"
-                on_press: app.change_color_sys()
 
             MDRectangleFlatIconButton:
                 line_color: 0, 0, 0, 0
@@ -80,6 +76,13 @@ MDNavigationLayout:
                 on_release:
                     nav_drawer.set_state("close")
                     app.auto_mode()
+
+            MDRectangleFlatIconButton:
+                line_color: 0, 0, 0, 0
+                size_hint: (1, .5)
+                icon: "lightbulb"
+                text: "Themes"
+                on_release: app.change_color_sys()
 
             MDRectangleFlatIconButton:
                 line_color: 0, 0, 0, 0

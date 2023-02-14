@@ -9,15 +9,14 @@ Config.set("graphics", "width", 400)
 Config.set("graphics", "height", 500)
 
 from webbrowser import open_new_tab
-import requests
+from requests import get, patch
 from json import loads
-from translate import Translator
-import matplotlib.pyplot as plt
+# from translate import Translator
+# import matplotlib.pyplot as plt
 
 # Основное приложение
 from kivymd.app import MDApp
-from kivymd.uix.label import MDLabel
-from kivy.uix.label import Label
+from kivymd.uix.label import MDLabel, MDIcon
 from kivymd.uix.button import MDRectangleFlatButton, MDRaisedButton
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.floatlayout import FloatLayout
@@ -37,16 +36,17 @@ def splitting_for(s):
     return loads(s)
 
 
-def translate_app(s):
-    translator = Translator(from_lang="en", to_lang="ru")
-    return translator.translate(s)
+#
+# def translate_app(s):
+#     translator = Translator(from_lang="en", to_lang="ru")
+#     return translator.translate(s)
 
 
 # Класс для Выпадающего меню
 class LeftMenu(Screen):
     def __init__(self):
         super().__init__()
-        self.add_widget(Builder.load_file("../../pythonProject28/FeftMenu.kv"))
+        self.add_widget(Builder.load_file("FeftMenu.kv"))
 
 
 class MainScreen(Screen):
@@ -57,7 +57,7 @@ class MainScreen(Screen):
 
         self.button_value = []
         for i in range(1, 4 + 1):
-            res = requests.get(f"https://dt.miet.ru/ppo_it/api/temp_hum/{i}")
+            res = get(f"https://dt.miet.ru/ppo_it/api/temp_hum/{i}")
             self.button_value.append(
                 f"""Sensor {i}:\nTemperature: {splitting_for(res.text)["temperature"]}\nHumidity: {splitting_for(res.text)["humidity"]}""")
         self.fl = FloatLayout()
@@ -72,7 +72,7 @@ class MainScreen(Screen):
                                           # pos=(.5, .5),
                                           pos_hint={'center_x': 0.3, 'center_y': 0.7},
                                           # md_bg_color=(0, 1, 0, 0.1),
-                                          on_press=self.update
+                                          on_release=self.update
                                           )
         #
         btn2 = MDRectangleFlatButton(text=self.button_value[1],
@@ -85,16 +85,11 @@ class MainScreen(Screen):
         #
         btn3 = MDRectangleFlatButton(text=self.button_value[2],
                                      size_hint=(0.25, .25),
-                                     # pos=(.5, .5),
                                      pos_hint={'center_x': 0.3, 'center_y': 0.4},
-                                     # md_bg_color=(0, 1, 0, 0.1),
                                      on_release=self.update
                                      )
         btn4 = MDRectangleFlatButton(text=self.button_value[3],
-                                     size_hint=(0.25, .25),
-                                     # pos=(.5, .5),
-                                     pos_hint={'center_x': 0.7, 'center_y': 0.4},
-                                     # md_bg_color=(0, 1, 0, 0.05),
+                                     size_hint=(0.25, .25), pos_hint={'center_x': 0.7, 'center_y': 0.4},
                                      on_release=self.update
                                      )
         self.btn_doing = MDRectangleFlatButton(
@@ -105,7 +100,7 @@ class MainScreen(Screen):
             on_press=self.doing
         )
 
-        self.btn_next = MDRectangleFlatButton(text="more",
+        self.btn_next = MDRectangleFlatButton(text="soil info",
                                               size_hint=(.4, .2),
                                               pos_hint={"center_x": 0.29, "center_y": 0.1},
                                               md_bg_color=(0, 1, 0, 0.1),
@@ -116,7 +111,6 @@ class MainScreen(Screen):
             opacity=0.05
         )
 
-        # self.fl.add_widget(self.lbl)
         self.fl.add_widget(background_image)
         self.fl.add_widget(self.btn_doing)
         self.fl.add_widget(self.btn_next)
@@ -126,10 +120,8 @@ class MainScreen(Screen):
         self.fl.add_widget(btn4)
         self.fl.add_widget(self.dp)
 
-        # обьединяем self и наш layout
         self.add_widget(self.fl)
 
-    # функция для перехода на следующий экран
     def next(self, instance):
         self.manager.transition.direction = 'right'
         self.manager.current = "Second"
@@ -138,7 +130,7 @@ class MainScreen(Screen):
     # основляем текст
     def update(self, instance):
         id_btn = instance.text[7:8]
-        res = requests.get(f"https://dt.miet.ru/ppo_it/api/temp_hum/{id_btn}")
+        res = get(f"https://dt.miet.ru/ppo_it/api/temp_hum/{id_btn}")
         txt = f"""Sensor {id_btn}:\nTemperature: {splitting_for(res.text)["temperature"]}\nHumidity: {splitting_for(res.text)["humidity"]}"""
         instance.text = txt
         return 0
@@ -173,10 +165,10 @@ class DoingScreen(Screen):
         res_eath = []
         for i in range(1, 4 + 1):
             res_temp.append(
-                splitting_for(requests.get(f"https://dt.miet.ru/ppo_it/api/temp_hum/{i}").text)["temperature"])
-            res_air.append(splitting_for(requests.get(f"https://dt.miet.ru/ppo_it/api/temp_hum/{i}").text)["humidity"])
+                splitting_for(get(f"https://dt.miet.ru/ppo_it/api/temp_hum/{i}").text)["temperature"])
+            res_air.append(splitting_for(get(f"https://dt.miet.ru/ppo_it/api/temp_hum/{i}").text)["humidity"])
         for i in range(1, 6 + 1):
-            res_eath.append(splitting_for(requests.get(f'https://dt.miet.ru/ppo_it/api/hum/{i}').text)["humidity"])
+            res_eath.append(splitting_for(get(f'https://dt.miet.ru/ppo_it/api/hum/{i}').text)["humidity"])
         return [res_temp, res_air, res_eath]
 
     def Init(self):
@@ -220,10 +212,10 @@ class SecondScreen(Screen):
         super().__init__()
         self.name = "Second"
         self.k = 1
-        res = requests.get(f'https://dt.miet.ru/ppo_it/api/hum/{self.k}')
+        res = get(f'https://dt.miet.ru/ppo_it/api/hum/{self.k}')
         self.button_value = []
         for i in range(1, 6 + 1):
-            res = requests.get(f"https://dt.miet.ru/ppo_it/api/hum/{i}")
+            res = get(f"https://dt.miet.ru/ppo_it/api/hum/{i}")
             self.button_value.append(
                 f"""Sensor {i}:\nHumidity: {splitting_for(res.text)["humidity"]}""")
         self.fl = FloatLayout()
@@ -301,7 +293,7 @@ class SecondScreen(Screen):
 
     def update(self, instance):
         id_btn = instance.text[7:8]
-        res = requests.get(f"https://dt.miet.ru/ppo_it/api/hum/{id_btn}")
+        res = get(f"https://dt.miet.ru/ppo_it/api/hum/{id_btn}")
         txt = f"""Sensor {id_btn}:\nHumidity: {splitting_for(res.text)["humidity"]}"""
         instance.text = txt
         return 0
@@ -404,14 +396,14 @@ class ExtraScreen(Screen):
             self.count_open = 1
         else:
             self.count_open = 0
-        res = requests.patch("https://dt.miet.ru/ppo_it/api/fork_drive", params={"state": self.count_open})
+        res = patch("https://dt.miet.ru/ppo_it/api/fork_drive", params={"state": self.count_open})
         print(res.status_code)
 
     def water_run(self, instance):
-        res = requests.patch("https://dt.miet.ru/ppo_it/api/watering",
-                             params={"id": 1,
-                                     "state": 0
-                                     })
+        res = patch("https://dt.miet.ru/ppo_it/api/watering",
+                    params={"id": 1,
+                            "state": 0
+                            })
         print(res.status_code)
 
     def water_all_run(self, instance):
@@ -419,7 +411,7 @@ class ExtraScreen(Screen):
             self.water_all = 1
         else:
             self.water_all = 0
-        res = requests.patch("https://dt.miet.ru/ppo_it/api/total_hum", params={"state": self.water_all})
+        res = patch("https://dt.miet.ru/ppo_it/api/total_hum", params={"state": self.water_all})
         print(res.status_code)
 
     def warning(self, instance, value):
@@ -465,11 +457,11 @@ class AutomodeScreen(Screen):
 
     def Init(self):
         # BLOCK №1
-        self.text1 = Label(text="Auto_Watering",
-                           pos_hint={"center_x": 0.3,
-                                     "center_y": 0.5},
-                           color=(1, 1, 0, 1),
-                           )
+        self.text1 = MDLabel(text="Auto_Watering",
+                             pos_hint={"center_x": 0.6,
+                                       "center_y": 0.5},
+                             color=(1, 1, 0, 1),
+                             )
         self.time1 = MDRaisedButton(
             text="Set Time",
             pos_hint={"center_x": 0.8, "center_y": 0.5},
@@ -486,11 +478,11 @@ class AutomodeScreen(Screen):
         self.switch1.bind(active=self.sw_press1)
 
         # BLOKC №2
-        self.text2 = Label(text="Auto_temperature",
-                           pos_hint={"center_x": 0.3,
-                                     "center_y": 0.3},
-                           color=(1, 1, 0, 1)
-                           )
+        self.text2 = MDLabel(text="Auto_temperature",
+                             pos_hint={"center_x": 0.6,
+                                       "center_y": 0.3},
+                             color=(1, 1, 0, 1)
+                             )
         self.time2 = MDRaisedButton(
             text="Set Time",
             pos_hint={"center_x": 0.8, "center_y": 0.3},
@@ -711,8 +703,8 @@ class MainApp(MDApp, Screen):
 
         return self.sm
 
-    def give_token(self):
-        self.sm.transition.direction = "left"
+    def main_call(self):
+        self.sm.transition.direction = "right"
         self.sm.current = "Main"
         return 0
 
@@ -748,5 +740,25 @@ class MainApp(MDApp, Screen):
         return 0
 
 
+class ErrorApp(MDApp):
+    def build(self):
+        self.theme_cls.theme_style = "Dark"
+        fl = FloatLayout()
+        fl.add_widget(MDLabel(text="Server is not responding\nTry later",
+                      font_size = dp(60),
+                      size_hint=(1, 1),
+                      halign = "center"))
+        fl.add_widget(FitImage(
+            source="icon/error-image.png",
+            pos_hint={"center_x":0.5, "center_y": 0.7},
+            size_hint=(0.2, 0.2)
+        ))
+        return fl
+
+
 if __name__ == "__main__":
     MainApp().run()
+    try:
+        MainApp().run()
+    except:
+        ErrorApp().run()
