@@ -189,7 +189,7 @@ h1, h2, h3, h4, h5, h6 {
 
 /*2 страница описание приложения*/
 .section {
-    padding: 80px 0;
+    padding: 100px 0;
     display: flex;
     flex-direction: column;
     justify-content:center;
@@ -202,10 +202,11 @@ h1, h2, h3, h4, h5, h6 {
     width: 100%;
     max-width: 950px;
     margin: 0 auto 40px;
-   text-align: center;
+   
 }
 
 .section__title {
+    text-align: center;
     font-size: 30px;
     color: #020;
     font-family: 'Rokkitt', serif;
@@ -214,33 +215,59 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .section__suptitle {
+    text-align: center;
     font-size: 24px;
     color: #020;
     font-family: 'Raleway';
     margin-bottom: 10px;
 }
-
-
-/*accordion-menu*/
-.accordion{
-    display: flex;
-    max-width: 950px;
-    margin: 0 auto;
-    text-align: center;
-    flex-direction: column;
-    justify-content:center;
+/*menu*/
+/*убрать все отступы*/
+*{
+    margin: 0;
+    padding: 0;
+}
+/*убрать весь цвет и иконки*/
+#nav{
+	height: 70px;
+}
+#nav ul{
+	list-style: none;
+}
+/*сделать горизонтальным*/
+#nav > ul > li{
+	float: left;
+	width: 180px;
+	position: relative;
+}
+/*добавить цвета*/
+#nav li a{
+	display: block;
+	background-color: #708D00;
+	border: 1px solid #020;
+	color: #020;
+	padding: 8px;
+	text-align: center;
+	text-decoration: none;
+}
+#nav li a:hover{
+	
+    color: #fff;
 }
 
-.accordion__item {
-    border: 1px solid #020;
+/*прячем вложенные списки*/
+#nav li .second{
+	display: none;
+	position: absolute;
+	top: 100%;
+}
+/*выпадение подпунктов*/
+#nav li:hover .second{
+	display: block;
 }
 
-.accordion__header {
-    border-bottom: 1px solid #020;
+#nav li li{
+	width: 180px;
 }
 
-.accordion__content {
-    padding: 15px 20px;
-    font-size: 15px;
-    color: #020;
-}
+
