@@ -51,6 +51,12 @@ class LeftMenu(Screen):
         self.add_widget(Builder.load_file("LeftMenu.kv"))
 
 
+class DropDownMenu(BoxLayout):
+    def __init__(self):
+        super().__init__()
+        self.add_widget(Builder.load_file("DropDown.kv"))
+
+
 class MainScreen(Screen):
     def __init__(self):
         super().__init__()
@@ -144,14 +150,15 @@ class DoingScreen(Screen):
         super().__init__()
         self.name = "Doing"
 
-        global min_temp, min_hum_earth, min_hum_air
+        # global min_temp, min_hum_earth, min_hum_air
+        self.water_all = 0
+
         self.temp = min_temp
         self.hum_air = min_hum_air
         self.hum_eath = min_hum_earth
 
         self.dp = LeftMenu()
         self.fl = FloatLayout()
-        # self.bx = BoxLayout(orientation="vertical")
 
         self.Init()
 
@@ -173,22 +180,26 @@ class DoingScreen(Screen):
     def Init(self):
         self.btn_open = MDRectangleFlatButton(
             text="Open",
+            font_size=dp(20),
             size_hint=(.9, .2),
             pos_hint={"center_x": 0.5, "center_y": 0.8},
-            disabled=(False if self.average_value(self.temp_hum()[0]) >= self.temp else True)
+            disabled=(False if self.average_value(self.temp_hum()[0]) >= self.temp else True),
+            on_release=self.move_luck
         )
         self.btn_start_water = MDRectangleFlatButton(
-            text="Start Watering",
+            text="Start\nAll Watering",
+            font_size=dp(20),
             size_hint=(.9, .2),
             pos_hint={"center_x": 0.5, "center_y": 0.55},
-            disabled=(False if self.average_value(self.temp_hum()[0]) >= self.temp else True)
+            disabled=(False if self.average_value(self.temp_hum()[0]) >= self.temp else True),
+            on_release=self.start_all_water
         )
 
         self.btn_stop_water = MDRectangleFlatButton(
             text="Stop Watering",
             size_hint=(.9, .2),
             pos_hint={"center_x": 0.5, "center_y": 0.3},
-            disabled=(False if self.average_value(self.temp_hum()[0]) >= self.temp else True)
+            disabled=(False if self.average_value(self.temp_hum()[0]) >= self.temp else True),
         )
 
         background_image = FitImage(
@@ -200,18 +211,43 @@ class DoingScreen(Screen):
         self.fl.add_widget(self.btn_open)
         self.fl.add_widget(self.btn_start_water)
         self.fl.add_widget(self.btn_stop_water)
-        # self.fl.add_widget(self.bx)
         self.fl.add_widget(self.dp)
 
         self.add_widget(self.fl)
+
+    def start_all_water(self, instance):
+        if instance.text == "Start\nAll Watering":
+            instance.text = "Stop\nAll Watering"
+            res = patch("https://dt.miet.ru/ppo_it/api/total_hum",
+                        params={"state": 0}
+                        )
+            print(res.status_code)
+        else:
+            instance.text = "Start\nAll Watering"
+            res = patch("https://dt.miet.ru/ppo_it/api/total_hum",
+                        params={"state": 1}
+                        )
+            print(res.status_code)
+
+    def move_luck(self, instance):
+        if instance.text == "Open":
+            instance.text = "Close"
+            res = patch("https://dt.miet.ru/ppo_it/api/fork_drive", params={"state": 1})
+            print(res.status_code)
+        else:
+            instance.text = "Open"
+            res = patch("https://dt.miet.ru/ppo_it/api/fork_drive", params={"state": 0})
+            print(res.status_code)
+
+    def watering_one(self, instance):
+        pass
 
 
 class SecondScreen(Screen):
     def __init__(self):
         super().__init__()
         self.name = "Second"
-        self.k = 1
-        res = get(f'https://dt.miet.ru/ppo_it/api/hum/{self.k}')
+
         self.button_value = []
         for i in range(1, 6 + 1):
             res = get(f"https://dt.miet.ru/ppo_it/api/hum/{i}")
@@ -271,7 +307,6 @@ class SecondScreen(Screen):
             opacity=0.05
         )
 
-        # self.fl.add_widget(self.lbl)
         self.fl.add_widget(background_image)
         self.fl.add_widget(self.btn_doing)
         self.fl.add_widget(self.btn_next)
@@ -372,7 +407,7 @@ class ExtraScreen(Screen):
         self.btn4 = MDRectangleFlatButton(text="4",
                                           disabled=self.extra_status,
                                           size_hint=(1, 0.17),
-                                          pos_hint={"center_x":0.5, "y":0},
+                                          pos_hint={"center_x": 0.5, "y": 0},
                                           font_size=dp(15),
                                           theme_text_color="Custom",
                                           line_color=(1, 0, 0, 0.8),
@@ -404,7 +439,7 @@ class ExtraScreen(Screen):
 
     def water_run(self, instance):
         res = patch("https://dt.miet.ru/ppo_it/api/watering",
-                    params={"id": 1,
+                    params={"id": 6,
                             "state": 0
                             })
         print(res.status_code)
@@ -601,7 +636,7 @@ class EditScreen(Screen):
         super(EditScreen, self).__init__(**kwargs)
         self.name = "Edit"
 
-        global min_temp, min_hum_earth, min_hum_air
+        # global min_temp, min_hum_earth, min_hum_air
 
         self.fl = FloatLayout()
         self.dp = LeftMenu()
@@ -674,8 +709,8 @@ class EditScreen(Screen):
             print("save", min_hum_air)
 
         if self.txt3.text is not None and self.txt3.text != "":
-            min_hum_eath = float(self.txt3.text)
-            print("save", self.min_hum_eath)
+            min_hum_earth = float(self.txt3.text)
+            print("save", min_hum_earth)
 
 
 class MainApp(MDApp, Screen):
@@ -685,7 +720,6 @@ class MainApp(MDApp, Screen):
 
     def build(self):
         self.theme_cls.theme_style_switch_animation = True
-        # self.theme_cls.material_style = "M3"
         self.green = (97, 158, 17, 1)
         self.theme_cls.primary_palette = "Green"
         self.theme_cls.theme_style = "Dark"
@@ -754,8 +788,7 @@ class ErrorApp(MDApp):
 
 
 if __name__ == "__main__":
-    MainApp().run()
-    # try:
-    #     MainApp().run()
-    # except:
-    #     ErrorApp().run()
+    try:
+        MainApp().run()
+    except:
+        ErrorApp().run()
