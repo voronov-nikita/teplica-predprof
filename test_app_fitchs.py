@@ -1,28 +1,52 @@
+from kivy.config import Config
+
+Config.set("graphics", "resizable", 0)
+Config.set("graphics", "width", 400)
+Config.set("graphics", "height", 500)
+
+from kivy.lang import Builder
+from kivy.metrics import dp
 from kivymd.app import MDApp
-from kivymd.uix.card import MDCard
-from kivymd.uix.fitimage import FitImage
-from kivymd.uix.screen import MDScreen
+from kivymd.uix.menu import MDDropdownMenu
 
 
-class Example(MDApp):
-    def build(self):
-        self.theme_cls.theme_style = "Dark"
-        return (
-            MDScreen(
-                MDCard(
-                    FitImage(
-                        source="icon/settings_for_edit.jpg",
-                        # size_hint_y=0.35,
-                        # pos_hint={"top": 1},
-                        # radius=(36, 36, 0, 0),
-                    ),
-                    radius=36,
-                    md_bg_color="grey",
-                    pos_hint={"center_x": .5, "center_y": .5},
-                    size_hint=(0.4, 0.8),
-                ),
-            )
+KV = '''
+MDScreen:
+
+    MDTopAppBar:
+        id:tool1
+        title:'My Demo App'
+        pos_hint:{'top':1}
+        right_action_items : [["home", lambda x: app.menu.open()]]
+
+'''
+
+
+class Test(MDApp):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.screen = Builder.load_string(KV)
+        items_d = ['Snapshot','Settings','History','Logout','Exit']
+        menu_items = [
+            {
+                "text": f"{i}",
+                "viewclass": "OneLineListItem",
+                "height": dp(40),
+                "on_release": lambda x=f"{i}": self.menu_callback(x),
+            } for i in items_d
+        ]
+        self.menu = MDDropdownMenu(
+            caller=self.screen.ids.tool1,
+            items=menu_items,
+            width_mult=2,
         )
 
+    def menu_callback(self, text_item):
+        print(text_item)
+        self.menu.dismiss()
 
-Example().run()
+    def build(self):
+        return self.screen
+
+
+Test().run()

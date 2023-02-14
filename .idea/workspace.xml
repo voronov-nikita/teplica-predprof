@@ -5,7 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6233233d-520d-4666-944a-ae4680c67542" name="Changes" comment="">
+<<<<<<< HEAD
+      <change beforePath="$PROJECT_DIR$/MainApp.py" beforeDir="false" afterPath="$PROJECT_DIR$/MainApp.py" afterDir="false" />
+=======
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+>>>>>>> ab267871f02c05226e24403a0a88438f499479a4
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -30,6 +34,16 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
+<<<<<<< HEAD
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/venv" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+    <property name="two.files.diff.last.used.folder" value="$PROJECT_DIR$/venv" />
+  </component>
+  <component name="RunManager" selected="Python.test_app_fitchs">
+=======
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
@@ -37,6 +51,7 @@
   }
 }]]></component>
   <component name="RunManager" selected="Python.MainApp">
+>>>>>>> ab267871f02c05226e24403a0a88438f499479a4
     <configuration name="MainApp" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
       <module name="teplica_predprof" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -173,8 +188,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.icon_search_kivymd" />
         <item itemvalue="Python.test_app_fitchs" />
+        <item itemvalue="Python.icon_search_kivymd" />
         <item itemvalue="Python.testing_resource (1)" />
         <item itemvalue="Python.main" />
       </list>
