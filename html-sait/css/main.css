@@ -4,7 +4,7 @@ body{
     font-size: 18px;
     line-height: 1.6;
     color: #020;
-    background: linear-gradient(0deg, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.4)), url("../images/trava1.jpg") center no-repeat;
+    
     background-size: cover;
 }
 
@@ -24,12 +24,6 @@ h1, h2, h3, h4, h5, h6 {
     margin: 0 auto;
 }
 
-.containerr {
-    width: 100%;
-    max-width: 1400px;
-    margin: 0 auto;
-    height: 6000px;
-}
 /*intro*/
 
 .intro {
@@ -38,7 +32,7 @@ h1, h2, h3, h4, h5, h6 {
     justify-content:center;
     width: 100%;
     height: 100vh;
-    background: url("../images/btrava.jpg") center no-repeat;
+    background: linear-gradient(0deg, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.4)), url("../images/trava1.jpg") center no-repeat;
     -webkit-background-size: cover;
     background-size: cover;
 }
@@ -224,14 +218,20 @@ h1, h2, h3, h4, h5, h6 {
     justify-content:center;
     width: 100%;
     background: #fff;
-    height: 7300px;
+    height: 6800px;
+}
+.containerr {
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    height: 6800px;
 }
 
 
 .section__header {
     width: 100%;
     max-width: 950px;
-    margin: 0 auto 40px;
+    margin: 0px auto 40px;
    
 }
 
@@ -246,7 +246,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .section__title_installion {
     text-align: center;
-    font-size: 30px;
+    font-size: 50px;
     color: #020;
     font-family: 'Rokkitt', serif;
     text-transform: uppercase;
@@ -317,7 +317,7 @@ h1, h2, h3, h4, h5, h6 {
 #nav li li{
 	width: 210px;
 }
-
+/*описание приложения 2 секция*/
 .description {
     padding: 100px 0;
     display: flex;
@@ -328,12 +328,13 @@ h1, h2, h3, h4, h5, h6 {
     height: 100vh;
 }
 
+/*для заголовков*/
 .description__header {
     width: 100%;
     max-width: 950px;
     margin: 0 auto 40px;
 }
-
+/*заголовки*/
 .description__title {
     text-align: center;
     font-size: 30px;
@@ -342,6 +343,7 @@ h1, h2, h3, h4, h5, h6 {
     text-transform: uppercase;
     padding-bottom: 40px;
 }
+/*для текстов*/
 .main__text {
     width: 100%;
     max-width: 1100px;
@@ -349,6 +351,7 @@ h1, h2, h3, h4, h5, h6 {
     display: flex;
     justify-content: space-between;
 }
+/*сами текста*/
 .textt {
     text-align: center;
     font-size: 20px;
@@ -356,11 +359,11 @@ h1, h2, h3, h4, h5, h6 {
     font-family: 'Raleway';
     padding-bottom: 10px;
 }
-
+/*если текст и 1 фото*/
 .main__item {
     width: 50%;
 }
-
+/*подзаголовки*/
 .suptitle__LeftMenu {
     text-align: center;
     font-size: 24px;
@@ -370,17 +373,13 @@ h1, h2, h3, h4, h5, h6 {
     padding-bottom: 40px;
 }
 
-.main__it {
-    width: 100%;
-    padding-bottom: 30px;
-}
-
+/*для 3 фоток*/
 .main__img {
     display: flex;
     justify-content: space-between;
    
 }
-
+/*3 фотки*/
 .main__itt {
     width: 55%;
     display: flex;
