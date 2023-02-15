@@ -74,7 +74,7 @@ class MainScreen(Screen):
         self.Init()
 
     def Init(self):
-        #
+        # создаем обьекты кнопки
         self.btn1 = MDRectangleFlatButton(text=self.button_value[0],
                                           size_hint=(0.25, .25),
                                           # pos=(.5, .5),
@@ -110,6 +110,7 @@ class MainScreen(Screen):
                                               md_bg_color=(0, 1, 0, 0.1),
                                               on_release=self.next
                                               )
+        # задаем фоновое изображение
         background_image = FitImage(
             source="icon/main-dark.jpg",
             opacity=0.05
@@ -124,14 +125,16 @@ class MainScreen(Screen):
         self.fl.add_widget(btn4)
         self.fl.add_widget(self.dp)
 
+        # добавляем все эллементы текущему обьекту
         self.add_widget(self.fl)
 
+    # другой экран
     def next(self, instance):
         self.manager.transition.direction = 'right'
         self.manager.current = "Second"
         return 0
 
-    # основляем текст
+    # обновляем текст
     def update(self, instance):
         id_btn = instance.text[7:8]
         res = get(f"https://dt.miet.ru/ppo_it/api/temp_hum/{id_btn}")
@@ -150,12 +153,7 @@ class DoingScreen(Screen):
         super().__init__()
         self.name = "Doing"
 
-        # global min_temp, min_hum_earth, min_hum_air
         self.water_all = 0
-
-        self.temp = min_temp
-        self.hum_air = min_hum_air
-        self.hum_eath = min_hum_earth
 
         self.dp = LeftMenu()
         self.fl = FloatLayout()
@@ -165,6 +163,7 @@ class DoingScreen(Screen):
     def average_value(self, x):
         return sum(x) // len(x)
 
+    # функция для пасчета среднего
     def temp_hum(self):
         res_temp = []
         res_air = []
@@ -175,7 +174,9 @@ class DoingScreen(Screen):
             res_air.append(splitting_for(get(f"https://dt.miet.ru/ppo_it/api/temp_hum/{i}").text)["humidity"])
         for i in range(1, 6 + 1):
             res_eath.append(splitting_for(get(f'https://dt.miet.ru/ppo_it/api/hum/{i}').text)["humidity"])
-        return [res_temp, res_air, res_eath]
+        return [self.average_value(res_temp),
+                self.average_value(res_air),
+                self.average_value(res_eath)]
 
     def Init(self):
         self.btn_open = MDRectangleFlatButton(
@@ -183,7 +184,7 @@ class DoingScreen(Screen):
             font_size=dp(20),
             size_hint=(.9, .2),
             pos_hint={"center_x": 0.5, "center_y": 0.8},
-            disabled=(False if self.average_value(self.temp_hum()[0]) >= self.temp else True),
+            disabled=False,
             on_release=self.move_luck
         )
         self.btn_start_water = MDRectangleFlatButton(
@@ -191,7 +192,7 @@ class DoingScreen(Screen):
             font_size=dp(20),
             size_hint=(.9, .2),
             pos_hint={"center_x": 0.5, "center_y": 0.55},
-            disabled=(False if self.average_value(self.temp_hum()[0]) >= self.temp else True),
+            disabled=False,
             on_release=self.start_all_water
         )
 
@@ -199,7 +200,7 @@ class DoingScreen(Screen):
             text="Stop Watering",
             size_hint=(.9, .2),
             pos_hint={"center_x": 0.5, "center_y": 0.3},
-            disabled=(False if self.average_value(self.temp_hum()[0]) >= self.temp else True),
+            disabled=False,
         )
 
         background_image = FitImage(
@@ -215,6 +216,7 @@ class DoingScreen(Screen):
 
         self.add_widget(self.fl)
 
+    # отправляем patch запрос на старт полива всех грядок
     def start_all_water(self, instance):
         if instance.text == "Start\nAll Watering":
             instance.text = "Stop\nAll Watering"
@@ -229,6 +231,7 @@ class DoingScreen(Screen):
                         )
             print(res.status_code)
 
+    # отправляем patch запрос на открытие/закрытие форточки
     def move_luck(self, instance):
         if instance.text == "Open":
             instance.text = "Close"
@@ -325,6 +328,7 @@ class SecondScreen(Screen):
         self.manager.current = "Main"
         return 0
 
+    # обновляем текст
     def update(self, instance):
         id_btn = instance.text[7:8]
         res = get(f"https://dt.miet.ru/ppo_it/api/hum/{id_btn}")
@@ -348,6 +352,7 @@ class ExtraScreen(Screen):
         self.count_open = 0
         self.water_all = 0
 
+        # создаем обьект переключателя
         self.switch = MDSwitch(
             pos_hint={'center_x': .5, 'center_y': .75},
             thumb_color_active=(255, 0, 0, 1),
@@ -600,10 +605,6 @@ class TabelScreen(Screen):
         self.Init()
 
     def Init(self):
-        btn = MDRaisedButton(text="back",
-                             pos_hint={"x": .79, "y": .885},
-                             size_hint=(.2, .1),
-                             on_press=self.back)
         table = MDDataTable(pos_hint={"center_x": .5,
                                       "center_y": .55},
                             size_hint=(0.9, .6),
@@ -621,14 +622,8 @@ class TabelScreen(Screen):
                             ]
                             )
         self.fl.add_widget(table)
-        self.fl.add_widget(btn)
         self.fl.add_widget(self.dp)
         self.add_widget(self.fl)
-
-    def back(self, instance):
-        self.manager.transition.direction = 'left'
-        self.manager.current = "Main"
-        return 0
 
 
 class EditScreen(Screen):
@@ -636,7 +631,6 @@ class EditScreen(Screen):
         super(EditScreen, self).__init__(**kwargs)
         self.name = "Edit"
 
-        # global min_temp, min_hum_earth, min_hum_air
 
         self.fl = FloatLayout()
         self.dp = LeftMenu()
@@ -650,33 +644,27 @@ class EditScreen(Screen):
         self.Init()
 
     def Init(self):
-        btn = MDRaisedButton(text="Last",
-                             size_hint=(0.2, 0.1),
-                             pos_hint={"x": 0.8, "y": 0.88},
-                             on_press=self.next
-                             )
-
         self.txt1 = MDTextField(hint_text=f"Temperature",
                                 mode="fill",
-                                size_hint=(.9, 0.2),
-                                pos_hint={"center_x": 0.45, "center_y": .65}
+                                size_hint=(.9, 0.3),
+                                pos_hint={"center_x": 0.45, "center_y": .7}
                                 )
-        self.txt2 = MDTextField(hint_text=f"Temperature-Humidity",
+        self.txt2 = MDTextField(hint_text=f"Humidity Air",
                                 mode="fill",
-                                size_hint=(.9, 0.2),
-                                pos_hint={"center_x": 0.45, "center_y": 0.55},
+                                size_hint=(.9, 0.3),
+                                pos_hint={"center_x": 0.45, "center_y": 0.6},
                                 )
-        self.txt3 = MDTextField(hint_text=f"Humidity-Earth",
+        self.txt3 = MDTextField(hint_text=f"Humidity Soil",
                                 mode="fill",
-                                size_hint=(.9, 0.2),
-                                pos_hint={"center_x": 0.45, "center_y": 0.45}
+                                size_hint=(.9, 0.3),
+                                pos_hint={"center_x": 0.45, "center_y": 0.5}
                                 )
 
         btn_save_data = MDRaisedButton(
             text="Save",
-            size_hint=(1, .1),
+            size_hint=(1, .2),
             pos_hint={"x": 0, "y": 0},
-            on_press=self.save_data
+            on_release=self.save_data
         )
         background_image = FitImage(
             source="icon/edit-dark.jpg",
@@ -684,7 +672,6 @@ class EditScreen(Screen):
         )
 
         self.fl.add_widget(background_image)
-        self.fl.add_widget(btn)
         self.fl.add_widget(self.txt1)
         self.fl.add_widget(self.txt2)
         self.fl.add_widget(self.txt3)
@@ -702,7 +689,11 @@ class EditScreen(Screen):
     def save_data(self, instance):
         if self.txt1.text is not None and self.txt1.text != "":
             min_temp = float(self.txt1.text)
-            print("save", min_temp)
+            do_i = DoingScreen()
+            if min_temp < do_i.average_value(do_i.temp_hum()[0]):
+                do_i.open_btn = False
+            else:
+                do_i.open_btn = True
 
         if self.txt2.text is not None and self.txt2.text != "":
             min_hum_air = float(self.txt2.text)
@@ -720,7 +711,6 @@ class MainApp(MDApp, Screen):
 
     def build(self):
         self.theme_cls.theme_style_switch_animation = True
-        self.green = (97, 158, 17, 1)
         self.theme_cls.primary_palette = "Green"
         self.theme_cls.theme_style = "Dark"
 
@@ -788,7 +778,8 @@ class ErrorApp(MDApp):
 
 
 if __name__ == "__main__":
-    try:
-        MainApp().run()
-    except:
-        ErrorApp().run()
+    MainApp().run()
+    # try:
+    #     MainApp().run()
+    # except:
+    #     ErrorApp().run()
