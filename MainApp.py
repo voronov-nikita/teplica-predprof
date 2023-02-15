@@ -500,7 +500,7 @@ class AutomodeScreen(Screen):
 
     def Init(self):
         # BLOCK №1
-        self.text1 = MDLabel(text="Auto_Watering",
+        self.text1 = MDLabel(text="Auto Watering",
                              pos_hint={"center_x": 0.6,
                                        "center_y": 0.5},
                              color=(1, 1, 0, 1),
@@ -521,7 +521,7 @@ class AutomodeScreen(Screen):
         self.switch1.bind(active=self.sw_press1)
 
         # BLOKC №2
-        self.text2 = MDLabel(text="Auto_temperature",
+        self.text2 = MDLabel(text="Auto Opening",
                              pos_hint={"center_x": 0.6,
                                        "center_y": 0.3},
                              color=(1, 1, 0, 1)

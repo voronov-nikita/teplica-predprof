@@ -24,13 +24,6 @@ h1, h2, h3, h4, h5, h6 {
     margin: 0 auto;
 }
 
-.containerr {
-    width: 100%;
-    max-width: 1400px;
-    height:200px;
-    margin: 0 auto;
-}
-
 /*intro*/
 
 .intro {
@@ -275,6 +268,7 @@ h1, h2, h3, h4, h5, h6 {
 #nav > ul > li{
 	float: left;
 	width: 180px;
+
 	position: relative;
 }
 /*добавить цвета*/
