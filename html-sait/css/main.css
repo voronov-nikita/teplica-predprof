@@ -4,7 +4,7 @@ body{
     font-size: 18px;
     line-height: 1.6;
     color: #020;
-    
+
     background-size: cover;
 }
 
@@ -31,7 +31,7 @@ h1, h2, h3, h4, h5, h6 {
     flex-direction: column;
     justify-content:center;
     width: 100%;
-    height: 100vh;
+    height: auto;
     background: linear-gradient(0deg, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.4)), url("../images/trava1.jpg") center no-repeat;
     -webkit-background-size: cover;
     background-size: cover;
@@ -200,6 +200,7 @@ h1, h2, h3, h4, h5, h6 {
     height:20px;
     width:100%;
     display:flex;
+    margin-top: 100px;
 }
 .sectionn {
     padding: 100px 0;
@@ -368,8 +369,7 @@ h1, h2, h3, h4, h5, h6 {
     text-align: center;
     font-size: 24px;
     color: #020;
-    font-family: 'Quicksand', cursive;
-    
+    font-family: "Raleway";
     padding-bottom: 40px;
 }
 
