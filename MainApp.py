@@ -11,6 +11,7 @@ Config.set("graphics", "height", 500)
 from webbrowser import open_new_tab
 from requests import get, patch
 from json import loads
+from memory_profiler import profile
 # from translate import Translator
 # import matplotlib.pyplot as plt
 
@@ -38,19 +39,112 @@ def splitting_for(s):
     return loads(s)
 
 
-#
-# def translate_app(s):
-#     translator = Translator(from_lang="en", to_lang="ru")
-#     return translator.translate(s)
+LeftMenu_KV = """
+MDNavigationLayout:
+
+    MDScreenManager:
+
+        MDScreen:
+
+            MDTopAppBar:
+                id: main-set
+                pos_hint: {"top": 1, "x":0}
+                size_hint: (1, .0)
+                md_bg_color: 0, 1, 0, 1
+                left_action_items: [["menu",lambda x: nav_drawer.set_state("open")]]
+                icon_color: 0, 0, 0, 1
+                specific_text_color: 0,1,0,1
+                color: 0, 0, 0, 1
+
+    MDNavigationDrawer:
+        id: nav_drawer
+        radius: 0, 0, 0, 0
+
+        BoxLayout:
+            orientation: "vertical"
+
+            MDLabel:
+                text: "Left Menu"
+                size_hint: (1, .5)
+                halign: "center"
+                theme_text_color: "Custom"
+                text_color: 0, 1, 0, 1
+
+            MDRectangleFlatIconButton:
+                line_color: 0, 0, 0, 0
+                size_hint: (1, .5)
+                icon: "home"
+                text: "Home"
+                on_release:
+                    nav_drawer.set_state("close")
+                    app.main_call()
+
+            MDRectangleFlatIconButton:
+                id: edit_locate
+                line_color: 0, 0, 0, 0
+                size_hint: (1, .5)
+                icon: "pencil"
+                text: "EDIT"
+                on_release:
+                    nav_drawer.set_state("close")
+                    app.edit_call()
+
+            MDRectangleFlatIconButton:
+                line_color: 0, 0, 0, 0
+                size_hint: (1, .5)
+                icon: "table-large"
+                text: "Table"
+                on_release:
+                    nav_drawer.set_state("close")
+                    app.table_info()
+
+            MDRectangleFlatIconButton:
+                line_color: 0, 0, 0, 0
+                size_hint: (1, .5)
+                icon: "lightning-bolt"
+                halign: "center"
+                text: "Extra Mode"
+                on_release:
+                    nav_drawer.set_state("close")
+                    app.extra_mode()
+
+            MDRectangleFlatIconButton:
+                line_color: 0, 0, 0, 0
+                size_hint: (1, .5)
+                icon: "play"
+                halign: "center"
+                text: "Auto Mode"
+                on_release:
+                    nav_drawer.set_state("close")
+                    app.auto_mode()
+
+            MDRectangleFlatIconButton:
+                line_color: 0, 0, 0, 0
+                size_hint: (1, .5)
+                icon: "lightbulb"
+                text: "Themes"
+                on_release: app.change_color_sys()
+
+            MDRectangleFlatIconButton:
+                line_color: 0, 0, 0, 0
+                size_hint: (1, .5)
+                icon: "github"
+                halign: "center"
+                text: "GitHub"
+                on_release:
+                    nav_drawer.set_state("close")
+                    app.git_info()
+"""
 
 
 # Класс для Выпадающего меню
 class LeftMenu(Screen):
     def __init__(self):
         super().__init__()
-        self.add_widget(Builder.load_file("LeftMenu.kv"))
+        self.add_widget(Builder.load_string(LeftMenu_KV))
 
 
+@profile
 class DropDownMenu(BoxLayout):
     def __init__(self):
         super().__init__()
@@ -631,7 +725,6 @@ class EditScreen(Screen):
         super(EditScreen, self).__init__(**kwargs)
         self.name = "Edit"
 
-
         self.fl = FloatLayout()
         self.dp = LeftMenu()
         self.fl = FloatLayout()
@@ -709,6 +802,7 @@ class MainApp(MDApp, Screen):
         super(MainApp, self).__init__(**kwargs)
         self.sm = ScreenManager()
 
+    @profile
     def build(self):
         self.theme_cls.theme_style_switch_animation = True
         self.theme_cls.primary_palette = "Green"
@@ -762,6 +856,7 @@ class MainApp(MDApp, Screen):
 
 
 class ErrorApp(MDApp):
+
     def build(self):
         self.theme_cls.theme_style = "Dark"
         fl = FloatLayout()
