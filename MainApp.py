@@ -12,6 +12,7 @@ from webbrowser import open_new_tab
 from requests import get, patch
 from json import loads
 from memory_profiler import profile
+from datetime import datetime
 # from translate import Translator
 # import matplotlib.pyplot as plt
 
@@ -38,6 +39,16 @@ min_temp, min_hum_earth, min_hum_air = 0, 0, 0
 def splitting_for(s):
     return loads(s)
 
+
+DropDown_KV = """
+MDScreen:
+
+    MDToolbar:
+        id:tool1
+        title:'My Demo App'
+        pos_hint:{'top':1}
+        right_action_items : [["dots-vertical", lambda x: app.menu.open()]]
+"""
 
 LeftMenu_KV = """
 MDNavigationLayout:
@@ -144,11 +155,10 @@ class LeftMenu(Screen):
         self.add_widget(Builder.load_string(LeftMenu_KV))
 
 
-@profile
 class DropDownMenu(BoxLayout):
     def __init__(self):
         super().__init__()
-        self.add_widget(Builder.load_file("DropDown.kv"))
+        self.add_widget(Builder.load_string(DropDown_KV))
 
 
 class MainScreen(Screen):
@@ -693,31 +703,45 @@ class TabelScreen(Screen):
         super().__init__()
         self.name = "Table"
 
+        self.now = datetime.now()
+
         self.dp = LeftMenu()
         self.fl = FloatLayout()
 
         self.Init()
 
     def Init(self):
-        table = MDDataTable(pos_hint={"center_x": .5,
-                                      "center_y": .55},
-                            size_hint=(0.9, .6),
-                            column_data=[
-                                ("№ id", dp(10)),
-                                ("temperature", dp(20)),
-                                ("humidity", dp(15)),
-                                ("other", dp(15)),
+        self.table = MDDataTable(pos_hint={"center_x": .5,
+                                           "center_y": .55},
+                                 size_hint=(0.9, 0.6),
+                                 column_data=[
+                                     ("№ id", dp(10)),
+                                     ("temperature", dp(20)),
+                                     ("humidity air", dp(25)),
 
-                            ],
-                            row_data=[
-                                ("1", "10", "55", "64"),
-                                ("2", "11", "44", "32"),
-                                ("3", "66", "33", "5")
-                            ]
-                            )
-        self.fl.add_widget(table)
+                                 ],
+                                 row_data=[
+                                 ]
+                                 )
+        btn = MDRaisedButton(text="New data",
+                             pos_hint={"x": 0, "y": 0},
+                             size_hint=(1, .2),
+                             on_release=self.new_row_table)
+        self.fl.add_widget(self.table)
+        self.fl.add_widget(btn)
         self.fl.add_widget(self.dp)
         self.add_widget(self.fl)
+
+    def new_row_table(self, instance):
+        new_data_row = []
+        for i in range(1, 4 + 1):
+            res = get(f"https://dt.miet.ru/ppo_it/api/temp_hum/{i}").text
+            new_data_row.append(
+                (i,
+                 splitting_for(res)["temperature"],
+                 splitting_for(res)["humidity"],
+            ))
+        self.table.row_data = new_data_row
 
 
 class EditScreen(Screen):
@@ -873,8 +897,7 @@ class ErrorApp(MDApp):
 
 
 if __name__ == "__main__":
-    MainApp().run()
-    # try:
-    #     MainApp().run()
-    # except:
-    #     ErrorApp().run()
+    try:
+        MainApp().run()
+    except:
+        ErrorApp().run()
