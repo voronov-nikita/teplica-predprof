@@ -1,3 +1,9 @@
+from kivy.config import Config
+
+Config.set("graphics", "resizable", 0)
+Config.set("graphics", "width", 400)
+Config.set("graphics", "height", 500)
+
 from webbrowser import open_new_tab
 from requests import get, patch
 from json import loads
@@ -58,10 +64,20 @@ MDNavigationLayout:
     MDNavigationDrawer:
         id: nav_drawer
         radius: 0, 0, 0, 0
+        
 
         BoxLayout:
             orientation: "vertical"
-
+            
+            MDIconButton:
+                icon: "help"
+                icon_color: 0, 1, 0, 0.6
+                theme_icon_color: "Custom"
+                size_hint: (.2, .2)
+                pos_hint: {"x": 0.8, "y":0.8}
+                on_release:
+                    nav_drawer.set_state("close")
+                    app.call_help()
             MDLabel:
                 text: "Left Menu"
                 size_hint: (1, .5)
@@ -829,6 +845,9 @@ class MainApp(MDApp, Screen):
 
     def git_info(self):
         open_new_tab("https://github.com/voronov-nikita/teplica_predprof")
+
+    def call_help(self):
+        open_new_tab("http://a0781325.xsph.ru")
 
 
 class ErrorApp(MDApp):
