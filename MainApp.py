@@ -1,20 +1,8 @@
-# ТЗ:
-# https://docs.google.com/document/d/1yNu_mfNUTXRuimC1jlhbPLuVora4HbI8/edit
-
-
-from kivy.config import Config
-
-Config.set("graphics", "resizable", 0)
-Config.set("graphics", "width", 400)
-Config.set("graphics", "height", 500)
-
 from webbrowser import open_new_tab
 from requests import get, patch
 from json import loads
-from memory_profiler import profile
 from datetime import datetime
-# from translate import Translator
-# import matplotlib.pyplot as plt
+
 
 # Основное приложение
 from kivymd.app import MDApp
@@ -155,12 +143,6 @@ class LeftMenu(Screen):
         self.add_widget(Builder.load_string(LeftMenu_KV))
 
 
-class DropDownMenu(BoxLayout):
-    def __init__(self):
-        super().__init__()
-        self.add_widget(Builder.load_string(DropDown_KV))
-
-
 class MainScreen(Screen):
     def __init__(self):
         super().__init__()
@@ -236,7 +218,6 @@ class MainScreen(Screen):
     def next(self, instance):
         self.manager.transition.direction = 'right'
         self.manager.current = "Second"
-        return 0
 
     # обновляем текст
     def update(self, instance):
@@ -244,12 +225,10 @@ class MainScreen(Screen):
         res = get(f"https://dt.miet.ru/ppo_it/api/temp_hum/{id_btn}")
         txt = f"""Sensor {id_btn}:\nTemperature: {splitting_for(res.text)["temperature"]}\nHumidity: {splitting_for(res.text)["humidity"]}"""
         instance.text = txt
-        return 0
 
     def doing(self, instance):
         self.manager.transition.direction = 'right'
         self.manager.current = "Doing"
-        return 0
 
 
 class DoingScreen(Screen):
@@ -333,7 +312,6 @@ class DoingScreen(Screen):
             res = patch("https://dt.miet.ru/ppo_it/api/total_hum",
                         params={"state": 1}
                         )
-            print(res.status_code)
 
     # отправляем patch запрос на открытие/закрытие форточки
     def move_luck(self, instance):
@@ -344,7 +322,6 @@ class DoingScreen(Screen):
         else:
             instance.text = "Open"
             res = patch("https://dt.miet.ru/ppo_it/api/fork_drive", params={"state": 0})
-            print(res.status_code)
 
     def watering_one(self, instance):
         pass
@@ -430,7 +407,6 @@ class SecondScreen(Screen):
     def next(self, instance):
         self.manager.transition.direction = 'left'
         self.manager.current = "Main"
-        return 0
 
     # обновляем текст
     def update(self, instance):
@@ -438,12 +414,10 @@ class SecondScreen(Screen):
         res = get(f"https://dt.miet.ru/ppo_it/api/hum/{id_btn}")
         txt = f"""Sensor {id_btn}:\nHumidity: {splitting_for(res.text)["humidity"]}"""
         instance.text = txt
-        return 0
 
     def doing(self, instance):
         self.manager.transition.direction = 'left'
         self.manager.current = "Doing"
-        return 0
 
 
 class ExtraScreen(Screen):
@@ -452,7 +426,6 @@ class ExtraScreen(Screen):
 
         self.name = "ExtraMode"
 
-        self.extra_status = True
         self.count_open = 0
         self.water_all = 0
 
@@ -483,7 +456,7 @@ class ExtraScreen(Screen):
 
     def Init(self):
         self.btn1 = MDRectangleFlatButton(text="Open Leaf",
-                                          disabled=self.extra_status,
+                                          disabled=True,
                                           size_hint=(1, 0.17),
                                           pos_hint={"center_x": 0.5, "center_y": 0.595},
                                           font_size=dp(15),
@@ -493,7 +466,7 @@ class ExtraScreen(Screen):
                                           on_press=self.leaf_move
                                           )
         self.btn2 = MDRectangleFlatButton(text="Watering",
-                                          disabled=self.extra_status,
+                                          disabled=True,
                                           size_hint=(1, 0.17),
                                           pos_hint={"center_x": 0.5, "center_y": 0.425},
                                           font_size=dp(15),
@@ -503,7 +476,7 @@ class ExtraScreen(Screen):
                                           on_press=self.water_run
                                           )
         self.btn3 = MDRectangleFlatButton(text="Watering All",
-                                          disabled=self.extra_status,
+                                          disabled=True,
                                           size_hint=(1, 0.17),
                                           pos_hint={"center_x": 0.5, "center_y": 0.255},
                                           font_size=dp(15),
@@ -514,7 +487,7 @@ class ExtraScreen(Screen):
 
                                           )
         self.btn4 = MDRectangleFlatButton(text="4",
-                                          disabled=self.extra_status,
+                                          disabled=True,
                                           size_hint=(1, 0.17),
                                           pos_hint={"center_x": 0.5, "y": 0},
                                           font_size=dp(15),
@@ -539,19 +512,14 @@ class ExtraScreen(Screen):
         self.add_widget(self.fl)
 
     def leaf_move(self, instance):
-        if self.count_open == 0:
-            self.count_open = 1
-        else:
-            self.count_open = 0
-        res = patch("https://dt.miet.ru/ppo_it/api/fork_drive", params={"state": self.count_open})
-        print(res.status_code)
+        self.count_open = (1 if self.count_open==0 else 0)
+        patch("https://dt.miet.ru/ppo_it/api/fork_drive", params={"state": self.count_open})
 
     def water_run(self, instance):
-        res = patch("https://dt.miet.ru/ppo_it/api/watering",
+        patch("https://dt.miet.ru/ppo_it/api/watering",
                     params={"id": 6,
                             "state": 0
                             })
-        print(res.status_code)
 
     def water_all_run(self, instance):
         if self.water_all == 0:
@@ -596,9 +564,6 @@ class AutomodeScreen(Screen):
 
         self.fl = FloatLayout()
         self.dp = LeftMenu()
-
-        self.watering_time = None
-        self.temp_time = None
 
         self.Init()
 
@@ -672,7 +637,6 @@ class AutomodeScreen(Screen):
 
     def get_time_watering(self, instance, time):
         self.watering_time = str(time)
-        print(self.watering_time)
 
     # <-----------------Temperature----------------->
     def show_timer_temp(self, instance):
@@ -682,7 +646,6 @@ class AutomodeScreen(Screen):
 
     def get_time_temp(self, instance, time):
         self.temp_time = str(time)
-        print(self.temp_time)
 
     # <-----------------Pressed----------------->
     def sw_press1(self, switch, value):
@@ -814,11 +777,9 @@ class EditScreen(Screen):
 
         if self.txt2.text is not None and self.txt2.text != "":
             min_hum_air = float(self.txt2.text)
-            print("save", min_hum_air)
 
         if self.txt3.text is not None and self.txt3.text != "":
             min_hum_earth = float(self.txt3.text)
-            print("save", min_hum_earth)
 
 
 class MainApp(MDApp, Screen):
@@ -826,9 +787,7 @@ class MainApp(MDApp, Screen):
         super(MainApp, self).__init__(**kwargs)
         self.sm = ScreenManager()
 
-    @profile
     def build(self):
-        self.theme_cls.theme_style_switch_animation = True
         self.theme_cls.primary_palette = "Green"
         self.theme_cls.theme_style = "Dark"
 
@@ -850,33 +809,26 @@ class MainApp(MDApp, Screen):
     def edit_call(self):
         self.sm.transition.direction = "left"
         self.sm.current = "Edit"
-        return 0
 
     def extra_mode(self):
         self.sm.transition.direction = "right"
         self.sm.current = "ExtraMode"
-        return 0
 
     def table_info(self):
         self.sm.transition.direction = "right"
         self.sm.current = "Table"
-        return 0
 
     def auto_mode(self):
         self.sm.transition.direction = "right"
         self.sm.current = "AutoMode"
-        return 0
 
     def change_color_sys(self):
-        screen_now = self.sm.current
         self.theme_cls.theme_style = (
             "Light" if self.theme_cls.theme_style == "Dark" else "Dark"
         )
-        return 0
 
     def git_info(self):
         open_new_tab("https://github.com/voronov-nikita/teplica_predprof")
-        return 0
 
 
 class ErrorApp(MDApp):
