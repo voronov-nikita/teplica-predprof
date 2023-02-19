@@ -1,4 +1,4 @@
-function onEntryText(entry) {
+sfunction onEntryText(entry) {
     entry.forEach(change => {
       if (change.isIntersecting) {
         if (k==0){

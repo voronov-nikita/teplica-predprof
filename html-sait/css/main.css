@@ -4,7 +4,6 @@ body{
     font-size: 18px;
     line-height: 1.6;
     color: #020;
-
     background-size: cover;
 }
 
@@ -20,8 +19,9 @@ h1, h2, h3, h4, h5, h6 {
 /*Container*/
 .container {
     width: 100%;
-    max-width: 1400px;
+    max-width: 1430px;
     margin: 0 auto;
+    padding:0 15px;
 }
 
 /*intro*/
@@ -75,7 +75,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 /*Чуть увеличенный шрифт*/
 .for__what2 {
-    text-align: center;
+    
     margin-top: 300px;
     color: #020;
     font-size: 20px;
@@ -101,7 +101,7 @@ h1, h2, h3, h4, h5, h6 {
     color: #fff;
     padding: 0px 15px 0px 15px;
     width: 100%;
-    position: fixed;
+  
     left: 0;
     right: 0;
     z-index: 1000;
@@ -200,7 +200,7 @@ h1, h2, h3, h4, h5, h6 {
     height:20px;
     width:100%;
     display:flex;
-    margin-top: 100px;
+    margin-top: 50px;
 }
 .sectionn {
     padding: 100px 0;
@@ -223,9 +223,10 @@ h1, h2, h3, h4, h5, h6 {
 }
 .containerr {
     width: 100%;
-    max-width: 1400px;
+    max-width: 1430px;
     margin: 0 auto;
     height: 6800px;
+    padding:0 15px;
 }
 
 
@@ -344,6 +345,7 @@ h1, h2, h3, h4, h5, h6 {
     text-transform: uppercase;
     padding-bottom: 40px;
 }
+
 /*для текстов*/
 .main__text {
     width: 100%;
@@ -351,6 +353,7 @@ h1, h2, h3, h4, h5, h6 {
     margin: 0 auto 40px;
     display: flex;
     justify-content: space-between;
+    flex-wrap: wrap;
 }
 /*сами текста*/
 .textt {
@@ -363,6 +366,7 @@ h1, h2, h3, h4, h5, h6 {
 /*если текст и 1 фото*/
 .main__item {
     width: 50%;
+    
 }
 /*подзаголовки*/
 .suptitle__LeftMenu {
@@ -374,16 +378,222 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /*для 3 фоток*/
-.main__img {
+.img {
     display: flex;
     justify-content: space-between;
+    flex-wrap: wrap;
    
 }
 /*3 фотки*/
 .main__itt {
-    width: 55%;
+    width: 100%;
     display: flex;
     justify-content: space-between;
     padding-bottom: 40px;
     padding-top: -100px;
+}
+
+@media  (max-width: 1300px) {
+    /*intro*/ 
+    .intro__title {
+        font-size: 90px;
+    }
+    
+    .for__what {
+        font-size: 18px;
+    }
+    .intro__title:after{
+        width: 380px;
+    }
+    .btn {
+        font-size: 17px;
+    }
+    /*section*/
+    .section__title {
+        font-size: 48px;
+    }
+    .section__suptitle {
+        font-size: 22px;
+    }
+    .textt {
+        font-size: 19px;
+    }
+}
+
+@media  (max-width: 1100px) {
+     /*intro*/ 
+     .intro__title {
+        font-size: 80px;
+    }
+    
+    .for__what {
+        font-size: 15px;
+    }
+    .intro__title:after{
+        width: 350px;
+    }
+    .btn {
+        font-size: 16px;
+    }
+    /*section*/
+    .section__title {
+        font-size: 40px;
+    }
+    .description__title {
+        font-size: 27px;
+    }
+    .textt {
+        font-size: 18px;
+    }
+    .main__item {
+        width: 100%;
+    }
+    .section {
+        height: 7000px;
+    }
+    .containerr {
+        height: 7000px;
+    }
+}
+@media  (max-width: 900px){
+    /*intro*/
+    #nav > ul > li{
+        float:none;
+        width: 210px;
+        position: relative;
+    }
+}
+@media  (max-width: 800px) {
+    /*intro*/ 
+    .intro__title {
+       font-size: 70px;
+   }
+   .for__what {
+       font-size: 13px;
+   }
+   .intro__title:after{
+    width: 300px;
+    }
+    .btn {
+        font-size: 15px;
+    }
+    /*section*/
+    .section__title {
+        font-size: 35px;
+    }
+    .description__title {
+        font-size: 25px;
+    }
+    .textt {
+        font-size: 17px;
+    }
+    
+}
+
+@media  (max-width: 650px) {
+    /*intro*/ 
+    .intro__title {
+       font-size: 60px;
+   }
+   
+   .for__what {
+       font-size: 11px;
+   }
+   .intro__title:after{
+    width: 250px;
+    }
+    .btn {
+        font-size: 14px;
+    }
+    /*section*/
+    .section__title {
+        font-size: 30px;
+        padding-bottom: -1000px;
+    }
+    .section__suptitle {
+        display: none;
+    }
+    .description__title {
+        font-size: 22px;
+        
+        
+    }
+    .textt {
+        font-size: 14px;
+        
+    }
+    
+   
+
+}
+ @media  (max-width: 470px){
+    /*section*/
+     .section {
+        height: 7000px;
+    }
+    .containerr{
+        height: 7000px;
+    }
+}
+@media  (max-width: 450px) {
+    /*intro*/ 
+    .intro__title {
+       font-size: 50px;
+   }
+   
+   .for__what {
+       font-size: 9px;
+   }
+   .intro__title:after{
+        width: 200px;
+   }
+   .btn {
+    font-size: 13px;
+    }
+    /*section*/
+    .section__title {
+        font-size: 25px;
+    }
+    .n {
+        display: block;
+    }
+    .description__title {
+        font-size: 19px;
+    }
+    .textt {
+        font-size: 11px;
+    }
+}
+@media  (max-width: 340px) {
+    /*intro*/ 
+    .intro__title {
+       font-size: 30px;
+   }
+   
+   .for__what {
+       font-size: 7px;
+   }
+   .intro__title:after{
+        width: 150px;
+   }
+   .btn {
+    font-size: 11px;
+    }
+    /*section*/
+    .section__title {
+        font-size: 20px;
+    }
+    .section__suptitle {
+        font-size: 17px;
+    }
+    .description__title {
+        font-size: 15px;
+    }
+    .textt {
+        font-size: 9px;
+    }
+    /*2 section*/
+    .for__what2 {
+        font-size: 12px;
+    }
 }
