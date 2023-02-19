@@ -502,15 +502,6 @@ class ExtraScreen(Screen):
                                           on_press=self.water_all_run
 
                                           )
-        self.btn4 = MDRectangleFlatButton(text="4",
-                                          disabled=True,
-                                          size_hint=(1, 0.17),
-                                          pos_hint={"center_x": 0.5, "y": 0},
-                                          font_size=dp(15),
-                                          theme_text_color="Custom",
-                                          line_color=(1, 0, 0, 0.8),
-                                          text_color=(1, 0, 0, 1),
-                                          )
         background_image = FitImage(
             source="icon/extra-dark.jpg",
             opacity=0.065
@@ -521,7 +512,6 @@ class ExtraScreen(Screen):
         self.fl.add_widget(self.btn1)
         self.fl.add_widget(self.btn2)
         self.fl.add_widget(self.btn3)
-        self.fl.add_widget(self.btn4)
         self.fl.add_widget(self.bx)
         self.fl.add_widget(self.dp)
 
@@ -552,14 +542,12 @@ class ExtraScreen(Screen):
             self.btn1.disabled = False
             self.btn2.disabled = False
             self.btn3.disabled = False
-            self.btn4.disabled = False
         else:
             self.lbl.text_color = (1, 0, 0, 1)
             self.lbl.line_color = (1, 0, 0, 1)
             self.btn1.disabled = True
             self.btn2.disabled = True
             self.btn3.disabled = True
-            self.btn4.disabled = True
 
 
 class AutomodeScreen(Screen):
@@ -588,7 +576,8 @@ class AutomodeScreen(Screen):
         self.text1 = MDLabel(text="Auto Watering",
                              pos_hint={"center_x": 0.6,
                                        "center_y": 0.5},
-                             color=(1, 1, 0, 1),
+                             theme_text_color="Custom",
+                             text_color=(1, 1, 0, 1),
                              )
         self.time1 = MDRaisedButton(
             text="Set Time",
@@ -609,7 +598,8 @@ class AutomodeScreen(Screen):
         self.text2 = MDLabel(text="Auto Opening",
                              pos_hint={"center_x": 0.6,
                                        "center_y": 0.3},
-                             color=(1, 1, 0, 1)
+                             theme_text_color="Custom",
+                             text_color=(1, 1, 0, 1)
                              )
         self.time2 = MDRaisedButton(
             text="Set Time",
