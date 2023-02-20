@@ -75,24 +75,19 @@ h1, h2, h3, h4, h5, h6 {
 }
 /*Чуть увеличенный шрифт*/
 .for__what2 {
-    
-    margin-top: 300px;
     color: #020;
     font-size: 20px;
     font-weight: 700;
     line-height: 1.5;
     font-family: "Raleway";
-    margin-bottom: 25px;
+
 
 }
 .installing {
-    height:150px; 
-    width:1000px; 
-    text-align:left; 
-    position:relative; 
-    word-break:break-all;
-    bottom: 275px;
-    right:30px;
+    text-align: center;
+    font-size: 20px;
+    color: #020;
+    font-family: 'Raleway';
 }
 /*header*/
 .header, .footer {
@@ -226,7 +221,6 @@ h1, h2, h3, h4, h5, h6 {
     max-width: 1430px;
     margin: 0 auto;
     height: 6800px;
-                                              
 }
 
 
@@ -245,22 +239,13 @@ h1, h2, h3, h4, h5, h6 {
     text-transform: uppercase;
     padding-bottom: 40px;
 }
-
-.section__title_installion {
-    text-align: center;
-    font-size: 50px;
-    color: #020;
-    font-family: 'Rokkitt', serif;
-    text-transform: uppercase;
-    padding-bottom: 40px;
+.installing_show {
     opacity: 0;
 }
-
-.section__title_installion.element-show {
+.installing_show.element-show {
     opacity: 1;
     transition: opacity 1s;
 }
-
 .section__suptitle {
     text-align: center;
     font-size: 24px;
@@ -361,7 +346,7 @@ h1, h2, h3, h4, h5, h6 {
     font-size: 20px;
     color: #020;
     font-family: 'Raleway';
-    
+    padding-bottom: 10px;
 }
 /*если текст и 1 фото*/
 .main__item {
@@ -374,25 +359,20 @@ h1, h2, h3, h4, h5, h6 {
     font-size: 24px;
     color: #020;
     font-family: "Raleway";
-    padding-bottom: 40px;
 }
 
 /*для 3 фоток*/
 .img {
     display: flex;
     justify-content: space-between;
-    max-width: 1430px;
     flex-wrap: wrap;
-    
-   
+    max-width: 1430px;
 }
 /*3 фотки*/
 .main__itt {
     width: 100%;
     display: flex;
     justify-content: space-between;
-   
-   
 }
 
 @media  (max-width: 1300px) {
@@ -402,6 +382,9 @@ h1, h2, h3, h4, h5, h6 {
     }
     
     .for__what {
+        font-size: 18px;
+    }
+    .for__what2 {
         font-size: 18px;
     }
     .intro__title:after{
@@ -420,6 +403,9 @@ h1, h2, h3, h4, h5, h6 {
     .textt {
         font-size: 19px;
     }
+    .installing {
+        font-size: 19px;
+    }
 }
 
 @media  (max-width: 1100px) {
@@ -429,6 +415,9 @@ h1, h2, h3, h4, h5, h6 {
     }
     
     .for__what {
+        font-size: 15px;
+    }
+    .for__what2 {
         font-size: 15px;
     }
     .intro__title:after{
@@ -447,6 +436,9 @@ h1, h2, h3, h4, h5, h6 {
     .textt {
         font-size: 18px;
     }
+    .installing {
+        font-size: 18px;
+    }
     .main__item {
         width: 100%;
         text-align: center;
@@ -463,6 +455,7 @@ h1, h2, h3, h4, h5, h6 {
     #nav {
         margin-bottom: 3300px;
     }
+
 }
 @media  (max-width: 900px){
     /*intro*/
@@ -474,6 +467,7 @@ h1, h2, h3, h4, h5, h6 {
     #nav {
         margin-bottom: 3200px;
     }
+
    
 }
 @media  (max-width: 800px) {
@@ -484,6 +478,9 @@ h1, h2, h3, h4, h5, h6 {
    .for__what {
        font-size: 13px;
    }
+   .for__what2 {
+        font-size: 13px;
+    }
    .intro__title:after{
     width: 300px;
     }
@@ -500,7 +497,9 @@ h1, h2, h3, h4, h5, h6 {
     .textt {
         font-size: 17px;
     }
-   
+    .installing {
+        font-size: 17px;
+    }
     
 }
 
@@ -513,6 +512,9 @@ h1, h2, h3, h4, h5, h6 {
    .for__what {
        font-size: 11px;
    }
+   .for__what2 {
+        font-size: 11px;
+    }
    .intro__title:after{
     width: 250px;
     }
@@ -524,7 +526,6 @@ h1, h2, h3, h4, h5, h6 {
         font-size: 30px;
         padding-bottom: -1000px;
     }
-    
     .description__title {
         font-size: 22px;
         
@@ -534,7 +535,9 @@ h1, h2, h3, h4, h5, h6 {
         font-size: 14px;
         
     }
-    
+    .installing {
+        font-size: 14px;
+    }
    
 
 }
@@ -556,6 +559,9 @@ h1, h2, h3, h4, h5, h6 {
    .for__what {
        font-size: 9px;
    }
+   .for__what2 {
+        font-size: 9px;
+    }
    .intro__title:after{
         width: 200px;
    }
@@ -581,6 +587,9 @@ h1, h2, h3, h4, h5, h6 {
     .textt {
         font-size: 11px;
     }
+    .installing {
+        font-size: 11px;
+    }
     #nav {
         margin-bottom: 3100px;
     }
@@ -594,6 +603,9 @@ h1, h2, h3, h4, h5, h6 {
    .for__what {
        font-size: 7px;
    }
+   .for__what2 {
+        font-size: 7px;
+    }
    .intro__title:after{
         width: 150px;
    }
@@ -611,6 +623,9 @@ h1, h2, h3, h4, h5, h6 {
         font-size: 15px;
     }
     .textt {
+        font-size: 9px;
+    }
+    .installing {
         font-size: 9px;
     }
     /*2 section*/
