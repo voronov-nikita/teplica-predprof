@@ -226,7 +226,7 @@ h1, h2, h3, h4, h5, h6 {
     max-width: 1430px;
     margin: 0 auto;
     height: 6800px;
-    padding:0 15px;
+                                              
 }
 
 
@@ -361,7 +361,7 @@ h1, h2, h3, h4, h5, h6 {
     font-size: 20px;
     color: #020;
     font-family: 'Raleway';
-    padding-bottom: 10px;
+    
 }
 /*если текст и 1 фото*/
 .main__item {
@@ -381,7 +381,9 @@ h1, h2, h3, h4, h5, h6 {
 .img {
     display: flex;
     justify-content: space-between;
+    max-width: 1430px;
     flex-wrap: wrap;
+    
    
 }
 /*3 фотки*/
@@ -389,8 +391,8 @@ h1, h2, h3, h4, h5, h6 {
     width: 100%;
     display: flex;
     justify-content: space-between;
-    padding-bottom: 40px;
-    padding-top: -100px;
+   
+   
 }
 
 @media  (max-width: 1300px) {
@@ -449,6 +451,9 @@ h1, h2, h3, h4, h5, h6 {
         width: 100%;
         text-align: center;
     }
+    .main__itt {
+        width: 100%;
+    }
     .section {
         height: 7250px;
     }
@@ -495,6 +500,7 @@ h1, h2, h3, h4, h5, h6 {
     .textt {
         font-size: 17px;
     }
+   
     
 }
 
@@ -518,9 +524,7 @@ h1, h2, h3, h4, h5, h6 {
         font-size: 30px;
         padding-bottom: -1000px;
     }
-    .section__suptitle {
-        display: none;
-    }
+    
     .description__title {
         font-size: 22px;
         
