@@ -723,8 +723,11 @@ class EditScreen(Screen):
         self.fl = FloatLayout()
         self.lbl = MDLabel(text="EDIT\nHere you can manually set the values for the sensors",
                            halign="center",
-                           size_hint=(1, 0.1),
-                           pos_hint={"x": 0, "y": 0.8},
+                           theme_text_color="Custom",
+                           text_color=(0, 1, 0, 1),
+                           line_color = (0, 1, 0, 1),
+                           size_hint=(.8, 0.2),
+                           pos_hint={"center_x": .5, "y": 0.8},
                            )
 
         self.Init()
@@ -732,18 +735,18 @@ class EditScreen(Screen):
     def Init(self):
         self.txt1 = MDTextField(hint_text=f"Temperature",
                                 mode="fill",
-                                size_hint=(.9, 0.3),
-                                pos_hint={"center_x": 0.45, "center_y": .7}
+                                size_hint=(1, 0.3),
+                                pos_hint={"center_x": 0.5, "center_y": .6}
                                 )
         self.txt2 = MDTextField(hint_text=f"Humidity Air",
                                 mode="fill",
-                                size_hint=(.9, 0.3),
-                                pos_hint={"center_x": 0.45, "center_y": 0.6},
+                                size_hint=(1, 0.3),
+                                pos_hint={"center_x": 0.5, "center_y": 0.45},
                                 )
         self.txt3 = MDTextField(hint_text=f"Humidity Soil",
                                 mode="fill",
-                                size_hint=(.9, 0.3),
-                                pos_hint={"center_x": 0.45, "center_y": 0.5}
+                                size_hint=(1, 0.3),
+                                pos_hint={"center_x": 0.5, "center_y": 0.3}
                                 )
 
         btn_save_data = MDRaisedButton(
@@ -758,6 +761,7 @@ class EditScreen(Screen):
         )
 
         self.fl.add_widget(background_image)
+        self.fl.add_widget(self.lbl)
         self.fl.add_widget(self.txt1)
         self.fl.add_widget(self.txt2)
         self.fl.add_widget(self.txt3)
@@ -770,7 +774,6 @@ class EditScreen(Screen):
     def next(self, instance):
         self.manager.transition.direction = 'right'
         self.manager.current = "Main"
-        return 0
 
     def save_data(self, instance):
         if self.txt1.text is not None and self.txt1.text != "":
@@ -810,7 +813,6 @@ class MainApp(MDApp, Screen):
     def main_call(self):
         self.sm.transition.direction = "right"
         self.sm.current = "Main"
-        return 0
 
     def edit_call(self):
         self.sm.transition.direction = "left"
