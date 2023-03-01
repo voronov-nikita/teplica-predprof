@@ -290,7 +290,6 @@ h1, h2, h3, h4, h5, h6 {
 	text-decoration: none;
 }
 #nav li a:hover{
-	
     color: #fff;
 }
 
@@ -380,6 +379,10 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 @media  (max-width: 1300px) {
+    /*header*/
+    .nav {
+        font-size: 19px;
+    }
     /*intro*/ 
     .intro__title {
         font-size: 90px;
@@ -413,6 +416,10 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 @media  (max-width: 1100px) {
+    /*header*/
+    .nav {
+        font-size: 18px;
+    }
      /*intro*/ 
      .intro__title {
         font-size: 80px;
@@ -451,10 +458,10 @@ h1, h2, h3, h4, h5, h6 {
         width: 100%;
     }
     .section {
-        height: 7250px;
+        height: 7400px;
     }
     .containerr {
-        height: 7250px;
+        height: 7400px;
     }
     #nav {
         margin-bottom: 3300px;
@@ -462,6 +469,10 @@ h1, h2, h3, h4, h5, h6 {
 
 }
 @media  (max-width: 900px){
+    /*header*/
+    .nav {
+        font-size: 17px;
+    }
     /*intro*/
     #nav > ul > li{
         float:none;
@@ -475,6 +486,10 @@ h1, h2, h3, h4, h5, h6 {
    
 }
 @media  (max-width: 800px) {
+    /*header*/
+    .nav {
+        font-size: 15px;
+    }
     /*intro*/ 
     .intro__title {
        font-size: 70px;
@@ -504,10 +519,16 @@ h1, h2, h3, h4, h5, h6 {
     .installing {
         font-size: 17px;
     }
-    
+    .suptitle__LeftMenu {
+        font-size: 22px;
+    }
 }
 
 @media  (max-width: 650px) {
+    /*header*/
+    .nav {
+        font-size: 14px;
+    }
     /*intro*/ 
     .intro__title {
        font-size: 60px;
@@ -532,8 +553,6 @@ h1, h2, h3, h4, h5, h6 {
     }
     .description__title {
         font-size: 22px;
-        
-        
     }
     .textt {
         font-size: 14px;
@@ -542,19 +561,25 @@ h1, h2, h3, h4, h5, h6 {
     .installing {
         font-size: 14px;
     }
-   
+    .suptitle__LeftMenu {
+        font-size: 20px;
+    }
 
 }
  @media  (max-width: 470px){
     /*section*/
      .section {
-        height: 7000px;
+        height: 7200px;
     }
     .containerr{
-        height: 7000px;
+        height: 7200px;
     }
 }
 @media  (max-width: 450px) {
+    /*header*/
+    .nav {
+        font-size: 12px;
+    }
     /*intro*/ 
     .intro__title {
        font-size: 50px;
@@ -574,10 +599,10 @@ h1, h2, h3, h4, h5, h6 {
     }
     /*section*/
     .section {
-        height: 6800px;
+        height: 7000px;
     }
     .containerr {
-        height: 6800px;
+        height: 7000px;
     }
     .section__title {
         font-size: 25px;
@@ -597,8 +622,15 @@ h1, h2, h3, h4, h5, h6 {
     #nav {
         margin-bottom: 3100px;
     }
+    .suptitle__LeftMenu {
+        font-size: 17px;
+    }
 }
 @media  (max-width: 340px) {
+    /*header*/
+    .nav {
+        font-size: 10px;
+    }
     /*intro*/ 
     .intro__title {
        font-size: 30px;
@@ -631,6 +663,9 @@ h1, h2, h3, h4, h5, h6 {
     }
     .installing {
         font-size: 9px;
+    }
+    .suptitle__LeftMenu {
+        font-size: 15px;
     }
     /*2 section*/
     .for__what2 {
