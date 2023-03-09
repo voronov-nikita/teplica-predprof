@@ -9,6 +9,8 @@ from requests import get, patch
 from json import loads
 from datetime import datetime
 
+import sqlite3 as sql
+
 
 # Основное приложение
 from kivymd.app import MDApp
@@ -28,21 +30,21 @@ from kivy.lang import Builder
 
 min_temp, min_hum_earth, min_hum_air = 0, 0, 0
 
+db = sql.connect("tableinfo.db")
+cursor = db.cursor()
+
+cursor.execute("""CREATE TABLE IF NOT EXISTS tabel(
+    id INTEGER,
+    temperature FLOAT,
+    humidity_air FLOAT
+)
+""")
+db.commit()
+
 
 # преобразование json в словарь
 def splitting_for(s):
     return loads(s)
-
-
-DropDown_KV = """
-MDScreen:
-
-    MDToolbar:
-        id:tool1
-        title:'My Demo App'
-        pos_hint:{'top':1}
-        right_action_items : [["dots-vertical", lambda x: app.menu.open()]]
-"""
 
 LeftMenu_KV = """
 MDNavigationLayout:
@@ -705,12 +707,19 @@ class TabelScreen(Screen):
         new_data_row = []
         for i in range(1, 4 + 1):
             res = get(f"https://dt.miet.ru/ppo_it/api/temp_hum/{i}").text
+            temp = splitting_for(res)["temperature"]
+            hum = splitting_for(res)["humidity"]
             new_data_row.append(
                 (i,
-                 splitting_for(res)["temperature"],
-                 splitting_for(res)["humidity"],
+                 temp,
+                 hum,
             ))
+            cursor.execute(f"""INSERT INTO tabel(id, temperature, humidity_air) 
+            VALUES("{i}", "{temp}", "{hum}");
+        """)
+            db.commit()
         self.table.row_data = new_data_row
+        
 
 
 class EditScreen(Screen):
@@ -860,7 +869,8 @@ class ErrorApp(MDApp):
 
 
 if __name__ == "__main__":
-    try:
-        MainApp().run()
-    except:
-        ErrorApp().run()
+    MainApp().run()
+    # try:
+    #     MainApp().run()
+    # except:
+    #     ErrorApp().run()
