@@ -7,10 +7,10 @@ Config.set("graphics", "height", 500)
 from webbrowser import open_new_tab
 from requests import get, patch
 from json import loads
-from datetime import datetime
+from datetime import datetime as dt
+from time import sleep
 
 import sqlite3 as sql
-
 
 # Основное приложение
 from kivymd.app import MDApp
@@ -24,11 +24,11 @@ from kivymd.uix.textfield import MDTextField
 from kivymd.uix.datatables import MDDataTable
 from kivymd.uix.pickers import MDTimePicker
 from kivymd.uix.fitimage import FitImage
-# from kivy.garden.matplotlib.backend_kivyagg import FigureCanvasKivyAgg
 from kivy.metrics import dp
 from kivy.lang import Builder
 
 min_temp, min_hum_earth, min_hum_air = 0, 0, 0
+
 
 db = sql.connect("tableinfo.db")
 cursor = db.cursor()
@@ -45,6 +45,7 @@ db.commit()
 # преобразование json в словарь
 def splitting_for(s):
     return loads(s)
+
 
 LeftMenu_KV = """
 MDNavigationLayout:
@@ -81,7 +82,7 @@ MDNavigationLayout:
                     nav_drawer.set_state("close")
                     app.call_help()
             MDLabel:
-                text: "Left Menu"
+                text: "Меню"
                 size_hint: (1, .5)
                 halign: "center"
                 theme_text_color: "Custom"
@@ -91,7 +92,7 @@ MDNavigationLayout:
                 line_color: 0, 0, 0, 0
                 size_hint: (1, .5)
                 icon: "home"
-                text: "Home"
+                text: "Главная"
                 on_release:
                     nav_drawer.set_state("close")
                     app.main_call()
@@ -101,7 +102,7 @@ MDNavigationLayout:
                 line_color: 0, 0, 0, 0
                 size_hint: (1, .5)
                 icon: "pencil"
-                text: "EDIT"
+                text: "Редактировать"
                 on_release:
                     nav_drawer.set_state("close")
                     app.edit_call()
@@ -110,7 +111,7 @@ MDNavigationLayout:
                 line_color: 0, 0, 0, 0
                 size_hint: (1, .5)
                 icon: "table-large"
-                text: "Table"
+                text: "Таблицы"
                 on_release:
                     nav_drawer.set_state("close")
                     app.table_info()
@@ -120,7 +121,7 @@ MDNavigationLayout:
                 size_hint: (1, .5)
                 icon: "lightning-bolt"
                 halign: "center"
-                text: "Extra Mode"
+                text: "Экстра режим"
                 on_release:
                     nav_drawer.set_state("close")
                     app.extra_mode()
@@ -130,7 +131,7 @@ MDNavigationLayout:
                 size_hint: (1, .5)
                 icon: "play"
                 halign: "center"
-                text: "Auto Mode"
+                text: "Авто режим"
                 on_release:
                     nav_drawer.set_state("close")
                     app.auto_mode()
@@ -139,7 +140,7 @@ MDNavigationLayout:
                 line_color: 0, 0, 0, 0
                 size_hint: (1, .5)
                 icon: "lightbulb"
-                text: "Themes"
+                text: "Темы"
                 on_release: app.change_color_sys()
 
             MDRectangleFlatIconButton:
@@ -171,7 +172,7 @@ class MainScreen(Screen):
         for i in range(1, 4 + 1):
             res = get(f"https://dt.miet.ru/ppo_it/api/temp_hum/{i}")
             self.button_value.append(
-                f"""Sensor {i}:\nTemperature: {splitting_for(res.text)["temperature"]}\nHumidity: {splitting_for(res.text)["humidity"]}""")
+                f"""Сенсор {i}:\nТемпература: {splitting_for(res.text)["temperature"]}\nВлажность: {splitting_for(res.text)["humidity"]}""")
         self.fl = FloatLayout()
         self.dp = LeftMenu()
         # запускаем функцию Init()
@@ -201,14 +202,14 @@ class MainScreen(Screen):
                                      on_release=self.update
                                      )
         self.btn_doing = MDRectangleFlatButton(
-            text="DO",
+            text="Действия",
             size_hint=(.4, .2),
             pos_hint={'center_x': 0.71, 'center_y': 0.1},
             md_bg_color=(0, 1, 0, 0.1),
             on_press=self.doing
         )
 
-        self.btn_next = MDRectangleFlatButton(text="soil info",
+        self.btn_next = MDRectangleFlatButton(text="Информация о почве",
                                               size_hint=(.4, .2),
                                               pos_hint={"center_x": 0.29, "center_y": 0.1},
                                               md_bg_color=(0, 1, 0, 0.1),
@@ -241,7 +242,7 @@ class MainScreen(Screen):
     def update(self, instance):
         id_btn = instance.text[7:8]
         res = get(f"https://dt.miet.ru/ppo_it/api/temp_hum/{id_btn}")
-        txt = f"""Sensor {id_btn}:\nTemperature: {splitting_for(res.text)["temperature"]}\nHumidity: {splitting_for(res.text)["humidity"]}"""
+        txt = f"""Сенсор {id_btn}:\nТемпература: {splitting_for(res.text)["temperature"]}\nВлажность: {splitting_for(res.text)["humidity"]}"""
         instance.text = txt
 
     def doing(self, instance):
@@ -281,7 +282,7 @@ class DoingScreen(Screen):
 
     def Init(self):
         self.btn_open = MDRectangleFlatButton(
-            text="Open",
+            text="Открыть",
             font_size=dp(20),
             size_hint=(.9, .2),
             pos_hint={"center_x": 0.5, "center_y": 0.8},
@@ -289,7 +290,7 @@ class DoingScreen(Screen):
             on_release=self.move_luck
         )
         self.btn_start_water = MDRectangleFlatButton(
-            text="Start\nAll Watering",
+            text="Начать\nОбщий полив",
             font_size=dp(20),
             size_hint=(.9, .2),
             pos_hint={"center_x": 0.5, "center_y": 0.55},
@@ -298,7 +299,7 @@ class DoingScreen(Screen):
         )
 
         self.btn_stop_water = MDRectangleFlatButton(
-            text="Stop Watering",
+            text="Останость полив",
             size_hint=(.9, .2),
             pos_hint={"center_x": 0.5, "center_y": 0.3},
             disabled=False,
@@ -319,26 +320,26 @@ class DoingScreen(Screen):
 
     # отправляем patch запрос на старт полива всех грядок
     def start_all_water(self, instance):
-        if instance.text == "Start\nAll Watering":
-            instance.text = "Stop\nAll Watering"
+        if instance.text == "Начать\nОбщий полив":
+            instance.text = "Остановить полив"
             res = patch("https://dt.miet.ru/ppo_it/api/total_hum",
                         params={"state": 0}
                         )
             print(res.status_code)
         else:
-            instance.text = "Start\nAll Watering"
+            instance.text = "Начать\nОбщий полив"
             res = patch("https://dt.miet.ru/ppo_it/api/total_hum",
                         params={"state": 1}
                         )
 
     # отправляем patch запрос на открытие/закрытие форточки
     def move_luck(self, instance):
-        if instance.text == "Open":
-            instance.text = "Close"
+        if instance.text == "Открыть":
+            instance.text = "Закрыть"
             res = patch("https://dt.miet.ru/ppo_it/api/fork_drive", params={"state": 1})
             print(res.status_code)
         else:
-            instance.text = "Open"
+            instance.text = "Открыть"
             res = patch("https://dt.miet.ru/ppo_it/api/fork_drive", params={"state": 0})
 
     def watering_one(self, instance):
@@ -354,7 +355,7 @@ class SecondScreen(Screen):
         for i in range(1, 6 + 1):
             res = get(f"https://dt.miet.ru/ppo_it/api/hum/{i}")
             self.button_value.append(
-                f"""Sensor {i}:\nHumidity: {splitting_for(res.text)["humidity"]}""")
+                f"""Сенсор {i}:\nВлажность: {splitting_for(res.text)["humidity"]}""")
         self.fl = FloatLayout()
         self.dp = LeftMenu()
         self.Init()
@@ -391,14 +392,14 @@ class SecondScreen(Screen):
                                      on_press=self.update
                                      )
         self.btn_next = MDRectangleFlatButton(
-            text="back",
+            text="назад",
             size_hint=(.4, .2),
             pos_hint={'x': 0.52, 'y': 0},
             md_bg_color=(0, 1, 0, 0.1),
             on_press=self.next
         )
         self.btn_doing = MDRectangleFlatButton(
-            text="DO",
+            text="действия",
             size_hint=(.4, .2),
             pos_hint={'x': 0.08, 'y': 0},
             md_bg_color=(0, 1, 0, 0.1),
@@ -430,7 +431,7 @@ class SecondScreen(Screen):
     def update(self, instance):
         id_btn = instance.text[7:8]
         res = get(f"https://dt.miet.ru/ppo_it/api/hum/{id_btn}")
-        txt = f"""Sensor {id_btn}:\nHumidity: {splitting_for(res.text)["humidity"]}"""
+        txt = f"""Сенсор {id_btn}:\nВлажность: {splitting_for(res.text)["humidity"]}"""
         instance.text = txt
 
     def doing(self, instance):
@@ -461,19 +462,20 @@ class ExtraScreen(Screen):
                             pos_hint={"x": 0, "y": 0},
                             size_hint=(1, 0.7))
         self.fl = FloatLayout()
-        self.lbl = MDLabel(text="WARNING\nBy turning on the extra mode, you take full responsibility for what happened",
-                           halign="center",
-                           size_hint=(0.8, .2),
-                           pos_hint={"center_x": 0.5, "center_y": 0.9},
-                           theme_text_color="Custom",
-                           text_color=(1, 0, 0, 1),
-                           line_color=(1, 0, 0, 1),
-                           font_size=dp(30),
-                           )
+        self.lbl = MDLabel(
+            text="Внимание\nИспользуя данный режим, вы берете на себя всю ответственность за состояние ваших растений",
+            halign="center",
+            size_hint=(0.8, .2),
+            pos_hint={"center_x": 0.5, "center_y": 0.9},
+            theme_text_color="Custom",
+            text_color=(1, 0, 0, 1),
+            line_color=(1, 0, 0, 1),
+            font_size=dp(30),
+        )
         self.Init()
 
     def Init(self):
-        self.btn1 = MDRectangleFlatButton(text="Open Leaf",
+        self.btn1 = MDRectangleFlatButton(text="Открыть люк",
                                           disabled=True,
                                           size_hint=(1, 0.17),
                                           pos_hint={"center_x": 0.5, "center_y": 0.595},
@@ -483,7 +485,7 @@ class ExtraScreen(Screen):
                                           text_color=(1, 0, 0, 1),
                                           on_press=self.leaf_move
                                           )
-        self.btn2 = MDRectangleFlatButton(text="Watering",
+        self.btn2 = MDRectangleFlatButton(text="Начать Полив",
                                           disabled=True,
                                           size_hint=(1, 0.17),
                                           pos_hint={"center_x": 0.5, "center_y": 0.425},
@@ -493,7 +495,7 @@ class ExtraScreen(Screen):
                                           text_color=(1, 0, 0, 1),
                                           on_press=self.water_run
                                           )
-        self.btn3 = MDRectangleFlatButton(text="Watering All",
+        self.btn3 = MDRectangleFlatButton(text="Останость полив",
                                           disabled=True,
                                           size_hint=(1, 0.17),
                                           pos_hint={"center_x": 0.5, "center_y": 0.255},
@@ -520,14 +522,14 @@ class ExtraScreen(Screen):
         self.add_widget(self.fl)
 
     def leaf_move(self, instance):
-        self.count_open = (1 if self.count_open==0 else 0)
+        self.count_open = (1 if self.count_open == 0 else 0)
         patch("https://dt.miet.ru/ppo_it/api/fork_drive", params={"state": self.count_open})
 
     def water_run(self, instance):
         patch("https://dt.miet.ru/ppo_it/api/watering",
-                    params={"id": 6,
-                            "state": 0
-                            })
+              params={"id": 6,
+                      "state": 0
+                      })
 
     def water_all_run(self, instance):
         if self.water_all == 0:
@@ -558,7 +560,7 @@ class AutomodeScreen(Screen):
         self.name = "AutoMode"
 
         self.lbl = MDLabel(
-            text="This is an automatic mode\nHere you can configure the automation of your greenhouse",
+            text="Это автоматический режим\nЗдесь вы можете задать время для самополива ваших растений",
             halign="center",
             pos_hint={"x": 0.1, "y": 0.8},
             size_hint=(0.8, 0.2),
@@ -575,14 +577,14 @@ class AutomodeScreen(Screen):
 
     def Init(self):
         # BLOCK №1
-        self.text1 = MDLabel(text="Auto Watering",
+        self.text1 = MDLabel(text="Авто полив",
                              pos_hint={"center_x": 0.6,
                                        "center_y": 0.5},
                              theme_text_color="Custom",
                              text_color=(1, 1, 0, 1),
                              )
         self.time1 = MDRaisedButton(
-            text="Set Time",
+            text="Задать время",
             pos_hint={"center_x": 0.8, "center_y": 0.5},
             disabled=True,
             md_bg_color=(1, 1, 0, 1),
@@ -597,14 +599,14 @@ class AutomodeScreen(Screen):
         self.switch1.bind(active=self.sw_press1)
 
         # BLOKC №2
-        self.text2 = MDLabel(text="Auto Opening",
+        self.text2 = MDLabel(text="Авто проветривание",
                              pos_hint={"center_x": 0.6,
                                        "center_y": 0.3},
                              theme_text_color="Custom",
                              text_color=(1, 1, 0, 1)
                              )
         self.time2 = MDRaisedButton(
-            text="Set Time",
+            text="Установить время",
             pos_hint={"center_x": 0.8, "center_y": 0.3},
             disabled=True,
             md_bg_color=(1, 1, 0, 1),
@@ -674,7 +676,7 @@ class TabelScreen(Screen):
         super().__init__()
         self.name = "Table"
 
-        self.now = datetime.now()
+        # self.now = datetime.now()
 
         self.dp = LeftMenu()
         self.fl = FloatLayout()
@@ -694,7 +696,7 @@ class TabelScreen(Screen):
                                  row_data=[
                                  ]
                                  )
-        btn = MDRaisedButton(text="New data",
+        btn = MDRaisedButton(text="Новые данные",
                              pos_hint={"x": 0, "y": 0},
                              size_hint=(1, .2),
                              on_release=self.new_row_table)
@@ -713,13 +715,12 @@ class TabelScreen(Screen):
                 (i,
                  temp,
                  hum,
-            ))
+                 ))
             cursor.execute(f"""INSERT INTO tabel(id, temperature, humidity_air) 
             VALUES("{i}", "{temp}", "{hum}");
         """)
             db.commit()
         self.table.row_data = new_data_row
-        
 
 
 class EditScreen(Screen):
@@ -730,36 +731,37 @@ class EditScreen(Screen):
         self.fl = FloatLayout()
         self.dp = LeftMenu()
         self.fl = FloatLayout()
-        self.lbl = MDLabel(text="EDIT\nHere you can manually set the values for the sensors",
-                           halign="center",
-                           theme_text_color="Custom",
-                           text_color=(0, 1, 0, 1),
-                           line_color = (0, 1, 0, 1),
-                           size_hint=(.8, 0.2),
-                           pos_hint={"center_x": .5, "y": 0.8},
-                           )
+        self.lbl = MDLabel(
+            text="Редактировать\nЗдесь вы можете задать значения при которых вашим растениям ничего не будет угрожать",
+            halign="center",
+            theme_text_color="Custom",
+            text_color=(0, 1, 0, 1),
+            line_color=(0, 1, 0, 1),
+            size_hint=(.8, 0.2),
+            pos_hint={"center_x": .5, "y": 0.8},
+        )
 
         self.Init()
 
     def Init(self):
-        self.txt1 = MDTextField(hint_text=f"Temperature",
+        self.txt1 = MDTextField(hint_text=f"Теспература",
                                 mode="fill",
                                 size_hint=(1, 0.3),
                                 pos_hint={"center_x": 0.5, "center_y": .6}
                                 )
-        self.txt2 = MDTextField(hint_text=f"Humidity Air",
+        self.txt2 = MDTextField(hint_text=f"Влажность воздуха",
                                 mode="fill",
                                 size_hint=(1, 0.3),
                                 pos_hint={"center_x": 0.5, "center_y": 0.45},
                                 )
-        self.txt3 = MDTextField(hint_text=f"Humidity Soil",
+        self.txt3 = MDTextField(hint_text=f"Влажность почвы",
                                 mode="fill",
                                 size_hint=(1, 0.3),
                                 pos_hint={"center_x": 0.5, "center_y": 0.3}
                                 )
 
         btn_save_data = MDRaisedButton(
-            text="Save",
+            text="Сохранить",
             size_hint=(1, .2),
             pos_hint={"x": 0, "y": 0},
             on_release=self.save_data
@@ -856,7 +858,7 @@ class ErrorApp(MDApp):
     def build(self):
         self.theme_cls.theme_style = "Dark"
         fl = FloatLayout()
-        fl.add_widget(MDLabel(text="Server is not responding\nTry later",
+        fl.add_widget(MDLabel(text="Сервер не отвечает\nПопробуйте позже",
                               font_size=dp(60),
                               size_hint=(1, 1),
                               halign="center"))
@@ -869,8 +871,7 @@ class ErrorApp(MDApp):
 
 
 if __name__ == "__main__":
-    MainApp().run()
-    # try:
-    #     MainApp().run()
-    # except:
-    #     ErrorApp().run()
+    try:
+        MainApp().run()
+    except:
+        ErrorApp().run()
