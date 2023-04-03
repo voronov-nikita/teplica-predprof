@@ -77,22 +77,7 @@ h1, h2, h3, h4, h5, h6 {
     margin-bottom: 25px;
 
 }
-/*Чуть увеличенный шрифт*/
-.for__what2 {
-    color: #020;
-    font-size: 20px;
-    font-weight: 700;
-    line-height: 1.5;
-    font-family: "Raleway";
 
-
-}
-.installing {
-    text-align: center;
-    font-size: 20px;
-    color: #020;
-    font-family: 'Raleway';
-}
 /*header*/
 .header, .footer {
     display: flex;
@@ -243,13 +228,8 @@ h1, h2, h3, h4, h5, h6 {
     text-transform: uppercase;
     padding-bottom: 40px;
 }
-.installing_show {
-    opacity: 0;
-}
-.installing_show.element-show {
-    opacity: 1;
-    transition: opacity 1s;
-}
+
+
 .section__suptitle {
     text-align: center;
     font-size: 24px;
@@ -410,9 +390,7 @@ h1, h2, h3, h4, h5, h6 {
     .textt {
         font-size: 19px;
     }
-    .installing {
-        font-size: 19px;
-    }
+    
 }
 
 @media  (max-width: 1100px) {
@@ -445,9 +423,6 @@ h1, h2, h3, h4, h5, h6 {
         font-size: 27px;
     }
     .textt {
-        font-size: 18px;
-    }
-    .installing {
         font-size: 18px;
     }
     .main__item {
@@ -513,12 +488,6 @@ h1, h2, h3, h4, h5, h6 {
     .description__title {
         font-size: 25px;
     }
-    .textt {
-        font-size: 17px;
-    }
-    .installing {
-        font-size: 17px;
-    }
     .suptitle__LeftMenu {
         font-size: 22px;
     }
@@ -557,9 +526,6 @@ h1, h2, h3, h4, h5, h6 {
     .textt {
         font-size: 14px;
         
-    }
-    .installing {
-        font-size: 14px;
     }
     .suptitle__LeftMenu {
         font-size: 20px;
@@ -616,9 +582,6 @@ h1, h2, h3, h4, h5, h6 {
     .textt {
         font-size: 11px;
     }
-    .installing {
-        font-size: 11px;
-    }
     #nav {
         margin-bottom: 3100px;
     }
@@ -659,9 +622,6 @@ h1, h2, h3, h4, h5, h6 {
         font-size: 15px;
     }
     .textt {
-        font-size: 9px;
-    }
-    .installing {
         font-size: 9px;
     }
     .suptitle__LeftMenu {
