@@ -202,7 +202,7 @@ class MainScreen(Screen):
                                      on_release=self.update
                                      )
         self.btn_doing = MDRectangleFlatButton(
-            text="Действия",
+            text="Другие действия",
             size_hint=(.4, .2),
             pos_hint={'center_x': 0.71, 'center_y': 0.1},
             md_bg_color=(0, 1, 0, 0.1),
@@ -282,7 +282,7 @@ class DoingScreen(Screen):
 
     def Init(self):
         self.btn_open = MDRectangleFlatButton(
-            text="Открыть",
+            text="Открыть форточки",
             font_size=dp(20),
             size_hint=(.9, .2),
             pos_hint={"center_x": 0.5, "center_y": 0.8},
@@ -290,7 +290,7 @@ class DoingScreen(Screen):
             on_release=self.move_luck
         )
         self.btn_start_water = MDRectangleFlatButton(
-            text="Начать\nОбщий полив",
+            text="Начать\nобщий полив",
             font_size=dp(20),
             size_hint=(.9, .2),
             pos_hint={"center_x": 0.5, "center_y": 0.55},
@@ -300,6 +300,7 @@ class DoingScreen(Screen):
 
         self.btn_stop_water = MDRectangleFlatButton(
             text="Останость полив",
+            font_size=dp(20),
             size_hint=(.9, .2),
             pos_hint={"center_x": 0.5, "center_y": 0.3},
             disabled=False,
@@ -392,14 +393,14 @@ class SecondScreen(Screen):
                                      on_press=self.update
                                      )
         self.btn_next = MDRectangleFlatButton(
-            text="назад",
+            text="Назад",
             size_hint=(.4, .2),
             pos_hint={'x': 0.52, 'y': 0},
             md_bg_color=(0, 1, 0, 0.1),
             on_press=self.next
         )
         self.btn_doing = MDRectangleFlatButton(
-            text="действия",
+            text="Другие действия",
             size_hint=(.4, .2),
             pos_hint={'x': 0.08, 'y': 0},
             md_bg_color=(0, 1, 0, 0.1),
@@ -475,7 +476,7 @@ class ExtraScreen(Screen):
         self.Init()
 
     def Init(self):
-        self.btn1 = MDRectangleFlatButton(text="Открыть люк",
+        self.btn1 = MDRectangleFlatButton(text="Открыть форточки",
                                           disabled=True,
                                           size_hint=(1, 0.17),
                                           pos_hint={"center_x": 0.5, "center_y": 0.595},
@@ -485,7 +486,7 @@ class ExtraScreen(Screen):
                                           text_color=(1, 0, 0, 1),
                                           on_press=self.leaf_move
                                           )
-        self.btn2 = MDRectangleFlatButton(text="Начать Полив",
+        self.btn2 = MDRectangleFlatButton(text="Начать полив",
                                           disabled=True,
                                           size_hint=(1, 0.17),
                                           pos_hint={"center_x": 0.5, "center_y": 0.425},
@@ -495,7 +496,7 @@ class ExtraScreen(Screen):
                                           text_color=(1, 0, 0, 1),
                                           on_press=self.water_run
                                           )
-        self.btn3 = MDRectangleFlatButton(text="Останость полив",
+        self.btn3 = MDRectangleFlatButton(text="Остановить полив",
                                           disabled=True,
                                           size_hint=(1, 0.17),
                                           pos_hint={"center_x": 0.5, "center_y": 0.255},
@@ -577,14 +578,14 @@ class AutomodeScreen(Screen):
 
     def Init(self):
         # BLOCK №1
-        self.text1 = MDLabel(text="Авто полив",
+        self.text1 = MDLabel(text="Авто-полив",
                              pos_hint={"center_x": 0.6,
                                        "center_y": 0.5},
                              theme_text_color="Custom",
                              text_color=(1, 1, 0, 1),
                              )
         self.time1 = MDRaisedButton(
-            text="Задать время",
+            text="Установить время",
             pos_hint={"center_x": 0.8, "center_y": 0.5},
             disabled=True,
             md_bg_color=(1, 1, 0, 1),
@@ -599,8 +600,8 @@ class AutomodeScreen(Screen):
         self.switch1.bind(active=self.sw_press1)
 
         # BLOKC №2
-        self.text2 = MDLabel(text="Авто проветривание",
-                             pos_hint={"center_x": 0.6,
+        self.text2 = MDLabel(text="Авто-проветривание",
+                             pos_hint={"center_x": 0.55,
                                        "center_y": 0.3},
                              theme_text_color="Custom",
                              text_color=(1, 1, 0, 1)
