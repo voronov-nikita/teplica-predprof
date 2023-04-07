@@ -29,6 +29,8 @@ from kivy.lang import Builder
 
 min_temp, min_hum_earth, min_hum_air = 0, 0, 0
 
+PORT = 5000
+
 
 db = sql.connect("tableinfo.db")
 cursor = db.cursor()
@@ -170,7 +172,7 @@ class MainScreen(Screen):
 
         self.button_value = []
         for i in range(1, 4 + 1):
-            res = get(f"https://dt.miet.ru/ppo_it/api/temp_hum/{i}")
+            res = get(f"https://192.168.43.147:{PORT}/temp_hum/{i}")
             self.button_value.append(
                 f"""Сенсор {i}:\nТемпература: {splitting_for(res.text)["temperature"]}\nВлажность: {splitting_for(res.text)["humidity"]}""")
         self.fl = FloatLayout()
@@ -241,7 +243,7 @@ class MainScreen(Screen):
     # обновляем текст
     def update(self, instance):
         id_btn = instance.text[7:8]
-        res = get(f"https://dt.miet.ru/ppo_it/api/temp_hum/{id_btn}")
+        res = get(f"https://192.168.43.147:{PORT}/temp_hum/{id_btn}")
         txt = f"""Сенсор {id_btn}:\nТемпература: {splitting_for(res.text)["temperature"]}\nВлажность: {splitting_for(res.text)["humidity"]}"""
         instance.text = txt
 
@@ -272,10 +274,10 @@ class DoingScreen(Screen):
         res_eath = []
         for i in range(1, 4 + 1):
             res_temp.append(
-                splitting_for(get(f"https://dt.miet.ru/ppo_it/api/temp_hum/{i}").text)["temperature"])
-            res_air.append(splitting_for(get(f"https://dt.miet.ru/ppo_it/api/temp_hum/{i}").text)["humidity"])
+                splitting_for(get(f"https://192.168.43.147:{PORT}/temp_hum/{i}").text)["temperature"])
+            res_air.append(splitting_for(get(f"https://192.168.43.147:{PORT}/temp_hum/{i}").text)["humidity"])
         for i in range(1, 6 + 1):
-            res_eath.append(splitting_for(get(f'https://dt.miet.ru/ppo_it/api/hum/{i}').text)["humidity"])
+            res_eath.append(splitting_for(get(f'https://192.168.43.147:{PORT}/hum/{i}').text)["humidity"])
         return [self.average_value(res_temp),
                 self.average_value(res_air),
                 self.average_value(res_eath)]
@@ -323,13 +325,13 @@ class DoingScreen(Screen):
     def start_all_water(self, instance):
         if instance.text == "Начать\nОбщий полив":
             instance.text = "Остановить полив"
-            res = patch("https://dt.miet.ru/ppo_it/api/total_hum",
+            res = patch("https://192.168.43.147:{PORT}/total_hum",
                         params={"state": 0}
                         )
             print(res.status_code)
         else:
             instance.text = "Начать\nОбщий полив"
-            res = patch("https://dt.miet.ru/ppo_it/api/total_hum",
+            res = patch("https://192.168.43.147:{PORT}/total_hum",
                         params={"state": 1}
                         )
 
@@ -337,11 +339,11 @@ class DoingScreen(Screen):
     def move_luck(self, instance):
         if instance.text == "Открыть":
             instance.text = "Закрыть"
-            res = patch("https://dt.miet.ru/ppo_it/api/fork_drive", params={"state": 1})
+            res = get("https://192.168.43.147:{PORT}/fork_drive")
             print(res.status_code)
         else:
             instance.text = "Открыть"
-            res = patch("https://dt.miet.ru/ppo_it/api/fork_drive", params={"state": 0})
+            res = get("https://192.168.43.147:{PORT}/fork_drive")
 
     def watering_one(self, instance):
         pass
@@ -354,7 +356,7 @@ class SecondScreen(Screen):
 
         self.button_value = []
         for i in range(1, 6 + 1):
-            res = get(f"https://dt.miet.ru/ppo_it/api/hum/{i}")
+            res = get(f"https://192.168.43.147:{PORT}/hum/{i}")
             self.button_value.append(
                 f"""Сенсор {i}:\nВлажность: {splitting_for(res.text)["humidity"]}""")
         self.fl = FloatLayout()
@@ -431,7 +433,7 @@ class SecondScreen(Screen):
     # обновляем текст
     def update(self, instance):
         id_btn = instance.text[7:8]
-        res = get(f"https://dt.miet.ru/ppo_it/api/hum/{id_btn}")
+        res = get(f"https://192.168.43.147:{PORT}/hum/{id_btn}")
         txt = f"""Сенсор {id_btn}:\nВлажность: {splitting_for(res.text)["humidity"]}"""
         instance.text = txt
 
@@ -524,21 +526,17 @@ class ExtraScreen(Screen):
 
     def leaf_move(self, instance):
         self.count_open = (1 if self.count_open == 0 else 0)
-        patch("https://dt.miet.ru/ppo_it/api/fork_drive", params={"state": self.count_open})
+        get("https://192.168.43.147:{PORT}/fork_drive")
 
     def water_run(self, instance):
-        patch("https://dt.miet.ru/ppo_it/api/watering",
-              params={"id": 6,
-                      "state": 0
-                      })
+        get("https://192.168.43.147:{PORT}/watering")
 
     def water_all_run(self, instance):
         if self.water_all == 0:
             self.water_all = 1
         else:
             self.water_all = 0
-        res = patch("https://dt.miet.ru/ppo_it/api/total_hum", params={"state": self.water_all})
-        print(res.status_code)
+        res = get("https://192.168.43.147:{PORT}/total_hum")
 
     def warning(self, instance, value):
         if value:
@@ -709,7 +707,7 @@ class TabelScreen(Screen):
     def new_row_table(self, instance):
         new_data_row = []
         for i in range(1, 4 + 1):
-            res = get(f"https://dt.miet.ru/ppo_it/api/temp_hum/{i}").text
+            res = get(f"https://192.168.43.147:{PORT}/temp_hum/{i}").text
             temp = splitting_for(res)["temperature"]
             hum = splitting_for(res)["humidity"]
             new_data_row.append(
@@ -717,7 +715,7 @@ class TabelScreen(Screen):
                  temp,
                  hum,
                  ))
-            cursor.execute(f"""INSERT INTO tabel(id, temperature, humidity_air) 
+            cursor.execute(f"""INSERT INTO tabel(id, температура, влажность воздуха) 
             VALUES("{i}", "{temp}", "{hum}");
         """)
             db.commit()
@@ -745,7 +743,7 @@ class EditScreen(Screen):
         self.Init()
 
     def Init(self):
-        self.txt1 = MDTextField(hint_text=f"Теспература",
+        self.txt1 = MDTextField(hint_text=f"Температура",
                                 mode="fill",
                                 size_hint=(1, 0.3),
                                 pos_hint={"center_x": 0.5, "center_y": .6}
@@ -851,7 +849,7 @@ class MainApp(MDApp, Screen):
         open_new_tab("https://github.com/voronov-nikita/teplica_predprof")
 
     def call_help(self):
-        open_new_tab("http://a0781325.xsph.ru")
+        open_new_tab("http://tpgh.ru")
 
 
 class ErrorApp(MDApp):
