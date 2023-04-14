@@ -29,9 +29,6 @@ from kivy.lang import Builder
 
 min_temp, min_hum_earth, min_hum_air = 0, 0, 0
 
-PORT = 5000
-
-
 db = sql.connect("tableinfo.db")
 cursor = db.cursor()
 
@@ -157,6 +154,8 @@ MDNavigationLayout:
 """
 
 
+url = "http://192.168.0.19:5000"
+
 # Класс для Выпадающего меню
 class LeftMenu(Screen):
     def __init__(self):
@@ -172,7 +171,7 @@ class MainScreen(Screen):
 
         self.button_value = []
         for i in range(1, 4 + 1):
-            res = get(f"https://192.168.43.147:{PORT}/temp_hum/{i}")
+            res = get(f"{url}/temp_hum/{i}")
             self.button_value.append(
                 f"""Сенсор {i}:\nТемпература: {splitting_for(res.text)["temperature"]}\nВлажность: {splitting_for(res.text)["humidity"]}""")
         self.fl = FloatLayout()
@@ -243,7 +242,7 @@ class MainScreen(Screen):
     # обновляем текст
     def update(self, instance):
         id_btn = instance.text[7:8]
-        res = get(f"https://192.168.43.147:{PORT}/temp_hum/{id_btn}")
+        res = get(f"{url}/temp_hum/{id_btn}")
         txt = f"""Сенсор {id_btn}:\nТемпература: {splitting_for(res.text)["temperature"]}\nВлажность: {splitting_for(res.text)["humidity"]}"""
         instance.text = txt
 
@@ -274,10 +273,10 @@ class DoingScreen(Screen):
         res_eath = []
         for i in range(1, 4 + 1):
             res_temp.append(
-                splitting_for(get(f"https://192.168.43.147:{PORT}/temp_hum/{i}").text)["temperature"])
-            res_air.append(splitting_for(get(f"https://192.168.43.147:{PORT}/temp_hum/{i}").text)["humidity"])
+                splitting_for(get(f"{url}/temp_hum/{i}").text)["temperature"])
+            res_air.append(splitting_for(get(f"{url}/temp_hum/{i}").text)["humidity"])
         for i in range(1, 6 + 1):
-            res_eath.append(splitting_for(get(f'https://192.168.43.147:{PORT}/hum/{i}').text)["humidity"])
+            res_eath.append(splitting_for(get(f'{url}/hum/{i}').text)["humidity"])
         return [self.average_value(res_temp),
                 self.average_value(res_air),
                 self.average_value(res_eath)]
@@ -325,13 +324,13 @@ class DoingScreen(Screen):
     def start_all_water(self, instance):
         if instance.text == "Начать\nОбщий полив":
             instance.text = "Остановить полив"
-            res = patch("https://192.168.43.147:{PORT}/total_hum",
+            res = patch("{url}/total_hum",
                         params={"state": 0}
                         )
             print(res.status_code)
         else:
             instance.text = "Начать\nОбщий полив"
-            res = patch("https://192.168.43.147:{PORT}/total_hum",
+            res = patch("{url}/total_hum",
                         params={"state": 1}
                         )
 
@@ -339,11 +338,11 @@ class DoingScreen(Screen):
     def move_luck(self, instance):
         if instance.text == "Открыть":
             instance.text = "Закрыть"
-            res = get("https://192.168.43.147:{PORT}/fork_drive")
+            res = get("{url}/fork_drive")
             print(res.status_code)
         else:
             instance.text = "Открыть"
-            res = get("https://192.168.43.147:{PORT}/fork_drive")
+            res = get("{url}/fork_drive")
 
     def watering_one(self, instance):
         pass
@@ -356,7 +355,7 @@ class SecondScreen(Screen):
 
         self.button_value = []
         for i in range(1, 6 + 1):
-            res = get(f"https://192.168.43.147:{PORT}/hum/{i}")
+            res = get(f"{url}/hum/{i}")
             self.button_value.append(
                 f"""Сенсор {i}:\nВлажность: {splitting_for(res.text)["humidity"]}""")
         self.fl = FloatLayout()
@@ -433,7 +432,7 @@ class SecondScreen(Screen):
     # обновляем текст
     def update(self, instance):
         id_btn = instance.text[7:8]
-        res = get(f"https://192.168.43.147:{PORT}/hum/{id_btn}")
+        res = get(f"{url}/hum/{id_btn}")
         txt = f"""Сенсор {id_btn}:\nВлажность: {splitting_for(res.text)["humidity"]}"""
         instance.text = txt
 
@@ -526,17 +525,17 @@ class ExtraScreen(Screen):
 
     def leaf_move(self, instance):
         self.count_open = (1 if self.count_open == 0 else 0)
-        get("https://192.168.43.147:{PORT}/fork_drive")
+        get("{url}/fork_drive")
 
     def water_run(self, instance):
-        get("https://192.168.43.147:{PORT}/watering")
+        get("{url}/watering")
 
     def water_all_run(self, instance):
         if self.water_all == 0:
             self.water_all = 1
         else:
             self.water_all = 0
-        res = get("https://192.168.43.147:{PORT}/total_hum")
+        res = get("{url}/total_hum")
 
     def warning(self, instance, value):
         if value:
@@ -707,7 +706,7 @@ class TabelScreen(Screen):
     def new_row_table(self, instance):
         new_data_row = []
         for i in range(1, 4 + 1):
-            res = get(f"https://192.168.43.147:{PORT}/temp_hum/{i}").text
+            res = get(f"{url}/temp_hum/{i}").text
             temp = splitting_for(res)["temperature"]
             hum = splitting_for(res)["humidity"]
             new_data_row.append(
@@ -715,7 +714,7 @@ class TabelScreen(Screen):
                  temp,
                  hum,
                  ))
-            cursor.execute(f"""INSERT INTO tabel(id, температура, влажность воздуха) 
+            cursor.execute(f"""INSERT INTO tabel(id, temperature, humidity_air) 
             VALUES("{i}", "{temp}", "{hum}");
         """)
             db.commit()
@@ -870,7 +869,8 @@ class ErrorApp(MDApp):
 
 
 if __name__ == "__main__":
-    try:
-        MainApp().run()
-    except:
-        ErrorApp().run()
+    MainApp().run()
+    # try:
+    #     MainApp().run()
+    # except:
+    #     ErrorApp().run()
