@@ -5,10 +5,8 @@ Config.set("graphics", "width", 400)
 Config.set("graphics", "height", 500)
 
 from webbrowser import open_new_tab
-from requests import get, patch
+from requests import get
 from json import loads
-from datetime import datetime as dt
-from time import sleep
 
 import sqlite3 as sql
 
@@ -154,7 +152,7 @@ MDNavigationLayout:
 """
 
 
-url = "http://192.168.0.19:5000"
+url = "http://192.168.43.147:5000"
 
 # Класс для Выпадающего меню
 class LeftMenu(Screen):
@@ -283,7 +281,7 @@ class DoingScreen(Screen):
 
     def Init(self):
         self.btn_open = MDRectangleFlatButton(
-            text="Открыть форточки",
+            text="Открыть",
             font_size=dp(20),
             size_hint=(.9, .2),
             pos_hint={"center_x": 0.5, "center_y": 0.8},
@@ -324,25 +322,26 @@ class DoingScreen(Screen):
     def start_all_water(self, instance):
         if instance.text == "Начать\nОбщий полив":
             instance.text = "Остановить полив"
-            res = patch("{url}/total_hum",
-                        params={"state": 0}
-                        )
-            print(res.status_code)
+            # res = patch("{url}/total_hum",
+            #             params={"state": 0}
+            #             )
+            # print(res.status_code)
         else:
             instance.text = "Начать\nОбщий полив"
-            res = patch("{url}/total_hum",
-                        params={"state": 1}
-                        )
+            # res = patch("{url}/total_hum",
+            #             params={"state": 1}
+            #             )
 
     # отправляем patch запрос на открытие/закрытие форточки
     def move_luck(self, instance):
         if instance.text == "Открыть":
             instance.text = "Закрыть"
-            res = get("{url}/fork_drive")
-            print(res.status_code)
+            res = get(f"{url}/fork_drive/")
+            print(res.text)
         else:
             instance.text = "Открыть"
-            res = get("{url}/fork_drive")
+            res = get(f"{url}/fork_drive/")
+            print(res.text)
 
     def watering_one(self, instance):
         pass
@@ -525,17 +524,18 @@ class ExtraScreen(Screen):
 
     def leaf_move(self, instance):
         self.count_open = (1 if self.count_open == 0 else 0)
-        get("{url}/fork_drive")
+        get("{url}/fork_drive/")
 
     def water_run(self, instance):
-        get("{url}/watering")
+        # get("{url}/watering")
+        pass
 
     def water_all_run(self, instance):
         if self.water_all == 0:
             self.water_all = 1
         else:
             self.water_all = 0
-        res = get("{url}/total_hum")
+        # res = get("{url}/total_hum")
 
     def warning(self, instance, value):
         if value:
@@ -787,11 +787,11 @@ class EditScreen(Screen):
     def save_data(self, instance):
         if self.txt1.text is not None and self.txt1.text != "":
             min_temp = float(self.txt1.text)
-            do_i = DoingScreen()
-            if min_temp < do_i.average_value(do_i.temp_hum()[0]):
-                do_i.open_btn = False
-            else:
-                do_i.open_btn = True
+            # do_i = DoingScreen()
+            # if min_temp < do_i.average_value(do_i.temp_hum()[0]):
+            #     do_i.open_btn = False
+            # else:
+            #     do_i.open_btn = True
 
         if self.txt2.text is not None and self.txt2.text != "":
             min_hum_air = float(self.txt2.text)
